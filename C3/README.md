@@ -1,6 +1,9 @@
 # A Computer vision using JavaScript
 
 ### Todo
+- [x] Blur image
+- [x] Black & White image
+- [ ] Make API
 - [ ] Detect edges
 - [ ] Bouding box
 - [ ] Object localization 
