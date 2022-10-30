@@ -1,4 +1,6 @@
-# A Computer vision using JavaScript
+# TODO
+
+## A Computer vision using JavaScript
 
 ### Todo
 - [x] Blur image
