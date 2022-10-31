@@ -1,19 +1,40 @@
 const container = document.getElementById('container');
 const board = [
-	[0, 0], [1, 0], [2, 0], [3, 0], [4, 0],
-	[0, 1], [1, 1], [2, 1], [3, 1], [4, 1],
-	[0, 2], [1, 2], [2, 2], [3, 2], [4, 2],
-	[0, 3], [1, 3], [2, 3], [3, 3], [4, 3],
-	[0, 4], [1, 4], [2, 4], [3, 4], [4, 4],
+	[0, 0, 'point'], [1, 0], [2, 0],
+	[2, 1],
+	[2, 2],
+	[2, 3], [3, 3],
+	[3, 4], [4, 4, 'point'],
+
+	[0,0, 'player']
 ];
 const height = 100;
 
-for (let i=0; i<board.length; i++) {
-	const x = board[i][0];
-	const y = board[i][1];
-	const calcX = (x * 1 + y * -1) * (height / 2);
-	const calcY = (x * 0.5 + y * 0.5) * (height / 2);
 
-	container.innerHTML += `<div style="top: ${calcY+height}px; left: ${calcX + height*2}px" id="grass"> </div>`;
+const getPosition = (arr) => {
+	const calcX = (arr[0] * 1 + arr[1] * -1) * (height / 2);
+	const calcY = (arr[0] * 0.5 + arr[1] * 0.5) * (height / 2);
+
+	return [calcX, calcY]
 }
 
+
+for (let i=0; i<board.length; i++) {
+	const x = getPosition(board[i])[0] + height * 2;
+	const y = getPosition(board[i])[1] + height;
+
+	const type = board[i][2] == 'point'? 'border' 
+		: board[i][2] == 'player' ? 'player'
+		: 'grass';
+
+	const elementBlock = `<div style="top: ${y}px; left: ${x}px" id="${type}"></div>`;
+	
+	const elementPlayer = `<div style="top: ${y - 75/2}px; left: ${x + ((100 - 75) / 2)}px" id="${type}"></div>`;
+
+
+	if (type == 'player') {
+		container.innerHTML += elementPlayer;
+	} else {
+		container.innerHTML += elementBlock;
+	}
+}
