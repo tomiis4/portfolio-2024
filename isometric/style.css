@@ -12,9 +12,6 @@ body {
 }
 
 #container {
-	/* display: flex; */
-	/* flex-wrap: wrap; */
-
 	position: absolute;
 	top: calc( 50% - 250px  );
 	width: 500px;
@@ -22,13 +19,23 @@ body {
 	background: rgb(100,100,100);
 }
 
-#grass, #border {
+#grass, #border, #player {
 	width: 100px;
 	height: 100px;
 	transform: rotate(0deg);
 	position: absolute;
-	background: url('./img/test.png') no-repeat center center fixed;
-	/* box-shadow: 0 -1px 0 2px #000; */
+	background: url('./img/block35.png') center center fixed;
 	background-size: cover;
 }
 
+#border {
+	border: 2px solid red;
+}
+
+#player {
+	width: 75px;
+	height: 75px;
+	background: url('./img/player.png') center center fixed no-repeat;
+	background-size: cover;
+	border: 2px solid blue;
+}
