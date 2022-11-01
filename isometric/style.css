@@ -29,8 +29,15 @@ body {
 	background-size: cover;
 }
 
-#border {
-	/* border: 2px solid red; */
+#border, #end-point {
+	width: 100px;
+	height: 115px;
+	transform: rotate(0deg);
+	position: absolute;
+	background: url('./img/special.png') center center fixed;
+	
+	background-size: cover;
+
 }
 
 #player {
@@ -38,7 +45,6 @@ body {
 	height: 75px;
 	background: url('./img/player.png') center center fixed no-repeat;
 	background-size: cover;
-	border: 2px solid blue;
 }
 
 #buttons{
@@ -52,4 +58,12 @@ body {
 
 #buttons input {
 	width: 60px;
+}
+
+#win {
+	text-align: center;
+	color: #000;
+	z-index: 1;
+	font-size: 4rem;
+	padding-top: 13%;
 }
