@@ -9,7 +9,7 @@ const board = [
 	[0,0, 'player']
 ];
 const height = 100;
-
+let playerPosition = []
 
 const getPosition = (arr) => {
 	const calcX = (arr[0] * 1 + arr[1] * -1) * (height / 2);
@@ -29,12 +29,78 @@ for (let i=0; i<board.length; i++) {
 
 	const elementBlock = `<div style="top: ${y}px; left: ${x}px" id="${type}"></div>`;
 	
+	playerPosition = [board[i][0], board[i][1]];
+
 	const elementPlayer = `<div style="top: ${y - 75/2}px; left: ${x + ((100 - 75) / 2)}px" id="${type}"></div>`;
 
 
 	if (type == 'player') {
 		container.innerHTML += elementPlayer;
+
 	} else {
 		container.innerHTML += elementBlock;
 	}
 }
+
+const movePlayer = (direction) => {
+	const player = document.getElementById('player');
+	const playerHeight = 75;
+	
+	const duplicatePlayer = playerPosition.slice();
+	let isAllowed = [];
+	isAllowed = [];
+
+	switch (direction) {
+		case 'left':
+			playerPosition[1]++;
+			break;
+		case 'right':
+			playerPosition[1]--;
+			break;
+		case 'top':
+			playerPosition[0]--;
+			break;
+		case 'bottom':
+			playerPosition[0]++;
+			break;
+		default:
+			console.log('Wrong direction');
+	}
+	
+	if (!board.some((arr) => {
+		if (arr[0] == playerPosition[0] && arr[1] == playerPosition[1] && arr[2] != 'player') {
+			return true
+		}
+	})) {
+		console.log('Border')
+		playerPosition = duplicatePlayer;
+	}
+
+
+	const newPosition = getPosition(playerPosition);
+	const x = (newPosition[0] + height * 2) + ((100 - playerHeight) / 2);
+	const y = (newPosition[1] + height) - playerHeight/2;
+
+	player.style.top = `${y}px`;
+	player.style.left = `${x}px`;
+}
+
+const keyPress = (e) => {
+	switch (e.key) {
+		case 'w':
+			movePlayer('top');
+			break;
+		case 's':
+			movePlayer('bottom');
+			break;
+		case 'a':
+			movePlayer('left');
+			break;
+		case 'd':
+			movePlayer('right');
+			break;
+		default: 
+			return;
+	}
+}
+document.body.addEventListener("keypress", keyPress);
