@@ -21,15 +21,16 @@ body {
 
 #grass, #border, #player {
 	width: 100px;
-	height: 100px;
+	height: 115px;
 	transform: rotate(0deg);
 	position: absolute;
-	background: url('./img/block35.png') center center fixed;
+	background: url('./img/block.png') center center fixed;
+	
 	background-size: cover;
 }
 
 #border {
-	border: 2px solid red;
+	/* border: 2px solid red; */
 }
 
 #player {
@@ -38,4 +39,17 @@ body {
 	background: url('./img/player.png') center center fixed no-repeat;
 	background-size: cover;
 	border: 2px solid blue;
+}
+
+#buttons{
+	display: flex;
+	width: 150px;
+	flex-wrap: wrap;
+	margin-top: 100px;
+	gap: 10px;
+	justify-content: space-between;
+}
+
+#buttons input {
+	width: 60px;
 }
