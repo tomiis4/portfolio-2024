@@ -4,7 +4,7 @@ const board = [
 	[2, 1],
 	[2, 2],
 	[2, 3], [3, 3],
-	[3, 4], [4, 4, 'point'],
+	[3, 4], [4, 4, 'end-point'],
 
 	[0,0, 'player']
 ];
@@ -23,7 +23,7 @@ for (let i=0; i<board.length; i++) {
 	const x = getPosition(board[i])[0] + height * 2;
 	const y = getPosition(board[i])[1] + height;
 
-	const type = board[i][2] == 'point'? 'border' 
+	const type = board[i][2] == 'point' || board[i][2] == 'end-point' ? 'border' 
 		: board[i][2] == 'player' ? 'player'
 		: 'grass';
 
@@ -40,6 +40,16 @@ for (let i=0; i<board.length; i++) {
 	} else {
 		container.innerHTML += elementBlock;
 	}
+}
+
+const isWin = () => {
+	board.forEach((arr) => {
+		if (playerPosition[0] == arr[0] && playerPosition[1] == arr[1] && arr[2] == 'end-point') {
+			document.body.removeEventListener("keypress", keyPress);
+			container.innerHTML = '<h1 id="win"> You won! </h1>'
+			console.log("WIN");
+		}
+	})
 }
 
 const movePlayer = (direction) => {
@@ -83,6 +93,8 @@ const movePlayer = (direction) => {
 
 	player.style.top = `${y}px`;
 	player.style.left = `${x}px`;
+
+	isWin();
 }
 
 const keyPress = (e) => {
