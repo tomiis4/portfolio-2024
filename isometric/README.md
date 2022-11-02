@@ -1,6 +1,8 @@
 # Isometric game using JavaScript
 
 ## TODO
+- [ ] Cleen up code
+ 
 ### General
 - [x] Generate board
 - [x] Player movment
