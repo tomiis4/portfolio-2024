@@ -26,8 +26,8 @@
 ### GUI
 - [ ] Win/lose screen
 	- [ ] Next level
-	- [ ]Repeat
-	- [ ]Home
+	- [ ] Repeat
+	- [ ]  Home
 - [ ] Main screen
 	- [ ] Play button
 	- [ ] Levels
