@@ -1,7 +1,7 @@
 # Isometric game using JavaScript
 
 ## TODO
-- [ ] Cleen up code
+- [x] Cleen up code (I tried ok? :D)
  
 ### General
 - [x] Generate board
