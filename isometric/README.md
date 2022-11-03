@@ -21,6 +21,7 @@
 ### Obstacles
 - [ ] Moving wall, you can't go trough it
 - [ ] Spike floor will take off point and get you smaller
+- [ ] Portals on keypress
 - [ ] Wall with exact or smaller size as points you have collected
 
 ### GUI
