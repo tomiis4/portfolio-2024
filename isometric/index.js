@@ -1,109 +1,144 @@
-const container = document.getElementById('container');
-const board = [
-	[0, 0, 'point'], [1, 0], [2, 0],
+// constant variables
+const container = document.getElementById('game-container');
+const playerWidth = 100;
+const blockWidth = 150;
+const boardArray = [
+	// [0,0, 'spawn-point'], [1,0], [2,0], [3,0], [4,0], [5,0],
+	// [0,1], [1,1], [2,1], [3,1], [4,1], [5,1],
+	// [0,2], [1,2], [2,2], [3,2], [4,2], [5,2],
+	// [0,3], [1,3], [2,3], [3,3], [4,3], [5,3],
+	// [0,4], [1,4], [2,4], [3,4], [4,4], [5,4],
+	// [0,5], [1,5], [2,5], [3,5], [4,5], [5,5, 'end-point'],
+
+	[0, 0, 'spawn-point'], [1, 0], [2, 0],
 	[2, 1],
 	[2, 2],
 	[2, 3], [3, 3],
 	[3, 4], [4, 4, 'end-point'],
-
-	[0,0, 'player']
 ];
-const height = 100;
-let playerPosition = []
 
-const getPosition = (arr) => {
-	const calcX = (arr[0] * 1 + arr[1] * -1) * (height / 2);
-	const calcY = (arr[0] * 0.5 + arr[1] * 0.5) * (height / 2);
+// mutable variables
+let playerPosition = [];
+let endPoint = [];
 
-	return [calcX, calcY]
+
+// uilts
+
+// get x,y position in pixels trough 2d matrix
+// arguments: array of 2D pixels and item width
+const getPosition = (array, width) => {
+	// calculate position and scale it to the block size
+	const getX = (array[0] * 1 + array[1] * -1) * (width / 2);
+	const getY = (array[0] * 0.5 + array[1] * 0.5) * (width / 2);
+
+	return [getX, getY];
 }
 
+// insert element to the container
+const insertElement = (type, xPos, yPos, array) => {
+	const brickEl = `<img 
+		style="margin-left: ${xPos}px; top: ${yPos}px"
+		src="./images/block.png" 
+		id="brick"
+	>`;
+	const specialEl = `<img 
+		style="margin-left: ${xPos}px; top: ${yPos}px"
+		src="./images/special-block.png" 
+		id="special"
+	>`;
+	const playerEl = `<img
+		style="margin-left: ${xPos}px; top: ${yPos - (playerWidth / 2)}px"
+		src="./images/player.png" 
+		id="player"
+	>`;
 
-for (let i=0; i<board.length; i++) {
-	const x = getPosition(board[i])[0] + height * 2;
-	const y = getPosition(board[i])[1] + height;
-
-	const type = board[i][2] == 'point' || board[i][2] == 'end-point' ? 'border' 
-		: board[i][2] == 'player' ? 'player'
-		: 'grass';
-
-	const elementBlock = `<div style="top: ${y}px; left: ${x}px" id="${type}"></div>`;
-	
-	playerPosition = [board[i][0], board[i][1]];
-
-	const elementPlayer = `<div style="top: ${y - 75/2}px; left: ${x + ((100 - 75) / 2)}px" id="${type}"></div>`;
-
-
-	if (type == 'player') {
-		container.innerHTML += elementPlayer;
-
-	} else {
-		container.innerHTML += elementBlock;
+	switch (type) {
+		case 'spawn':
+			container.innerHTML += specialEl;
+			container.innerHTML += playerEl;
+			playerPosition[0] = array[0];
+			playerPosition[1] = array[1];
+			break;
+		case 'end':
+			container.innerHTML += specialEl;
+			endPoint = array;
+			break;
+		case 'brick':
+			container.innerHTML += brickEl;
+			break;
+		default:
+			console.log(`Wrong type ${type}`);
 	}
 }
 
-const isWin = () => {
-	board.forEach((arr) => {
-		if (playerPosition[0] == arr[0] && playerPosition[1] == arr[1] && arr[2] == 'end-point') {
-			document.body.removeEventListener("keypress", keyPress);
-			container.innerHTML = '<h1 id="win"> You won! </h1>'
-			console.log("WIN");
-		}
+
+const generateBoard = () => {
+	boardArray.forEach((array) => {
+		const xPosition = getPosition(array, blockWidth)[0]; 
+		const yPosition = getPosition(array, blockWidth)[1] + blockWidth * 2.5;
+
+		const getBlockType = array[2] == 'spawn-point' ? 'spawn'
+			: array[2] == 'end-point' ? 'end'
+			: array[2] == undefined ? 'brick'
+			: 'other';
+		
+		insertElement(getBlockType, xPosition, yPosition, array);
 	})
 }
 
 const movePlayer = (direction) => {
-	const player = document.getElementById('player');
-	const playerHeight = 75;
+	const previousPosition = playerPosition.slice();
 	
-	const duplicatePlayer = playerPosition.slice();
-	let isAllowed = [];
-	isAllowed = [];
+	let isValid = [];
 
 	switch (direction) {
+		case 'up':
+			playerPosition[0]--;
+			break;
+		case 'down':
+			playerPosition[0]++;
+			break;
 		case 'left':
 			playerPosition[1]++;
 			break;
 		case 'right':
 			playerPosition[1]--;
 			break;
-		case 'top':
-			playerPosition[0]--;
-			break;
-		case 'bottom':
-			playerPosition[0]++;
-			break;
 		default:
-			console.log('Wrong direction');
+			console.log(`Wrong direction: ${direction}`)
 	}
 	
-	if (!board.some((arr) => {
-		if (arr[0] == playerPosition[0] && arr[1] == playerPosition[1] && arr[2] != 'player') {
-			return true
+	boardArray.forEach((array) => {
+		if (array[0] == playerPosition[0] && array[1] == playerPosition[1]) {
+			isValid.push(true);
+		} else {
+			isValid.push(false);
 		}
-	})) {
-		console.log('Border')
-		playerPosition = duplicatePlayer;
+	})
+	
+	if (!isValid.includes(true)) {
+		console.log('Wrong')
+		playerPosition = previousPosition;
+	} else {
+		console.log('corre')
 	}
+	
+	const player = document.getElementById('player');
+	const getPlayerPosition = getPosition(playerPosition, blockWidth);
+	const xPos = getPlayerPosition[0];
+	const yPos = getPlayerPosition[1];
 
-
-	const newPosition = getPosition(playerPosition);
-	const x = (newPosition[0] + height * 2) + ((100 - playerHeight) / 2);
-	const y = (newPosition[1] + height) - playerHeight/2;
-
-	player.style.top = `${y}px`;
-	player.style.left = `${x}px`;
-
-	isWin();
+	player.style.marginLeft = `${xPos}px`;
+	player.style.marginTop = `${yPos}px`;
 }
 
 const keyPress = (e) => {
 	switch (e.key) {
 		case 'w':
-			movePlayer('top');
+			movePlayer('up');
 			break;
 		case 's':
-			movePlayer('bottom');
+			movePlayer('down');
 			break;
 		case 'a':
 			movePlayer('left');
