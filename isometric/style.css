@@ -8,62 +8,32 @@ body {
 	justify-content: center;
 	align-items: center;
 
-	background: rgb(45,45,45); 
+	width: 100vw;
+	height: 100vh;
+	background: #130C1C; 
 }
 
-#container {
-	position: absolute;
-	top: calc( 50% - 250px  );
-	width: 500px;
-	height: 500px;
-	background: rgb(100,100,100);
+#game-container {
+	margin: auto;
+	width: 85%;
+	border-radius: 12px;
+	height: 85%;
+	background: #1F142D;
+
+	display: flex;
+	justify-content: center;
 }
 
-#grass, #border, #player {
-	width: 100px;
-	height: 115px;
-	transform: rotate(0deg);
+#brick, #special {
+	/* height = image height / (image width / 150) */
+	width: 150px; 
+	height: 168.62px;
 	position: absolute;
-	background: url('./img/block.png') center center fixed;
-	
-	background-size: cover;
-}
-
-#border, #end-point {
-	width: 100px;
-	height: 115px;
-	transform: rotate(0deg);
-	position: absolute;
-	background: url('./img/special.png') center center fixed;
-	
-	background-size: cover;
-
 }
 
 #player {
-	width: 75px;
-	height: 75px;
-	background: url('./img/player.png') center center fixed no-repeat;
-	background-size: cover;
-}
-
-#buttons{
-	display: flex;
-	width: 150px;
-	flex-wrap: wrap;
-	margin-top: 100px;
-	gap: 10px;
-	justify-content: space-between;
-}
-
-#buttons input {
-	width: 60px;
-}
-
-#win {
-	text-align: center;
-	color: #000;
+	position: absolute;
+	width: 100px;
+	height: 100px;
 	z-index: 1;
-	font-size: 4rem;
-	padding-top: 13%;
 }
