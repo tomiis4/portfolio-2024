@@ -24,7 +24,7 @@ body {
 	justify-content: center;
 }
 
-#brick, #special {
+#brick, #special, #reward {
 	/* height = image height / (image width / 150) */
 	width: 150px; 
 	height: 168.62px;
@@ -36,4 +36,12 @@ body {
 	width: 100px;
 	height: 100px;
 	z-index: 1;
+}
+
+#score {
+	color: #fff;
+	text-align: center;
+	font-size: 3rem;
+	position: absolute;
+	top: 3%;
 }
