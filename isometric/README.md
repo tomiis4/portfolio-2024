@@ -13,15 +13,15 @@
 
 ### Game mechanics
 - [ ] Levels
-- [ ] Win/lose
+- [x] Win/lose
 - [x] Collect points all points to win (each point will generate you bigger)
-- [ ] Spawn with 1 point, 0 point == lose
+- [x] Spawn with 1 point, 0 point == lose
 - [ ] Score is defined with points * time * moves
 - [ ] Limited jumps?
 
 ### Obstacles
 - [ ] Moving wall, you can't go trough it
-- [ ] Spike floor will take off point and get you smaller
+- [x] Spike floor will take off point and get you smaller
 - [ ] Portals on keypress
 - [ ] Wall with exact or smaller size as points you have collected
 
