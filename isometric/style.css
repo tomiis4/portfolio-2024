@@ -24,7 +24,7 @@ body {
 	justify-content: center;
 }
 
-#brick, #special, #reward {
+#brick, #special, #reward, #spike {
 	/* height = image height / (image width / 150) */
 	width: 150px; 
 	height: 168.62px;
