@@ -9,12 +9,12 @@
 - [x] Border collision
 - [ ] Animations
 - [ ] Sound
-- [ ] Icons
+- [ ] Icons/Textures
 
 ### Game mechanics
 - [ ] Levels
 - [ ] Win/lose
-- [ ] Collect points all points to win (each point will generate you bigger)
+- [x] Collect points all points to win (each point will generate you bigger)
 - [ ] Spawn with 1 point, 0 point == lose
 - [ ] Score is defined with points * time * moves
 - [ ] Limited jumps?
