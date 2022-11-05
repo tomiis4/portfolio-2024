@@ -38,10 +38,13 @@ body {
 	z-index: 1;
 }
 
-#score {
+#info {
+	display: flex;
 	color: #fff;
 	text-align: center;
-	font-size: 3rem;
+	font-size: 1.3rem;
 	position: absolute;
-	top: 3%;
+	top: 5px;
+	width: 40%;
+	justify-content: space-evenly;
 }
