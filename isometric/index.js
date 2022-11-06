@@ -15,10 +15,10 @@ const blockWidth = 150;
 // board
 const boardArray = [
 	[0,0, 'spawn-point'], [1,0], [2,0], [3,0], [4,0], [5,0],
-	[0,1], [1,1, 'spike'], [2,1], [3,1], [4,1], [5,1],
+	[0,1, 'portal'], [1,1, 'spike'], [2,1], [3,1], [4,1], [5,1],
 	[0,2], [1,2], [2,2, 'reward-point'], [3,2], [4,2], [5,2],
 	[0,3], [1,3], [2,3], [3,3], [4,3, 'spike'], [5,3],
-	[0,4, 'reward-point'], [1,4], [2,4], [3,4], [4,4], [5,4],
+	[0,4, 'reward-point'], [1,4], [2,4, 'portal'], [3,4], [4,4], [5,4],
 	[0,5], [1,5], [2,5], [3,5], [4,5], [5,5, 'end-point'],
 ];
 
@@ -34,7 +34,12 @@ let collectedPoints = 0;
 let collectedPointsArray = [];
 
 // obstacles
+
+// spike
 let isSpikeOn;
+
+// portal
+let portalsArray = [];
 
 
 //     UILTS     //
@@ -89,11 +94,18 @@ const insertElement = ({type, xPos, yPos, array}) => {
 			src="${imagePath}reward-block.png" 
 			id="reward"
 			>`,
+
 		spike: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
 			src="${imagePath}spike-0.png" 
 			id="spike"
+			>`,
+		portal: `<img 
+			style="margin-left: ${xPos}px; top: ${yPos}px"
+			src="${imagePath}portal.png" 
+			id="portal"
 			>`,	
+
 		player: `<img
 			style="margin-left: ${xPos}px; top: ${yPos - (playerWidth / 2)}px"
 			src="${imagePath}player-v3.png" 
@@ -126,7 +138,10 @@ const insertElement = ({type, xPos, yPos, array}) => {
 		case 'spike':
 			container.innerHTML += elements.spike;
 			break;
-		
+		case 'portal':
+			container.innerHTML += elements.portal;
+			break;
+
 		// default
 		default:
 			console.log(`Wrong type ${type}`);
@@ -167,36 +182,38 @@ const checkWin = () => {
 
 // Check obstacle
 
-const checkObstacle = () => {
+const checkObstacle = (type) => {
 	boardArray.forEach((arr) => {
+		// spike
 		if (
-			arr[2] == 'spike' // add move in future
-			&& arr[0] == playerPosition[0] 
+			arr[2] == 'spike' // add move in future (what the hell is it)
+			&& arr[0] == playerPosition[0]
 			&& arr[1] == playerPosition[1]
-			&& isSpikeOn == true // 
+			&& isSpikeOn == true
 		) {
 			collectedPoints--;
 			setScore(collectedPoints);
 		}
+		
+		// portal
+		if (
+			arr[2] == 'portal'
+			// if player in portal
+			&& arr[0] == playerPosition[0] 
+			&& arr[1] == playerPosition[1]
+			
+			&& arr[0] == portalsArray[0][0]
+			&& arr[1] == portalsArray[0][1]
+		) {
+				const player = document.getElementById('player');
+				const position = getPosition(portalsArray[1], blockWidth);
+
+				player.style.marginLeft = `${position[0]}px`;
+				player.style.marginTop = `${position[1]}px`;
+				//FIXME playerPosition = portalsArray[1];
+				playerPosition = [2,4]
+		}
 	})
-}
-
-// Reset game
-
-const resetGame = () => {
-	// reset variables
-	playerPosition = [];
-	endPoint = [];
-	collectedPoints = 0;
-	collectedPointsArray = [];
-	isSpikeOn = null;
-	
-	// reset elements
-	container.innerHTML = '';
-	score.innerText = 'Score: 0';
-	
-	//activate game
-	generateBoard();
 }
 
 
@@ -206,6 +223,7 @@ const resetGame = () => {
 const obstacles = () => {
 	// elements of all obstacles
 	const spikesArray = document.querySelectorAll('#spike');
+	const portalArray = document.querySelectorAll('#portal');
 
 	const spikes = async () => {
 		while (true) {
@@ -227,7 +245,7 @@ const obstacles = () => {
 				});
 			}
 			
-			checkObstacle();
+			checkObstacle('spike');
 			checkLose();
 			
 			// how fast will spikes change
@@ -235,7 +253,21 @@ const obstacles = () => {
 		}
 	}
 
+	const portal = async () => {
+		// Element
+		portalArray[0].src = `${imagePath}portal-0.png`;
+		portalArray[1].src = `${imagePath}portal-1.png`;
+		
+		// get portals x,y
+		boardArray.forEach((arr) => {
+			if (arr[2] == 'portal') {
+				portalsArray.push([arr[0], arr[1]]);
+			}
+		})
+	}
+
 	// activate obstacles
+	portal();
 	spikes();
 }
 
@@ -252,13 +284,14 @@ const generateBoard = () => {
 		const yPosition = getPosition(array, blockWidth)[1] + blockWidth;
 		
 		// check block type
-		// FIXME instead undefined add 'block' to board
+		// TODO instead undefined add 'block' to board
 		const blockType = array[2] == 'spawn-point' ? 'spawn'
 			: array[2] == 'end-point' ? 'end'
 			: array[2] == 'reward-point' ? 'reward'
 			
 			// obstacles
 			: array[2] == 'spike' ? 'spike'
+			: array[2] == 'portal' ? 'portal'
 			
 			// brick
 			: array[2] == undefined ? 'brick'
@@ -273,9 +306,6 @@ const generateBoard = () => {
 			array: array
 		});
 	})
-	
-	// activate obstacles
-	obstacles();
 }
 
 // Get point
@@ -299,13 +329,12 @@ const getPoint = (player) => {
 			collectedPoints++;
 			collectedPointsArray.push(arr);
 			setScore(collectedPoints);
-			
 			player.src = `${imagePath}player-v${playerState-1}.png`;
 		}
 		
 	});
 	
-	checkObstacle();
+	checkObstacle('all');
 	checkWin();
 	checkLose();
 }
@@ -362,6 +391,7 @@ const movePlayer = (direction) => {
 	player.style.marginTop = `${yPos}px`;
 
 	getPoint(player);
+	// checkObstacle();
 }
 
 
@@ -391,3 +421,48 @@ const keyPress = (e) => {
 
 // activate
 document.body.addEventListener("keypress", keyPress);
+
+
+//     TOGGLE GAME     //
+
+
+// Start game
+
+const startGame = () => {
+	generateBoard();
+	obstacles();
+}
+
+// Reset game
+
+const resetGame = () => {
+	// reset variables
+	playerPosition = [];
+	endPoint = [];
+	collectedPoints = 0;
+	collectedPointsArray = [];
+	isSpikeOn = null;
+	
+	// reset elements
+	container.innerHTML = '';
+	score.innerText = 'Score: 0';
+	
+	//activate game
+	startGame();
+}
+
+
+//     AUDIO     //
+
+
+// Change volume
+
+const audioVolume = (value) => {
+	const audioElem = document.querySelector('audio');
+	const range = value / 100;
+
+	// allow looping and change volume
+	// audioElem.loop = true
+	audioElem.volume = range;
+	audioElem.play();
+}
