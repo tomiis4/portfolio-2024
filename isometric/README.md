@@ -8,7 +8,7 @@
 - [x] Player movment
 - [x] Border collision
 - [ ] Animations
-- [ ] Sound
+- [x] Sound
 - [ ] Icons/Textures
 
 ### Game mechanics
