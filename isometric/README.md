@@ -22,8 +22,8 @@
 ### Obstacles
 - [ ] Moving wall, you can't go trough it
 - [x] Spike floor will take off point and get you smaller
-- [x] Portals on keypress (1/2)
-- [ ] Cracket floor, on each walk it will decrease strength
+- [x] Portals on keypress, TODO add keypress
+- [x] Cracket floor, on each walk it will decrease strength, TODO remove life on step
 - [ ] Wall with exact or smaller size as points you have collected
 
 ### GUI
