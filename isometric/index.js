@@ -14,12 +14,12 @@ const blockWidth = 150;
 
 // board
 const boardArray = [
-	[0,0, 'spawn-point'], [1,0], [2,0], [3,0], [4,0], [5,0],
+	[0,0, 'spawn-point'], [1,0], [2,0, 'cracked'], [3,0], [4,0], [5,0],
 	[0,1, 'portal'], [1,1, 'spike'], [2,1], [3,1], [4,1], [5,1],
 	[0,2], [1,2], [2,2, 'reward-point'], [3,2], [4,2], [5,2],
-	[0,3], [1,3], [2,3], [3,3], [4,3, 'spike'], [5,3],
+	[0,3], [1,3], [2,3], [3,3], [4,3, 'spike'], [5,3, 'cracked'],
 	[0,4, 'reward-point'], [1,4], [2,4, 'portal'], [3,4], [4,4], [5,4],
-	[0,5], [1,5], [2,5], [3,5], [4,5], [5,5, 'end-point'],
+	[0,5], [1,5], [2,5], [3,5, 'cracked'], [4,5], [5,5, 'end-point'],
 ];
 
 
@@ -39,7 +39,12 @@ let collectedPointsArray = [];
 let isSpikeOn;
 
 // portal
+// x, y
 let portalsArray = [];
+
+// cracked
+// x, y, used
+let crackedArray = [];
 
 
 //     UILTS     //
@@ -105,6 +110,11 @@ const insertElement = ({type, xPos, yPos, array}) => {
 			src="${imagePath}portal.png" 
 			id="portal"
 			>`,	
+		cracked: `<img 
+			style="margin-left: ${xPos}px; top: ${yPos}px"
+			src="${imagePath}cracked-0.png" 
+			id="cracked"
+			>`,
 
 		player: `<img
 			style="margin-left: ${xPos}px; top: ${yPos - (playerWidth / 2)}px"
@@ -140,6 +150,9 @@ const insertElement = ({type, xPos, yPos, array}) => {
 			break;
 		case 'portal':
 			container.innerHTML += elements.portal;
+			break;
+		case 'cracked':
+			container.innerHTML += elements.cracked;
 			break;
 
 		// default
@@ -182,7 +195,7 @@ const checkWin = () => {
 
 // Check obstacle
 
-const checkObstacle = (type) => {
+const checkObstacle = () => {
 	boardArray.forEach((arr) => {
 		// spike
 		if (
@@ -205,15 +218,50 @@ const checkObstacle = (type) => {
 			&& arr[0] == portalsArray[0][0]
 			&& arr[1] == portalsArray[0][1]
 		) {
+			// function jusst because of the delay
+			const move = async () => {
 				const player = document.getElementById('player');
 				const position = getPosition(portalsArray[1], blockWidth);
-
+				
+				await delay(210);
+				
 				player.style.marginLeft = `${position[0]}px`;
 				player.style.marginTop = `${position[1]}px`;
-				//FIXME playerPosition = portalsArray[1];
-				playerPosition = [2,4]
+				
+				playerPosition[0] = portalsArray[1][0];
+				playerPosition[1] = portalsArray[1][1];
+			}
+			move();
 		}
-	})
+		
+		// cracked brick
+		if (
+			arr[2] == 'cracked'
+			&& arr[0] == playerPosition[0] 
+			&& arr[1] == playerPosition[1]
+		) {
+			const crackedElem = document.querySelectorAll('#cracked');
+			
+			crackedArray.forEach((value, index) => {
+				// add crack
+				if (arr[0] == value[0] && arr[1] == value[1]) {
+					const crackedState = parseInt(
+						crackedElem[index].src.split('')[
+							crackedElem[index].src.split('').length - 5
+						]
+					);
+					
+					value[2]++;
+					
+					if (crackedState == 3) {
+						crackedElem[index].src = `${imagePath}cracked-3.png`;
+					} else {
+						crackedElem[index].src = `${imagePath}cracked-${crackedState+1}.png`;
+					}
+				}
+			})
+		}
+	});
 }
 
 
@@ -245,10 +293,11 @@ const obstacles = () => {
 				});
 			}
 			
-			checkObstacle('spike');
+			checkObstacle();
 			checkLose();
 			
 			// how fast will spikes change
+			// works as game tick, it will maybe fuck up cracked floor detection
 			await delay(1300);
 		}
 	}
@@ -260,8 +309,23 @@ const obstacles = () => {
 		
 		// get portals x,y
 		boardArray.forEach((arr) => {
-			if (arr[2] == 'portal') {
-				portalsArray.push([arr[0], arr[1]]);
+			if (arr[2] == 'portal' && portalsArray.length < 2) {
+				portalsArray.push([
+					arr[0],
+					arr[1]
+				]);
+			}
+		})
+	}
+
+	const cracked =  () => {
+		boardArray.forEach((arr) => {
+			if (arr[2] == 'cracked') {
+				crackedArray.push([
+					arr[0],
+					arr[1],
+					0
+				]);
 			}
 		})
 	}
@@ -269,6 +333,7 @@ const obstacles = () => {
 	// activate obstacles
 	portal();
 	spikes();
+	cracked();
 }
 
 
@@ -292,6 +357,7 @@ const generateBoard = () => {
 			// obstacles
 			: array[2] == 'spike' ? 'spike'
 			: array[2] == 'portal' ? 'portal'
+			: array[2] == 'cracked' ? 'cracked'
 			
 			// brick
 			: array[2] == undefined ? 'brick'
@@ -334,7 +400,7 @@ const getPoint = (player) => {
 		
 	});
 	
-	checkObstacle('all');
+	checkObstacle();
 	checkWin();
 	checkLose();
 }
@@ -391,7 +457,6 @@ const movePlayer = (direction) => {
 	player.style.marginTop = `${yPos}px`;
 
 	getPoint(player);
-	// checkObstacle();
 }
 
 
@@ -442,6 +507,8 @@ const resetGame = () => {
 	collectedPoints = 0;
 	collectedPointsArray = [];
 	isSpikeOn = null;
+	portalsArray = [];
+	crackedArray = [];
 	
 	// reset elements
 	container.innerHTML = '';
