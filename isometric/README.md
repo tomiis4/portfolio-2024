@@ -23,6 +23,7 @@
 - [ ] Moving wall, you can't go trough it
 - [x] Spike floor will take off point and get you smaller
 - [x] Portals on keypress (1/2)
+- [ ] Cracket floor, on each walk it will decrease strength
 - [ ] Wall with exact or smaller size as points you have collected
 
 ### GUI
