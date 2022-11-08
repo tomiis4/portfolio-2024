@@ -16,14 +16,13 @@
 - [x] Win/lose
 - [x] Collect points all points to win (each point will generate you bigger)
 - [x] Spawn with 1 point, 0 point == lose
-- [ ] Score is defined with points * time * moves
+- [ ] Coins
 - [ ] Limited jumps?
 
 ### Obstacles
-- [ ] Moving wall, you can't go trough it
 - [x] Spike floor will take off point and get you smaller
-- [x] Portals on keypress, TODO add keypress
-- [x] Cracket floor, on each walk it will decrease strength, TODO remove life on step
+- [x] Portals on keypress
+- [x] Cracket floor, on each walk it will decrease strength
 - [ ] Wall with exact or smaller size as points you have collected
 
 ### GUI
