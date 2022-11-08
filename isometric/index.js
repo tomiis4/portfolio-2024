@@ -86,12 +86,12 @@ const insertElement = ({type, xPos, yPos, array}) => {
 	const elements = {
 		brick: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
-			src="${imagePath}block.png" 
+			src="${imagePath}new/block.png" 
 			id="brick"
 			>`,
 		special: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
-			src="${imagePath}special-block.png" 
+			src="${imagePath}new/reward-block.png" 
 			id="special"
 			>`,
 		reward: `<img 
@@ -219,19 +219,24 @@ const checkObstacle = () => {
 			&& arr[1] == portalsArray[0][1]
 		) {
 			// function jusst because of the delay
-			const move = async () => {
-				const player = document.getElementById('player');
-				const position = getPosition(portalsArray[1], blockWidth);
+			const move = (e) => {
+				if (e && e.key == 'e') {
+					const player = document.getElementById('player');
+					const position = getPosition(portalsArray[1], blockWidth);
+					
+					player.style.marginLeft = `${position[0]}px`;
+					player.style.marginTop = `${position[1]}px`;
+					
+					playerPosition[0] = portalsArray[1][0];
+					playerPosition[1] = portalsArray[1][1];
 				
-				await delay(210);
-				
-				player.style.marginLeft = `${position[0]}px`;
-				player.style.marginTop = `${position[1]}px`;
-				
-				playerPosition[0] = portalsArray[1][0];
-				playerPosition[1] = portalsArray[1][1];
+					window.removeEventListener('keydown', move);
+				} else {
+					console.log('Press E');
+					window.removeEventListener('keydown', move);
+				}
 			}
-			move();
+			window.addEventListener('keydown', move);
 		}
 		
 		// cracked brick
@@ -255,6 +260,7 @@ const checkObstacle = () => {
 					
 					if (crackedState == 3) {
 						crackedElem[index].src = `${imagePath}cracked-3.png`;
+						setScore('You lost', 1);
 					} else {
 						crackedElem[index].src = `${imagePath}cracked-${crackedState+1}.png`;
 					}
