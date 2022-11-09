@@ -9,7 +9,7 @@
 - [x] Border collision
 - [ ] Animations
 - [x] Sound
-- [ ] Icons/Textures
+- [x] Icons/Textures (80% done)
 
 ### Game mechanics
 - [ ] Levels
