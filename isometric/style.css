@@ -27,7 +27,7 @@ body {
 #brick, #special, #reward, #spike, #portal, #cracked {
 	/* height = image height / (image width / 150) */
 	width: 150px; 
-	height: 168.62px;
+	height: 150px;
 	position: absolute;
 }
 
