@@ -10,7 +10,7 @@ const score = document.getElementById('score');
 // player informations
 const imagePath = './images/'
 const playerWidth = 100;
-const blockWidth = 150;
+const blockWidth = 130;
 
 // board
 const boardArray = [
@@ -86,12 +86,12 @@ const insertElement = ({type, xPos, yPos, array}) => {
 	const elements = {
 		brick: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
-			src="${imagePath}new/block.png" 
+			src="${imagePath}block.png" 
 			id="brick"
 			>`,
 		special: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
-			src="${imagePath}new/reward-block.png" 
+			src="${imagePath}special-block.png" 
 			id="special"
 			>`,
 		reward: `<img 
@@ -249,20 +249,22 @@ const checkObstacle = () => {
 			
 			crackedArray.forEach((value, index) => {
 				// add crack
-				if (arr[0] == value[0] && arr[1] == value[1]) {
-					const crackedState = parseInt(
+				if (arr[0] == value[0] && arr[1] == value[1] && value[2] != 4) {
+					let crackedState;
+					crackedState = parseInt(
 						crackedElem[index].src.split('')[
 							crackedElem[index].src.split('').length - 5
 						]
 					);
 					
 					value[2]++;
+					crackedState++;
 					
-					if (crackedState == 3) {
-						crackedElem[index].src = `${imagePath}cracked-3.png`;
+					if (crackedState == 4) {
+						crackedElem[index].src = `${imagePath}cracked-4.png`;
 						setScore('You lost', 1);
 					} else {
-						crackedElem[index].src = `${imagePath}cracked-${crackedState+1}.png`;
+						crackedElem[index].src = `${imagePath}cracked-${crackedState}.png`;
 					}
 				}
 			})
