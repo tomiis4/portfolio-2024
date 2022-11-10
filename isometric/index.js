@@ -9,8 +9,8 @@ const score = document.getElementById('score');
 
 // player informations
 const imagePath = './images/'
-const playerWidth = 100;
-const blockWidth = 130;
+const blockWidth = 130; // 130
+const playerWidth = blockWidth / 2;
 
 // board
 const boardArray = [
@@ -386,7 +386,11 @@ const generateBoard = () => {
 
 // arguments player element
 const getPoint = (player) => {
+	let timesLooped = -1;
 	boardArray.forEach((arr) => {
+		// get times looped
+		arr[2] == 'reward-point' ? timesLooped++ : timesLooped = timesLooped
+		
 		// get current point
 		if (
 			arr[2] == 'reward-point'
@@ -394,6 +398,7 @@ const getPoint = (player) => {
 			&& arr[1] == playerPosition[1] 
 			&& !collectedPointsArray.includes(arr) // if it's not collected
 		) {
+			const scoreElement = document.querySelectorAll('#reward');
 			// get player state
 			const playerState = parseInt(
 				player.src.split('')[player.src.split('').length - 5]
@@ -403,7 +408,9 @@ const getPoint = (player) => {
 			collectedPoints++;
 			collectedPointsArray.push(arr);
 			setScore(collectedPoints);
+
 			player.src = `${imagePath}player-v${playerState-1}.png`;
+			scoreElement[timesLooped].src = `${imagePath}block.png`
 		}
 		
 	});
@@ -460,7 +467,7 @@ const movePlayer = (direction) => {
 	const getPlayerPosition = getPosition(playerPosition, blockWidth);
 	const xPos = getPlayerPosition[0];
 	const yPos = getPlayerPosition[1];
-	
+
 	player.style.marginLeft = `${xPos}px`;
 	player.style.marginTop = `${yPos}px`;
 
