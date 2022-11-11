@@ -34,4 +34,6 @@
 	- [ ] Levels
 	- [ ] Shop
 - [ ] Shop
-	- [ ] Colored/themed brick for points each round
+	- [ ] Characters
+	- [ ] Blocks
+	- [ ] Music
