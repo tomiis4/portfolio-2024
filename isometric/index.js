@@ -196,6 +196,9 @@ const checkWin = () => {
 // Check obstacle
 
 const checkObstacle = () => {
+	const previousPoints = [collectedPoints];
+	const player = document.getElementById('player');
+	
 	boardArray.forEach((arr) => {
 		// spike
 		if (
@@ -221,7 +224,6 @@ const checkObstacle = () => {
 			// function jusst because of the delay
 			const move = (e) => {
 				if (e && e.key == 'e') {
-					const player = document.getElementById('player');
 					const position = getPosition(portalsArray[1], blockWidth);
 					
 					player.style.marginLeft = `${position[0]}px`;
@@ -270,6 +272,13 @@ const checkObstacle = () => {
 			})
 		}
 	});
+	if (previousPoints[0] > collectedPoints) {
+		const playerState = parseInt(
+			player.src.split('')[player.src.split('').length - 5]
+		);
+		
+		player.src = `${imagePath}player-v${playerState == 3 ? 3 : playerState+1}.png`;
+	}
 }
 
 
