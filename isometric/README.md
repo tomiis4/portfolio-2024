@@ -17,7 +17,6 @@
 - [x] Collect points all points to win (each point will generate you bigger)
 - [x] Spawn with 1 point, 0 point == lose
 - [ ] Coins
-- [ ] Limited jumps?
 
 ### Obstacles
 - [x] Spike floor will take off point and get you smaller
