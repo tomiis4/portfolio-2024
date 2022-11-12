@@ -29,10 +29,13 @@
 	- [ ] Next level
 	- [ ] Repeat
 	- [ ]  Home
-- [ ] Main screen
-	- [ ] Play button
-	- [ ] Levels
-	- [ ] Shop
+- [X] Main screen
+	- [X] Play button
+	
+- [ ] Settings
+	- [ ] Music
+	- [ ] Sounds
+	- [ ] Language
 - [ ] Shop
 	- [ ] Characters
 	- [ ] Blocks
