@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+
+
+:root {
+	--background: radial-gradient(124% 336% at 24.5% 30%, #1B4A41 0%, #130C1C 100%);
+	
+	--grey: #999999;
+	--black: #222B34;
+	--green: #10FF61;
+	--medium-green: #1A3F3A;
+	--dark-green: #0B1715;
+	--black-green: #081110;
+}
+
+* {
+	margin: 0; 
+	padding: 0;
+	
+	font-family: 'VT323', 'monospace'
+} 
+ 
+body {
+	background: var(--background);
+	background-repeat: no-repeat;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.background-image {
+	height: 70vh;
+	transform: rotate(22deg);
+	position: absolute;
+	right: -10vw;
+	bottom: -10vh;
+
+	filter: drop-shadow(0px 0px 6px #23EB31) blur(14px);
+	-webkit-filter: drop-shadow(0px 0px 6px #23EB31) blur(14px);
+}
+
+
+/* Menu CSS */
+
+
+.coin-container {
+	background: var(--grey);
+	border-radius: 100px;
+	
+	position: absolute;
+	margin-top: 3%;
+	left: 3%;
+	
+	height: 3em;
+	width: 20ex;
+	
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.coin-container p {
+	top: -5px;
+	position: absolute;
+	margin-left: 40px;
+	font-size: 3.5rem;
+	color: var(--black);
+}
+
+.coin-container img {
+	height: 80%;
+	top: 10%;
+	left: 3%;
+	position: absolute;
+}
+
+
+.menu-container {
+	width: 100vw;
+	height: 100vh;
+}
+
+.menu-container .title {
+	color: var(--green);
+	font-size: 6.2rem;
+	text-align: center;
+	letter-spacing: 0.125em;
+	
+	padding-top: 4.5%;
+}
+
+.button-container {
+	width: 20%;
+	height: 23%;
+	position: absolute;
+	left: 40%;
+	margin-top: 9%;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.button-container input {
+	background: transparent;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	
+	font-size: 3rem;
+	letter-spacing: 0.16em;
+	color: var(--grey);
+}
+
+.button-container input:hover {
+	transition: 0.3s;
+	color: var(--green);
+	letter-spacing: 0.2em;
+
+	text-shadow: 3.5px 3.5px 0 var(--black);
+}
+
+
+/* Menu CSS */
+
+
+.shop-container {
+	width: 100vw;
+	height: 100vh;
+}
+
+.shop-container .title {
+	color: var(--green);
+	font-size: 5.2rem;
+	text-align: center;
+	letter-spacing: 0.125em;
+	
+	padding-top: 2%;
+}
+
+.shop-wrapper {
+	background: var(--dark-green);
+	width: 80%;
+	height: 65%;
+	border-radius: 15px;
+	
+	position: absolute;
+	left: 10%;
+	margin-top: 4%;
+}
+
+.item-select {
+	position: absolute;
+	margin-left: 3%;
+	top: -6%;
+	width: 50%; 
+
+	display: flex;
+	justify-content: space-around;
+}
+
+/* TODO do it hard way */
+
+.item-select div{
+	width: 30%;
+	height: 6%;
+	
+	background: var(--black-green);
+	border-radius: 5px 5px 0 0;
+	cursor: pointer;
+	
+	color: var(--grey);
+	font-size: 2.3em;
+	text-align: center;
+}
