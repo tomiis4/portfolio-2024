@@ -1,175 +1,207 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+//     VARAIBLES     //
 
 
+// DOM
+const imageDOM = '<img src="./images/coin.png" class="background-image">';
+const coinDOM = `
+	<div class="coin-container">
+		<img src="./images/coin.png" alt="coin">
+		<p id="coins-text"> 529 </p>
+	</div>
+`;
+const exitDOM = `
+	<div class="exit-button" onClick="getHome()">
+		<div id="x"></div>
+		<div id="y"></div>
+	</div>
+`;
 
-:root {
-	--background: radial-gradient(124% 336% at 24.5% 30%, #1B4A41 0%, #130C1C 100%);
+// Objects
+const shopItems = {
+	// player
+	player: [
+		{
+			img: "./images/player.png",
+			name: "Player1",
+			price: 50,
+		},
+		{
+			img: "./images/player.png",
+			name: "Player2",
+			price: 1,
+		},
+		{
+			img: "./images/player.png",
+			name: "Player3",
+			price: 420,
+		}
+	],
 	
-	--grey: #999999;
-	--black: #222B34;
-	--green: #10FF61;
-	--medium-green: #1A3F3A;
-	--dark-green: #0B1715;
-	--black-green: #081110;
-}
-
-* {
-	margin: 0; 
-	padding: 0;
+	// block
+	block: [
+		{
+			img: "./img",
+			name: "Block1",
+			price: 50,
+		},
+		{
+			img: "./img2",
+			name: "Block2",
+			price: 66,
+		},
+	],
 	
-	font-family: 'VT323', 'monospace'
-} 
- 
-body {
-	background: var(--background);
-	background-repeat: no-repeat;
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
+	// music
+	music: [
+		{
+			music: "./img",
+			name: "Music1",
+			price: 50,
+		},
+		{
+			music: "./img2",
+			name: "Music2",
+			price: 66,
+		},
+	]
+};
+
+
+//     FUNCTIONS     //
+
+
+// Home
+const getHome = () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		<div class="menu-container">
+			<h1 class="title"> Toxic <br> Collector </h1>
+			<div class="button-container">
+				<input type="button" value="Play" onClick="getHome()">
+				<input type="button" value="Shop" onClick="getShop()">
+				<input type="button" value="Settings" onClick="getSettings()">
+			</div>
+		</div>
+	`;
 }
 
-.background-image {
-	height: 70vh;
-	transform: rotate(22deg);
-	position: absolute;
-	right: -10vw;
-	bottom: -10vh;
+// Shop
+const getShop = () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		
+		<div class="shop-container">
+			<h1 class="title"> Shop </h1>
+			<div class="shop-wrapper">
+				<div class="item-select">
+					<div id="player"> Player </div>
+					<div id="block"> Block </div>
+					<div id="music"> Music </div>
+				</div>
+				<div class="card-container">
+					${
+						shopItems.player.map((data) => (
+							`<div class="card">
+								<img class="card-icon" src="${data.img}">
+								<div class="card-info">
+									<h2 class="card-title"> ${data.name} </h2>
+									<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
+										<p> ${data.price} </p>
+										<img src="./images/coin.png">
+									</div>
+								</div>
+							</div>`
+						))
+					}
+				</div>
+				${exitDOM}
+			</div>
+		</div>
+	`;
+}
 
-	filter: drop-shadow(0px 0px 6px #23EB31) blur(14px);
-	-webkit-filter: drop-shadow(0px 0px 6px #23EB31) blur(14px);
+// Settings
+const getSettings = () => {
+
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+
+		<div class="settings-container" onLoad="">
+			<h1 class="title"> Settings </h1>
+			<div class="settings-wrapper">
+				<div class="music">
+					<h3> Music </h3>
+					<div class="music-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "music")'>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+					</div>
+				</div>
+				<hr>
+				<div class="sound">
+					<h3> Sound </h3>
+					<div class="sound-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "sound")'>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+					</div>
+				</div>
+				<hr>
+				${exitDOM}
+			</div>
+		</div>
+	`;
+
+	changeVolume(20.5, 'm');
+changeVolume(50.5, 's');
 }
 
 
-/* Menu CSS */
+//     X     //
 
 
-.coin-container {
-	background: var(--grey);
-	border-radius: 100px;
+// Change volume
+const changeVolume = (volumeRange, type) => {
+	const typeSplit = type.split('')[0]
+	const rangeElem = document.querySelectorAll(`.show-range-${typeSplit}`);
+	const volume = Math.floor(volumeRange / 10)+1
 	
-	position: absolute;
-	margin-top: 3%;
-	left: 3%;
-	
-	height: 3em;
-	width: 20ex;
-	
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
+	// toggle on first half
+	for (let i=0; i<volume; i++) {
+		rangeElem[i].style.background = 'var(--green)';
+	}
+
+	// toggle off last half
+	for (let j=volume; j<rangeElem.length; j++) {
+		rangeElem[j].style.background = 'var(--medium-green)';
+	}
 }
 
-.coin-container p {
-	top: -5px;
-	position: absolute;
-	margin-left: 40px;
-	font-size: 3.5rem;
-	color: var(--black);
-}
-
-.coin-container img {
-	height: 80%;
-	top: 10%;
-	left: 3%;
-	position: absolute;
+//TODO
+// Buy from shop
+const buyCard = (type) => {
+	console.log(type);
 }
 
 
-.menu-container {
-	width: 100vw;
-	height: 100vh;
-}
-
-.menu-container .title {
-	color: var(--green);
-	font-size: 6.2rem;
-	text-align: center;
-	letter-spacing: 0.125em;
-	
-	padding-top: 4.5%;
-}
-
-.button-container {
-	width: 20%;
-	height: 23%;
-	position: absolute;
-	left: 40%;
-	margin-top: 9%;
-	
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.button-container input {
-	background: transparent;
-	outline: none;
-	border: none;
-	cursor: pointer;
-	
-	font-size: 3rem;
-	letter-spacing: 0.16em;
-	color: var(--grey);
-}
-
-.button-container input:hover {
-	transition: 0.3s;
-	color: var(--green);
-	letter-spacing: 0.2em;
-
-	text-shadow: 3.5px 3.5px 0 var(--black);
-}
-
-
-/* Menu CSS */
-
-
-.shop-container {
-	width: 100vw;
-	height: 100vh;
-}
-
-.shop-container .title {
-	color: var(--green);
-	font-size: 5.2rem;
-	text-align: center;
-	letter-spacing: 0.125em;
-	
-	padding-top: 2%;
-}
-
-.shop-wrapper {
-	background: var(--dark-green);
-	width: 80%;
-	height: 65%;
-	border-radius: 15px;
-	
-	position: absolute;
-	left: 10%;
-	margin-top: 4%;
-}
-
-.item-select {
-	position: absolute;
-	margin-left: 3%;
-	top: -6%;
-	width: 50%; 
-
-	display: flex;
-	justify-content: space-around;
-}
-
-/* TODO do it hard way */
-
-.item-select div{
-	width: 30%;
-	height: 6%;
-	
-	background: var(--black-green);
-	border-radius: 5px 5px 0 0;
-	cursor: pointer;
-	
-	color: var(--grey);
-	font-size: 2.3em;
-	text-align: center;
-}
