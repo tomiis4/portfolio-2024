@@ -32,7 +32,7 @@
 - [X] Main screen
 	- [X] Play button
 	
-- [ ] Settings
+- [x] Settings
 	- [ ] Music
 	- [ ] Sounds
 	- [ ] Language
