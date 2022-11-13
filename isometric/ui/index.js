@@ -8,21 +8,33 @@ const coinDOM = `
 		<img src="./images/coin.png" alt="coin">
 		<p id="coins-text"> 529 </p>
 	</div>
-`
+`;
+const exitDOM = `
+	<div class="exit-button" onClick="getHome()">
+		<div id="x"></div>
+		<div id="y"></div>
+	</div>
+`;
+
 // Objects
 const shopItems = {
 	// player
 	player: [
 		{
-			img: "./img",
+			img: "./images/player.png",
 			name: "Player1",
 			price: 50,
 		},
 		{
-			img: "./img2",
+			img: "./images/player.png",
 			name: "Player2",
-			price: 66,
+			price: 1,
 		},
+		{
+			img: "./images/player.png",
+			name: "Player3",
+			price: 420,
+		}
 	],
 	
 	// block
@@ -51,15 +63,8 @@ const shopItems = {
 			name: "Music2",
 			price: 66,
 		},
-	],
+	]
 };
-
-//     UILTS     //
-
-// reset screen
-const resetScreen = () => {
-	document.body.innerHTML = imageDOM;
-}
 
 
 //     FUNCTIONS     //
@@ -83,10 +88,120 @@ const getHome = () => {
 
 // Shop
 const getShop = () => {
-	console.log('Shop');
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		
+		<div class="shop-container">
+			<h1 class="title"> Shop </h1>
+			<div class="shop-wrapper">
+				<div class="item-select">
+					<div id="player"> Player </div>
+					<div id="block"> Block </div>
+					<div id="music"> Music </div>
+				</div>
+				<div class="card-container">
+					${
+						shopItems.player.map((data) => (
+							`<div class="card">
+								<img class="card-icon" src="${data.img}">
+								<div class="card-info">
+									<h2 class="card-title"> ${data.name} </h2>
+									<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
+										<p> ${data.price} </p>
+										<img src="./images/coin.png">
+									</div>
+								</div>
+							</div>`
+						))
+					}
+				</div>
+				${exitDOM}
+			</div>
+		</div>
+	`;
 }
 
 // Settings
 const getSettings = () => {
-	console.log('Settings');
+
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+
+		<div class="settings-container" onLoad="">
+			<h1 class="title"> Settings </h1>
+			<div class="settings-wrapper">
+				<div class="music">
+					<h3> Music </h3>
+					<div class="music-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "music")'>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+					</div>
+				</div>
+				<hr>
+				<div class="sound">
+					<h3> Sound </h3>
+					<div class="sound-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "sound")'>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+					</div>
+				</div>
+				<hr>
+				${exitDOM}
+			</div>
+		</div>
+	`;
+
+	changeVolume(20.5, 'm');
+changeVolume(50.5, 's');
 }
+
+
+//     X     //
+
+
+// Change volume
+const changeVolume = (volumeRange, type) => {
+	const typeSplit = type.split('')[0]
+	const rangeElem = document.querySelectorAll(`.show-range-${typeSplit}`);
+	const volume = Math.floor(volumeRange / 10)+1
+	
+	// toggle on first half
+	for (let i=0; i<volume; i++) {
+		rangeElem[i].style.background = 'var(--green)';
+	}
+
+	// toggle off last half
+	for (let j=volume; j<rangeElem.length; j++) {
+		rangeElem[j].style.background = 'var(--medium-green)';
+	}
+}
+
+//TODO
+// Buy from shop
+const buyCard = (type) => {
+	console.log(type);
+}
+
+
