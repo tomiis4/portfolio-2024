@@ -36,7 +36,7 @@
 	- [ ] Music
 	- [ ] Sounds
 	- [ ] Language
-- [ ] Shop
+- [x] Shop
 	- [ ] Characters
 	- [ ] Blocks
 	- [ ] Music
