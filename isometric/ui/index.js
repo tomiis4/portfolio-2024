@@ -40,12 +40,12 @@ const shopItems = {
 	// block
 	block: [
 		{
-			img: "./img",
+			img: "./images/coin.png",
 			name: "Block1",
 			price: 50,
 		},
 		{
-			img: "./img2",
+			img: "./images/coin.png",
 			name: "Block2",
 			price: 66,
 		},
@@ -54,12 +54,12 @@ const shopItems = {
 	// music
 	music: [
 		{
-			music: "./img",
+			music: "",
 			name: "Music1",
 			price: 50,
 		},
 		{
-			music: "./img2",
+			music: "",
 			name: "Music2",
 			price: 66,
 		},
@@ -96,30 +96,18 @@ const getShop = () => {
 			<h1 class="title"> Shop </h1>
 			<div class="shop-wrapper">
 				<div class="item-select">
-					<div id="player"> Player </div>
-					<div id="block"> Block </div>
-					<div id="music"> Music </div>
+					<div id="player" onClick="changeCards('player')"> Player </div>
+					<div id="block" onClick="changeCards('block')"> Block </div>
+					<div id="music" onClick="changeCards('music')"> Music </div>
 				</div>
 				<div class="card-container">
-					${
-						shopItems.player.map((data) => (
-							`<div class="card">
-								<img class="card-icon" src="${data.img}">
-								<div class="card-info">
-									<h2 class="card-title"> ${data.name} </h2>
-									<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
-										<p> ${data.price} </p>
-										<img src="./images/coin.png">
-									</div>
-								</div>
-							</div>`
-						))
-					}
 				</div>
 				${exitDOM}
 			</div>
 		</div>
 	`;
+	
+	changeCards('player');
 }
 
 // Settings
@@ -181,11 +169,17 @@ changeVolume(50.5, 's');
 //     X     //
 
 
+// Change style 
+const changeStyle = ({element, backgroundColor, textColor}) => {
+	element.style.background = backgroundColor;
+	element.style.color = textColor;
+}
+
 // Change volume
 const changeVolume = (volumeRange, type) => {
-	const typeSplit = type.split('')[0]
+	const typeSplit = type.split('')[0];
 	const rangeElem = document.querySelectorAll(`.show-range-${typeSplit}`);
-	const volume = Math.floor(volumeRange / 10)+1
+	const volume = Math.round(volumeRange / 10)+1;
 	
 	// toggle on first half
 	for (let i=0; i<volume; i++) {
@@ -196,6 +190,42 @@ const changeVolume = (volumeRange, type) => {
 	for (let j=volume; j<rangeElem.length; j++) {
 		rangeElem[j].style.background = 'var(--medium-green)';
 	}
+}
+
+// Change shop cards
+const changeCards = (type) => {
+	const cardContainer = document.querySelector('.card-container');
+	const selectCard = document.querySelector(`#${type}`);
+	const othersCard = document.querySelectorAll('.item-select div');
+	let elements = '';
+
+	shopItems[type].map((data) => (
+		elements += `<div class="card">
+			<img class="card-icon" src="${data.img}">
+			<div class="card-info">
+				<h2 class="card-title"> ${data.name} </h2>
+				<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
+					<p> ${data.price} </p>
+					<img src="./images/coin.png">
+				</div>
+			</div>
+		</div>`
+	));
+
+	othersCard.forEach((elem) => {
+		changeStyle({
+			element: elem,
+			backgroundColor: 'var(--dark-green)',
+			textColor: 'var(--grey)'
+		});
+	})
+	
+	changeStyle({
+		element: selectCard,
+		backgroundColor: 'var(--black-green)',
+		textColor: 'var(--green)'
+	});
+	cardContainer.innerHTML = elements;
 }
 
 //TODO
