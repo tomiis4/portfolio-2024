@@ -1,0 +1,44 @@
+.game-container {
+	width: 100vw;
+	height: 100vh;
+	animation: 0.3s linear loadContainer;
+}
+
+.game-container .title {
+	color: var(--green);
+	font-size: 5.2rem;
+	text-align: center;
+	letter-spacing: 0.125em;
+	
+	padding-top: 2%;
+}
+
+.game-wrapper {
+	background: #225e54;
+	width: 90%;
+	height: 80%;
+	border-radius: 15px;
+	
+	margin-left: 5%;
+	margin-top: 2%;
+
+	display: flex;
+	justify-content: center;
+}
+
+#brick, #special, #reward, #spike, #portal, #cracked {
+	/* height = image height / (image width / 150) */
+	width: 150px; 
+	height: 150px;
+	position: absolute;
+}
+
+/* 1/2 of the block */
+#player-game {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	z-index: 1;
+	transition: 0.25s;
+}
+
