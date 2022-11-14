@@ -1,27 +1,294 @@
-//     VARIABLES     //
+//-----UI-----//
+
+
+
+// VARIABLES: DOM, Objects //
+
+
+// Image
+const imagePath = './images/';
+
+// DOM
+const audioDOM = document.querySelector('audio');
+const audioSourceDOM = '<audio src="./music/theme-music-long.mp3" loop></audio>';
+const imageDOM = `<img src="${imagePath}coin.png" class="background-image">`;
+const coinDOM = `
+	<div class="coin-container">
+		<img src="${imagePath}coin.png" alt="coin">
+		<p id="coins-text"> 529 </p>
+	</div>`;
+const exitDOM = `
+	<div class="exit-button" onClick="getHome()">
+		<div id="x"></div>
+		<div id="y"></div>
+	</div>`;
+
+// Objects
+const shopItems = {
+	// player
+	player: [
+		{
+			img: `${imagePath}player-v1.png`,
+			name: "Player1",
+			price: 50,
+		},
+		{
+			img: `${imagePath}player-v2.png`,
+			name: "Player2",
+			price: 1,
+		},
+		{
+			img: `${imagePath}player-v3.png`,
+			name: "Player3",
+			price: 420,
+		}
+	],
+	
+	// block
+	block: [
+		{
+			img: `${imagePath}cracked-0.png`,
+			name: "Block1",
+			price: 45,
+		},
+		{
+			img: `${imagePath}portal-0.png`,
+			name: "Block2",
+			price: 6,
+		},
+		{
+			img: `${imagePath}special-block.png`,
+			name: "Block2",
+			price: 606,
+		},
+	],
+	
+	// music
+	music: [
+		{
+			img: `${imagePath}spike-0.png`,
+			name: "Music1",
+			price: 50,
+		},
+		{
+			img: `${imagePath}spike-1.png`,
+			name: "Music2",
+			price: 66,
+		},
+	]
+};
+
+
+// FUNCTIONS: getHome, getShop, getSettings //
+
+
+// Home
+const getHome = () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		${audioSourceDOM}
+		
+		<div class="menu-container">
+			<h1 class="title"> Toxic <br> Collector </h1>
+			<div class="button-container">
+				<input type="button" value="Play" onClick="getGame()">
+				<input type="button" value="Shop" onClick="getShop()">
+				<input type="button" value="Settings" onClick="getSettings()">
+			</div>
+		</div>
+	`;
+}
+
+// Shop
+const getShop = () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		${audioSourceDOM}
+		
+		<div class="shop-container">
+			<h1 class="title"> Shop </h1>
+			<div class="shop-wrapper">
+				<div class="item-select">
+					<div id="player" onClick="changeCards('player')"> Player </div>
+					<div id="block" onClick="changeCards('block')"> Block </div>
+					<div id="music" onClick="changeCards('music')"> Music </div>
+				</div>
+				<div class="card-container">
+				</div>
+				${exitDOM}
+			</div>
+		</div>
+	`;
+	
+	changeCards('player');
+}
+
+// Settings
+const getSettings = () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		${audioSourceDOM}
+		
+		<div class="settings-container" onLoad="">
+			<h1 class="title"> Settings </h1>
+			<div class="settings-wrapper">
+				<div class="music">
+					<h3> Music </h3>
+					<div class="music-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "music")'>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+						<div class="show-range-m"></div>
+					</div>
+				</div>
+				<hr>
+				<div class="sound">
+					<h3> Sound </h3>
+					<div class="sound-input">
+						<input type="range" value="50" onInput='changeVolume(this.value, "sound")'>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+						<div class="show-range-s"></div>
+					</div>
+				</div>
+				<hr>
+				${exitDOM}
+			</div>
+		</div>
+	`;
+	
+	changeVolume(10, 'm');
+	audioDOM.play();
+}
+
+const getGame = async () => {
+	document.body.innerHTML = `
+		${coinDOM}
+		${imageDOM}
+		${audioSourceDOM}
+
+		<div class="game-container">
+			<h1 id="score" class="title"> Score: 0 </h1>
+			<div class="game-wrapper"></div>
+		</div
+	`;
+
+	await startGame();
+}
+
+
+// UILTS: changeStyle, changeVolume, changeShop //
+
+
+// Change style 
+const changeStyle = ({element, backgroundColor, textColor}) => {
+	element.style.background = backgroundColor;
+	element.style.color = textColor;
+}
+
+// Change volume
+const changeVolume = (volumeRange, type) => {
+	const typeSplit = type.split('')[0];
+	const rangeElem = document.querySelectorAll(`.show-range-${typeSplit}`);
+	const volume = Math.round(volumeRange / 10)+1;
+	
+	audioDOM.volume = (volume /10) * 0.9;
+	
+	// toggle on first half
+	for (let i=0; i<volume; i++) {
+		rangeElem[i].style.background = 'var(--green)';
+	}
+
+	// toggle off last half
+	for (let j=volume; j<rangeElem.length; j++) {
+		rangeElem[j].style.background = 'var(--medium-green)';
+	}
+}
+
+// Change shop cards
+const changeCards = (type) => {
+	const cardContainer = document.querySelector('.card-container');
+	const selectCard = document.querySelector(`#${type}`);
+	const othersCard = document.querySelectorAll('.item-select div');
+	let elements = '';
+
+	shopItems[type].map((data) => (
+		elements += `<div class="card">
+			<img class="card-icon" src="${data.img}">
+			<div class="card-info">
+				<h2 class="card-title"> ${data.name} </h2>
+				<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
+					<p> ${data.price} </p>
+					<img src="${imagePath}coin.png">
+				</div>
+			</div>
+		</div>`
+	));
+	
+	othersCard.forEach((elem) => {
+		changeStyle({
+			element: elem,
+			backgroundColor: 'var(--dark-green)',
+			textColor: 'var(--grey)'
+		});
+	})
+	
+	changeStyle({
+		element: selectCard,
+		backgroundColor: 'var(--black-green)',
+		textColor: 'var(--green)'
+	});
+	cardContainer.innerHTML = elements;
+}
+
+
+
+//-----GAME-----//
+
+
+
+// VARIABLES: DOM, playerInfo, board, levels //
 
 
 // Constants
 
-// DOM elements
-const container = document.getElementById('game-container');
+// DOM
+// const container = document.querySelector('.game-wrapper');
 const score = document.getElementById('score');
 
-// player informations
-const imagePath = './images/'
-const blockWidth = 130; // 130
+// Player
+const blockWidth = 130; // -20 px of the 150
 const playerWidth = blockWidth / 2;
+const scale = 100;
 
-// board
+// Board
 const boardArray = [
-	[0,0, 'spawn-point'], [1,0], [2,0, 'cracked'], [3,0], [4,0], [5,0],
-	[0,1, 'portal'], [1,1, 'spike'], [2,1], [3,1], [4,1], [5,1],
-	[0,2], [1,2], [2,2, 'reward-point'], [3,2], [4,2], [5,2],
-	[0,3], [1,3], [2,3], [3,3], [4,3, 'spike'], [5,3, 'cracked'],
-	[0,4, 'reward-point'], [1,4], [2,4, 'portal'], [3,4], [4,4], [5,4],
-	[0,5], [1,5], [2,5], [3,5, 'cracked'], [4,5], [5,5, 'end-point'],
+	[0,0, 'spawn-point'], [1,0, 'block'], [2,0, 'cracked'],
+	[0,1, 'portal'], [1,1, 'spike'], [2,1,'block'], [3,1,'block'], [4,1,'block'], [5,1,'block'],
+	[2,2, 'reward-point'], [3,2,'block'], [4,2,'block'], [5,2,'block'],
+	[0,3,'block'], [1,3,'block'], [2,3,'block'], [3,3,'block'], [4,3, 'spike'], [5,3, 'cracked'],
+	[0,4, 'reward-point'], [1,4,'block'], [2,4, 'portal'],
+	[0,5,'block'], [1,5,'block'], [2,5,'cracked'], [3,5, 'cracked'], [4,5,'block'], [5,5, 'end-point']
 ];
-
 
 // Mutable
 
@@ -39,39 +306,38 @@ let collectedPointsArray = [];
 let isSpikeOn;
 
 // portal
-// x, y
+// [x, y]
 let portalsArray = [];
 
 // cracked
-// x, y, used
+// [x, y, used]
 let crackedArray = [];
 
 
-//     UILTS     //
+// UILTS: delay, getPosition, setScore, insertElement, check win,lose, obstacles //
 
 
 // Delay
-
 const delay = (ms) => {
 	return new Promise(res => setTimeout(res, ms));
 }
 
 // Get position
-
-// arguments 2d array and block width px
-// return x,y in pixels
+//		arguments 2d array and block width px
+//		return x,y in pixels
 const getPosition = (array, width) => {
 	// calculate position and scale it to the block size
 	const getX = (array[0] * 1 + array[1] * -1) * (width / 2);
-	const getY = (array[0] * 0.5 + array[1] * 0.5) * (width / 2);
+	const getY = (array[0] * 0.5 + array[1] * 0.5) * (width / 2) + scale;
 	
 	return [getX, getY];
 }
 
 // Set score
-
-// arguments score, isCustom
+//		arguments score, isCustom
 const setScore = (scoreVal, isCustom) => {
+	const score = document.getElementById('score');
+
 	if (isCustom) {
 		score.innerText = scoreVal;
 	} else {
@@ -80,9 +346,9 @@ const setScore = (scoreVal, isCustom) => {
 }
 
 // Insert element
-
-// arguments type of element, x,y position in px, 2d array
+//		arguments type of element, x,y position in px, 2d array
 const insertElement = ({type, xPos, yPos, array}) => {
+	const container = document.querySelector('.game-wrapper');
 	const elements = {
 		brick: `<img 
 			style="margin-left: ${xPos}px; top: ${yPos}px"
@@ -119,7 +385,7 @@ const insertElement = ({type, xPos, yPos, array}) => {
 		player: `<img
 			style="margin-left: ${xPos}px; top: ${yPos - (playerWidth / 2)}px"
 			src="${imagePath}player-v3.png" 
-			id="player"
+			id="player-game"
 			>`,
 	};
 
@@ -154,7 +420,7 @@ const insertElement = ({type, xPos, yPos, array}) => {
 		case 'cracked':
 			container.innerHTML += elements.cracked;
 			break;
-
+		
 		// default
 		default:
 			console.log(`Wrong type ${type}`);
@@ -162,7 +428,6 @@ const insertElement = ({type, xPos, yPos, array}) => {
 }
 
 // Check lose
-
 const checkLose = () => {
 	if (collectedPoints <= -1) {
 		setScore('You lost', 1);
@@ -170,10 +435,9 @@ const checkLose = () => {
 }
 
 // Check win
-
 const checkWin = () => {
 	let allPoints = 0;
-
+	
 	boardArray.forEach((arr) => {
 		// get all points
 		if (arr[2] == 'reward-point') {
@@ -193,16 +457,19 @@ const checkWin = () => {
 	})
 }
 
-// Check obstacle
 
+// OBSTACLES //
+
+
+// Check obstacles
 const checkObstacle = () => {
 	const previousPoints = [collectedPoints];
-	const player = document.getElementById('player');
+	const player = document.getElementById('player-game');
 	
 	boardArray.forEach((arr) => {
 		// spike
 		if (
-			arr[2] == 'spike' // add move in future (what the hell is it)
+			arr[2] == 'spike' // add move in future (what the hell is previous comment)
 			&& arr[0] == playerPosition[0]
 			&& arr[1] == playerPosition[1]
 			&& isSpikeOn == true
@@ -227,7 +494,7 @@ const checkObstacle = () => {
 					const position = getPosition(portalsArray[1], blockWidth);
 					
 					player.style.marginLeft = `${position[0]}px`;
-					player.style.marginTop = `${position[1]}px`;
+					player.style.marginTop = `${position[1] - scale}px`;
 					
 					playerPosition[0] = portalsArray[1][0];
 					playerPosition[1] = portalsArray[1][1];
@@ -281,10 +548,7 @@ const checkObstacle = () => {
 	}
 }
 
-
-//     OBSTACLES     //
-
-
+// Obstacles
 const obstacles = () => {
 	// elements of all obstacles
 	const spikesArray = document.querySelectorAll('#spike');
@@ -354,11 +618,10 @@ const obstacles = () => {
 }
 
 
-//     GAME MECHANIC	    //
+// GAME MECHANIC: board, getpoint, move //
 
 
 // Generate board
-
 const generateBoard = () => {
 	boardArray.forEach((array) => {
 		// get position and center 
@@ -366,7 +629,6 @@ const generateBoard = () => {
 		const yPosition = getPosition(array, blockWidth)[1] + blockWidth;
 		
 		// check block type
-		// TODO instead undefined add 'block' to board
 		const blockType = array[2] == 'spawn-point' ? 'spawn'
 			: array[2] == 'end-point' ? 'end'
 			: array[2] == 'reward-point' ? 'reward'
@@ -377,7 +639,7 @@ const generateBoard = () => {
 			: array[2] == 'cracked' ? 'cracked'
 			
 			// brick
-			: array[2] == undefined ? 'brick'
+			: array[2] == 'block' ? 'brick'
 			
 			// wrong type
 			: 'other'
@@ -392,8 +654,7 @@ const generateBoard = () => {
 }
 
 // Get point
-
-// arguments player element
+//		argument: player dom
 const getPoint = (player) => {
 	let timesLooped = -1;
 	boardArray.forEach((arr) => {
@@ -417,7 +678,7 @@ const getPoint = (player) => {
 			collectedPoints++;
 			collectedPointsArray.push(arr);
 			setScore(collectedPoints);
-
+			
 			player.src = `${imagePath}player-v${playerState-1}.png`;
 			scoreElement[timesLooped].src = `${imagePath}block.png`
 		}
@@ -430,7 +691,6 @@ const getPoint = (player) => {
 }
 
 // Move player
-
 const movePlayer = (direction) => {
 	// duplicate array
 	const previousPosition = playerPosition.slice();
@@ -472,23 +732,22 @@ const movePlayer = (direction) => {
 	}
 	
 	// move player
-	const player = document.getElementById('player');
+	const player = document.getElementById('player-game');
 	const getPlayerPosition = getPosition(playerPosition, blockWidth);
 	const xPos = getPlayerPosition[0];
 	const yPos = getPlayerPosition[1];
 
 	player.style.marginLeft = `${xPos}px`;
-	player.style.marginTop = `${yPos}px`;
+	player.style.marginTop = `${yPos - scale}px`;
 
 	getPoint(player);
 }
 
 
-//     CONTROLS     //
+// CONTROLS: keypress //
 
 
 // Keypress
-
 const keyPress = (e) => {
 	switch (e.key) {
 		case 'w':
@@ -508,23 +767,23 @@ const keyPress = (e) => {
 	}
 }
 
-// activate
-document.body.addEventListener("keypress", keyPress);
 
-
-//     TOGGLE GAME     //
+// TOGGLE GAME: Start, reset game //
 
 
 // Start game
-
 const startGame = () => {
 	generateBoard();
 	obstacles();
+
+	document.body.addEventListener("keypress", keyPress);
 }
 
 // Reset game
-
 const resetGame = () => {
+	const container = document.querySelector('.game-wrapper');
+	const score = document.querySlector('#score');
+	
 	// reset variables
 	playerPosition = [];
 	endPoint = [];
@@ -542,18 +801,3 @@ const resetGame = () => {
 	startGame();
 }
 
-
-//     AUDIO     //
-
-
-// Change volume
-
-const audioVolume = (value) => {
-	const audioElem = document.querySelector('audio');
-	const range = value / 100;
-
-	// allow looping and change volume
-	// audioElem.loop = true
-	audioElem.volume = range;
-	audioElem.play();
-}
