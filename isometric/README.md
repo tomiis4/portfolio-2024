@@ -1,9 +1,15 @@
 # Isometric game using JavaScript
 
 ## TODO
-- [ ] Cleen up code (I alr. did it 2 times :D)
+ - Animations
+ - Responzivity
+ - Levels
+ - Money system
+ - More items for shop
+ - Win/lose screen.
  
 ### General
+- [x] Cleen up code
 - [x] Generate board
 - [x] Player movment
 - [x] Border collision
@@ -22,7 +28,6 @@
 - [x] Spike floor will take off point and get you smaller
 - [x] Portals on keypress
 - [x] Cracket floor, on each walk it will decrease strength
-- [ ] Wall with exact or smaller size as points you have collected
 
 ### GUI
 - [ ] Win/lose screen
