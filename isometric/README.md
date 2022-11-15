@@ -5,7 +5,7 @@
  - [ ] Responzivity
  - [ ] Levels
  - [x] Money system
- - [ ] Load from database/localstorage
+ - [x] Load from database/localstorage
  - [ ] More items for shop
  - [ ] Win/lose screen.
  
