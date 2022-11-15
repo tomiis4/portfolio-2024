@@ -1,3 +1,11 @@
+//-----GLOBAL-----//
+
+
+
+let coins = 0;
+
+
+
 //-----UI-----//
 
 
@@ -10,13 +18,15 @@ const imagePath = './images/';
 
 // DOM
 const audioDOM = document.querySelector('audio');
-const audioSourceDOM = '<audio src="./music/theme-music-long.mp3" loop></audio>';
+const audioSourceDOM = '<audio autoplay src="./music/theme-music-long.mp3" loop></audio>';
 const imageDOM = `<img src="${imagePath}coin.png" class="background-image">`;
-const coinDOM = `
-	<div class="coin-container">
-		<img src="${imagePath}coin.png" alt="coin">
-		<p id="coins-text"> 529 </p>
-	</div>`;
+const coinDOM = () => {
+	return `
+		<div class="coin-container">
+			<img src="${imagePath}coin.png" alt="coin">
+			<p id="coins-text"> ${coins} </p>
+		</div>`;
+}
 const exitDOM = `
 	<div class="exit-button" onClick="getHome()">
 		<div id="x"></div>
@@ -30,17 +40,20 @@ const shopItems = {
 		{
 			img: `${imagePath}player-v1.png`,
 			name: "Player1",
-			price: 50,
+			price: 'FREE',
+			id: 0,
 		},
 		{
 			img: `${imagePath}player-v2.png`,
 			name: "Player2",
 			price: 1,
+			id: 1,
 		},
 		{
 			img: `${imagePath}player-v3.png`,
 			name: "Player3",
 			price: 420,
+			id: 2,
 		}
 	],
 	
@@ -50,16 +63,19 @@ const shopItems = {
 			img: `${imagePath}cracked-0.png`,
 			name: "Block1",
 			price: 45,
+			id: 3,
 		},
 		{
 			img: `${imagePath}portal-0.png`,
 			name: "Block2",
-			price: 6,
+			price: 6,	
+			id: 4,
 		},
 		{
 			img: `${imagePath}special-block.png`,
 			name: "Block2",
-			price: 606,
+			price: 606,	
+			id: 5,
 		},
 	],
 	
@@ -68,12 +84,14 @@ const shopItems = {
 		{
 			img: `${imagePath}spike-0.png`,
 			name: "Music1",
-			price: 50,
+			price: 'FREE',	
+			id: 6,
 		},
 		{
 			img: `${imagePath}spike-1.png`,
 			name: "Music2",
-			price: 66,
+			price: 66,	
+			id: 6,
 		},
 	]
 };
@@ -85,7 +103,7 @@ const shopItems = {
 // Home
 const getHome = () => {
 	document.body.innerHTML = `
-		${coinDOM}
+		${coinDOM()}
 		${imageDOM}
 		${audioSourceDOM}
 		
@@ -98,12 +116,14 @@ const getHome = () => {
 			</div>
 		</div>
 	`;
+	
+	checkStorage();
 }
 
 // Shop
 const getShop = () => {
 	document.body.innerHTML = `
-		${coinDOM}
+		${coinDOM()}
 		${imageDOM}
 		${audioSourceDOM}
 		
@@ -128,7 +148,7 @@ const getShop = () => {
 // Settings
 const getSettings = () => {
 	document.body.innerHTML = `
-		${coinDOM}
+		${coinDOM()}
 		${imageDOM}
 		${audioSourceDOM}
 		
@@ -176,19 +196,21 @@ const getSettings = () => {
 		</div>
 	`;
 	
+	// TODO Remove?
 	changeVolume(10, 'm');
-	audioDOM.play();
 }
 
 const getGame = async () => {
 	document.body.innerHTML = `
-		${coinDOM}
+		${coinDOM()}
 		${imageDOM}
 		${audioSourceDOM}
 
 		<div class="game-container">
 			<h1 id="score" class="title"> Score: 0 </h1>
-			<div class="game-wrapper"></div>
+			<div class="game-wrapper">
+				${exitDOM}
+			</div>
 		</div
 	`;
 
@@ -196,8 +218,26 @@ const getGame = async () => {
 }
 
 
-// UILTS: changeStyle, changeVolume, changeShop //
+// UILTS: changeStyle, changeVolume, changeShop, setStorage //
 
+
+// get array
+const strToArr = (str, separator = ',') => {
+	return str.replaceAll(separator, '').split('');
+}
+
+// Check storage
+const checkStorage = () => {
+	const ls = localStorage
+
+	if (ls.coins == undefined || ls.items == undefined) {
+		setStorage({
+			key: ['coins', 'items'],
+			value: [0, ''],
+			isRead: false
+		});
+	} 
+}
 
 // Change style 
 const changeStyle = ({element, backgroundColor, textColor}) => {
@@ -236,7 +276,7 @@ const changeCards = (type) => {
 			<img class="card-icon" src="${data.img}">
 			<div class="card-info">
 				<h2 class="card-title"> ${data.name} </h2>
-				<div class="buy-card" onClick="buyCard(this.id)" id="${data.name}">
+				<div class="buy-card" onClick="buyCard(this.id, '${type}')" id="${data.name}">
 					<p> ${data.price} </p>
 					<img src="${imagePath}coin.png">
 				</div>
@@ -260,6 +300,67 @@ const changeCards = (type) => {
 	cardContainer.innerHTML = elements;
 }
 
+// Set storage
+const setStorage = ({key, value, isRead = false}) => {
+	const ls = window.localStorage
+
+	if (isRead == true) {
+		console.log(ls.key)
+		return ls.key;
+	} else {
+		key.forEach((keyValue, index) => {
+			ls.setItem(keyValue, value[index]);
+		});
+	}
+	console.log(ls);
+}
+
+// BUY SKIN //
+
+const buyCard = (id, type) => {
+	const coinsElem = document.querySelector('#coins-text');
+	const selectedElement = document.querySelector(`#${id}`);
+
+	shopItems[type].forEach((data) => {
+		if (data.name == id && selectedElement.style.cursor != 'not-allowed') {
+			// check if he bought it already
+			if (localStorage.items.includes(data.id)) {
+				selectedElement.style.cursor = 'not-allowed';
+				selectedElement.style.background = 'var(--dark-green)'; 
+				
+				return;
+			}
+			
+			// buy 
+			if (coins >= data.price || data.price == 'FREE') {
+				let oldItems = strToArr(localStorage.items);
+
+				// change elements
+				selectedElement.style.cursor = 'not-allowed';
+				selectedElement.style.background = 'var(--dark-green)'; 
+
+				// update variables/elements
+				coins -= data.price == 'FREE' ? 0 : data.price;
+				coinsElem.innerText = coins;
+				oldItems.push(data.id);
+				
+				// Write to storage
+				setStorage({
+					key: ['coins', 'items'],
+					value: [coins, oldItems],
+					isRead: false
+				});
+			}
+		}
+	})
+}
+
+// play music
+const playMusic = () => {
+	const audioDOM = document.querySlector('audio');
+	
+	audioDOM.play();
+}
 
 
 //-----GAME-----//
@@ -436,6 +537,7 @@ const checkLose = () => {
 
 // Check win
 const checkWin = () => {
+	const coinTextDOM = document.getElementById('coins-text');
 	let allPoints = 0;
 	
 	boardArray.forEach((arr) => {
@@ -453,6 +555,14 @@ const checkWin = () => {
 			&& allPoints == collectedPoints
 		) {
 			setScore('You won', 1);
+			coins += Math.round(collectedPoints * 2.5);
+			coinTextDOM.innerText = coins;
+
+			setStorage({
+				key: ['coins'],
+				value: [coins],
+				isRead: false
+			});
 		}
 	})
 }
@@ -720,6 +830,7 @@ const movePlayer = (direction) => {
 		if (
 			array[0] == playerPosition[0] 
 			&& array[1] == playerPosition[1]
+
 		) {
 			isValid.push(true);
 		} else {
@@ -749,7 +860,7 @@ const movePlayer = (direction) => {
 
 // Keypress
 const keyPress = (e) => {
-	switch (e.key) {
+	switch (e.key.toLowerCase()) {
 		case 'w':
 			movePlayer('up');
 			break;
@@ -768,21 +879,11 @@ const keyPress = (e) => {
 }
 
 
-// TOGGLE GAME: Start, reset game //
+// TOGGLE GAME: Start/Reset //
 
-
-// Start game
-const startGame = () => {
-	generateBoard();
-	obstacles();
-
-	document.body.addEventListener("keypress", keyPress);
-}
-
-// Reset game
-const resetGame = () => {
+// Start & reset game
+const startGame =  () => {
 	const container = document.querySelector('.game-wrapper');
-	const score = document.querySlector('#score');
 	
 	// reset variables
 	playerPosition = [];
@@ -794,10 +895,10 @@ const resetGame = () => {
 	crackedArray = [];
 	
 	// reset elements
-	container.innerHTML = '';
-	score.innerText = 'Score: 0';
+	container.innerHTML = exitDOM;
 	
 	//activate game
-	startGame();
+	generateBoard();
+	obstacles();
+	document.body.addEventListener("keypress", keyPress);
 }
-
