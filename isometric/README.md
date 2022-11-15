@@ -1,12 +1,13 @@
 # Isometric game using JavaScript
 
 ## TODO
- - Animations
- - Responzivity
- - Levels
- - Money system
- - More items for shop
- - Win/lose screen.
+ - [ ] Animations
+ - [ ] Responzivity
+ - [ ] Levels
+ - [x] Money system
+ - [ ] Load from database/localstorage
+ - [ ] More items for shop
+ - [ ] Win/lose screen.
  
 ### General
 - [x] Cleen up code
