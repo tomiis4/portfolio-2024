@@ -3,7 +3,7 @@
 
 
 let coins = 0;
-
+let level = 0;
 
 
 //-----UI-----//
@@ -18,20 +18,30 @@ const imagePath = './images/';
 
 // DOM
 const audioDOM = document.querySelector('audio');
-const audioSourceDOM = '<audio autoplay src="./music/theme-music-long.mp3" loop></audio>';
+// TODO add autoplay
+const audioSourceDOM = '<audio src="./music/theme-music-long.mp3" loop></audio>';
 const imageDOM = `<img src="${imagePath}coin.png" class="background-image">`;
+
 const coinDOM = () => {
 	return `
 		<div class="coin-container">
 			<img src="${imagePath}coin.png" alt="coin">
-			<p id="coins-text"> ${coins} </p>
+			<p id="coins-text"> ${numberToUnit(coins)}</p>
 		</div>`;
 }
+const levelDOM = () => { 
+	return `
+	<div class="level-container">
+		<p id="level-text"> Level: ${level} </p>
+	</div>`;
+}
+
 const exitDOM = `
 	<div class="exit-button" onClick="getHome()">
 		<div id="x"></div>
 		<div id="y"></div>
 	</div>`;
+
 
 // Objects
 const shopItems = {
@@ -73,7 +83,7 @@ const shopItems = {
 		},
 		{
 			img: `${imagePath}special-block.png`,
-			name: "Block2",
+			name: "Block22",
 			price: 606,	
 			id: 5,
 		},
@@ -104,6 +114,7 @@ const shopItems = {
 const getHome = () => {
 	document.body.innerHTML = `
 		${coinDOM()}
+		${levelDOM()}
 		${imageDOM}
 		${audioSourceDOM}
 		
@@ -203,23 +214,35 @@ const getSettings = () => {
 const getGame = async () => {
 	document.body.innerHTML = `
 		${coinDOM()}
+		${levelDOM()}
 		${imageDOM}
 		${audioSourceDOM}
-
+		
 		<div class="game-container">
 			<h1 id="score" class="title"> Score: 0 </h1>
 			<div class="game-wrapper">
 				${exitDOM}
 			</div>
-		</div
+		</div>
 	`;
-
+	
 	await startGame();
 }
 
 
 // UILTS: changeStyle, changeVolume, changeShop, setStorage //
 
+const numberToUnit = (num) => {
+	if (num < 1000) {
+		return num;
+	}
+	if (num >= 1000000) {
+		return (num / 1000000).toFixed(1) + 'M';
+	}
+	if (num >= 1000) {
+		return (num / 1000).toFixed(1) + 'K';
+	}
+}
 
 // get array
 const strToArr = (str, separator = ',') => {
@@ -227,16 +250,24 @@ const strToArr = (str, separator = ',') => {
 }
 
 // Check storage
-const checkStorage = () => {
+const checkStorage = () => {	
+	const coinTextDOM = document.getElementById('coins-text');
+	const levelTextDOM = document.getElementById('level-text');
 	const ls = localStorage
 
-	if (ls.coins == undefined || ls.items == undefined) {
+	if (ls.coins == undefined || ls.items == undefined || ls.level == undefined) {
 		setStorage({
-			key: ['coins', 'items'],
-			value: [0, ''],
+			key: ['coins', 'items', 'level'],
+			value: [0, '', 0],
 			isRead: false
-		});
-	} 
+		}); 
+	} else {
+		level = parseInt(ls.level);
+		coins = parseInt(ls.coins);
+		
+		coinTextDOM.innerText = numberToUnit(coins);
+		levelTextDOM.innerText = `Level: ${level}`;
+	}
 }
 
 // Change style 
@@ -341,7 +372,7 @@ const buyCard = (id, type) => {
 
 				// update variables/elements
 				coins -= data.price == 'FREE' ? 0 : data.price;
-				coinsElem.innerText = coins;
+				coinsElem.innerText = numberToUnit(coins);
 				oldItems.push(data.id);
 				
 				// Write to storage
@@ -359,7 +390,8 @@ const buyCard = (id, type) => {
 const playMusic = () => {
 	const audioDOM = document.querySlector('audio');
 	
-	audioDOM.play();
+	//TODO Turn it on
+	// audioDOM.play();
 }
 
 
@@ -369,6 +401,27 @@ const playMusic = () => {
 
 // VARIABLES: DOM, playerInfo, board, levels //
 
+const getBlockWidth = () => {
+	const winHeight = window.outerHeight;
+	const offset = winHeight * 0.045;
+	// console.log(winHeight)
+
+	if (winHeight > 800) {
+		return [((150 * 86) / 100), 100]; 
+	}
+	
+	if (winHeight <= 450) {
+		return [((120 * 86) / 100), 15]; 
+	}
+	if (winHeight <= 650) {
+		return [((120 * 86) / 100), 70]; 
+	}
+	
+	if (winHeight <= 750) {
+		// % of the block
+		return [((130 * 86) / 100), 90]; 
+	}
+}
 
 // Constants
 
@@ -377,9 +430,10 @@ const playMusic = () => {
 const score = document.getElementById('score');
 
 // Player
-const blockWidth = 130; // -20 px of the 150
+const blockWidth = getBlockWidth()[0] // -20 px of the main 
 const playerWidth = blockWidth / 2;
-const scale = 100;
+const scale = getBlockWidth()[1]
+
 
 // Board
 const boardArray = [
@@ -415,7 +469,7 @@ let portalsArray = [];
 let crackedArray = [];
 
 
-// UILTS: delay, getPosition, setScore, insertElement, check win,lose, obstacles //
+// UILTS: delay, getPosition, setScore, insertElement, check win,lose, obstacles 
 
 
 // Delay
@@ -532,12 +586,33 @@ const insertElement = ({type, xPos, yPos, array}) => {
 const checkLose = () => {
 	if (collectedPoints <= -1) {
 		setScore('You lost', 1);
+		coins += Math.floor(collectedPoints * 1.8);
+
+		// FIXME fix this shit
+		// TODO remove all functions 
+		// if (document.body.textContent.includes('You lost') == true) {
+		// 	return;
+		// } else {
+		// 	console.log('AYA')
+		// 	document.body.innerHTML += `
+		// 		<div class="lose-sceen">
+		// 			<h2> You lost </h2>
+		// 			<div class="end-coins">
+		// 				<p> ${Math.floor(collectedPoints * 1.8)} </p>
+		// 				<img src="${imagePath}coin.png">
+		// 			</div>
+		// 			<h3 id="restart"> Restart </h3> 
+		// 			<h3 id="menu"> Menu </h3> 
+		// 		</div>
+		// 	`;
+			
 	}
 }
 
 // Check win
 const checkWin = () => {
 	const coinTextDOM = document.getElementById('coins-text');
+	const levelTextDOM = document.getElementById('level-text');
 	let allPoints = 0;
 	
 	boardArray.forEach((arr) => {
@@ -555,12 +630,16 @@ const checkWin = () => {
 			&& allPoints == collectedPoints
 		) {
 			setScore('You won', 1);
+
 			coins += Math.round(collectedPoints * 2.5);
 			coinTextDOM.innerText = coins;
 
+			level++;
+			levelTextDOM.innerText = `Level: ${level}`;
+
 			setStorage({
-				key: ['coins'],
-				value: [coins],
+				key: ['coins', 'level'],
+				value: [coins, level],
 				isRead: false
 			});
 		}
