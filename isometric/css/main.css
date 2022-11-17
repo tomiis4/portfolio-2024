@@ -43,6 +43,34 @@ body {
 	-webkit-filter: drop-shadow(0px 0px 6px #23EB31) blur(14px);
 }
 
+/* Level */
+
+
+.level-container {
+	background: var(--grey);
+	border-radius: 100px;
+	
+	position: absolute;
+	margin-top: 3%;
+	right: 3%;
+	
+	height: 3em;
+	width: 200px;
+	min-width: 200px;
+	
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.level-container p {
+	top: -5px;
+	position: absolute;
+	padding-top: 3%;
+	font-size: 2.9em;
+	color: var(--black);
+}
+
 
 /* Coins */
 
@@ -56,7 +84,8 @@ body {
 	left: 3%;
 	
 	height: 3em;
-	width: 20ex;
+	width: 200px;
+	min-width: 200px;
 	
 	display: flex;
 	justify-content: center;
@@ -64,11 +93,9 @@ body {
 }
 
 .coin-container p {
-	top: -5px;
-	position: absolute;
-	margin-left: 40px;
-	font-size: 3.5rem;
+	font-size: 3.2rem;
 	color: var(--black);
+	padding-left: 20%;
 }
 
 .coin-container img {
@@ -83,6 +110,7 @@ body {
 .menu-container {
 	width: 100vw;
 	height: 100vh;
+	animation: 0.3s linear loadContainer;
 }
 
 .menu-container .title {
@@ -95,11 +123,11 @@ body {
 }
 
 .button-container {
-	width: 20%;
+	width: 30%;
 	height: 23%;
 	position: absolute;
-	left: 40%;
-	margin-top: 9%;
+	left: 35%;
+	margin-top: 5%;
 	
 	display: flex;
 	flex-direction: column;
@@ -207,7 +235,7 @@ body {
 .card {
 	background: var(--medium-green);
 	width: 30%;
-	height: 70%;
+	height: 75%;
 	position: relative;
 	border-radius: 17px;
 }
@@ -221,11 +249,16 @@ body {
 
 .card-info {
 	width: 100%;
-	height: 30%;
+	/* height: 49%; */
 	position: absolute;
 	bottom: 0;
 	border-radius: 18px 17px;
 	background: var(--other-green);
+	
+	display: flex;
+	align-items: stretch;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .card-title {
@@ -236,12 +269,13 @@ body {
 }
 
 .buy-card {
-	width: 33%;
-	height: 40%;
-	left: 33%;
+	width: 43%;
+	left: calc(28% - 1px);
 	margin-top: 5%;
+	margin-bottom: 4%;
 	position: relative;
 
+	padding: 2px;
 	background: var(--black-green);
 	border-radius: 5px;
 	cursor: pointer;
@@ -270,7 +304,7 @@ body {
 	width: 95%;
 	height: 13%;
 	
-	margin-top: 1em;
+	margin-top: 1.2em;
 	padding-left: 5%;
 	
 	display: flex;
@@ -310,6 +344,7 @@ body {
 hr {
 	width: 95%;
 	margin-left: 2.5%;
+	margin-top: 3%;
 	height: 4px;
 	border-radius: 25px;
 	background: var(--other-green);
