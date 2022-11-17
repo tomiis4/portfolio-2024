@@ -3,8 +3,8 @@
 ## TODO
  - [ ] **Split to multiple files**
  - [ ] Sound effect
- - [ ] Animations
- - [ ] Responzivity
+ - [x] Animations
+ - [x] Responzivity
  - [ ] Levels
  - [x] Money system
  - [x] Load from database/localstorage
