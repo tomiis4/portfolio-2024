@@ -1,8 +1,8 @@
 # Isometric game using JavaScript
 
 ## TODO
- - [ ] Split to multiple files
- 
+ - [ ] **Split to multiple files**
+ - [ ] Sound effect
  - [ ] Animations
  - [ ] Responzivity
  - [ ] Levels
