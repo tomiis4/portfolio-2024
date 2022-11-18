@@ -1,10 +1,13 @@
 //-----GLOBAL-----//
 
 
-
 let coins = 0;
 let level = 0;
-
+let currentSettings = {
+	playerId: 0,
+	player: 'orange',
+	music: 0
+}
 
 //-----UI-----//
 
@@ -48,22 +51,22 @@ const shopItems = {
 	// player
 	player: [
 		{
-			img: `${imagePath}player-v1.png`,
-			name: "Player1",
+			img: `${imagePath}player/player-pink-v1.png`,
+			name: "Pink",
 			price: 'FREE',
-			id: 0,
-		},
-		{
-			img: `${imagePath}player-v2.png`,
-			name: "Player2",
-			price: 1,
 			id: 1,
 		},
 		{
-			img: `${imagePath}player-v3.png`,
-			name: "Player3",
-			price: 420,
+			img: `${imagePath}player/player-purple-v1.png`,
+			name: "Purple",
+			price: 1,
 			id: 2,
+		},
+		{
+			img: `${imagePath}player/player-white-v1.png`,
+			name: "White",
+			price: 410,
+			id: 3,
 		}
 	],
 	
@@ -73,7 +76,7 @@ const shopItems = {
 			img: `${imagePath}cracked-0.png`,
 			name: "Block1",
 			price: 45,
-			id: 3,
+			id: 6,
 		},
 		{
 			img: `${imagePath}portal-0.png`,
@@ -232,6 +235,21 @@ const getGame = async () => {
 
 // UILTS: changeStyle, changeVolume, changeShop, setStorage //
 
+const colorToId = (id) => {
+	switch (id) {
+		case 'Orange':
+			return 0;
+		case 'Pink':
+			return 1;
+		case 'Purple':
+			return 2;
+		case 'White':
+			return 3;
+		default:
+			return 4;
+	}
+}
+
 const numberToUnit = (num) => {
 	if (num < 1000) {
 		return num;
@@ -356,6 +374,10 @@ const buyCard = (id, type) => {
 		if (data.name == id && selectedElement.style.cursor != 'not-allowed') {
 			// check if he bought it already
 			if (localStorage.items.includes(data.id)) {
+				// update settings
+				currentSettings.playerId = data.id;
+				currentSettings.player = data.name.toLowerCase();
+				
 				selectedElement.style.cursor = 'not-allowed';
 				selectedElement.style.background = 'var(--dark-green)'; 
 				
@@ -375,6 +397,10 @@ const buyCard = (id, type) => {
 				coinsElem.innerText = numberToUnit(coins);
 				oldItems.push(data.id);
 				
+				// update settings
+				currentSettings.playerId = data.id;
+				currentSettings.player = data.name.toLowerCase();
+				
 				// Write to storage
 				setStorage({
 					key: ['coins', 'items'],
@@ -382,6 +408,14 @@ const buyCard = (id, type) => {
 					isRead: false
 				});
 			}
+		}
+		if (
+			data.name == id 
+			&& strToArr(localStorage.items).includes(data.id.toString())
+		) {
+			// update settings
+			currentSettings.playerId = data.id;
+			currentSettings.player = data.name.toLowerCase();
 		}
 	})
 }
@@ -539,7 +573,7 @@ const insertElement = ({type, xPos, yPos, array}) => {
 
 		player: `<img
 			style="margin-left: ${xPos}px; top: ${yPos - (playerWidth / 2)}px"
-			src="${imagePath}player-v3.png" 
+			src="${imagePath}player/player-${currentSettings.player}-v3.png" 
 			id="player-game"
 			>`,
 	};
@@ -733,7 +767,7 @@ const checkObstacle = () => {
 			player.src.split('')[player.src.split('').length - 5]
 		);
 		
-		player.src = `${imagePath}player-v${playerState == 3 ? 3 : playerState+1}.png`;
+		player.src = `${imagePath}player/player-${currentSettings.player}-v${playerState == 3 ? 3 : playerState+1}.png`;
 	}
 }
 
@@ -868,7 +902,7 @@ const getPoint = (player) => {
 			collectedPointsArray.push(arr);
 			setScore(collectedPoints);
 			
-			player.src = `${imagePath}player-v${playerState-1}.png`;
+			player.src = `${imagePath}player/player-${currentSettings.player}-v${playerState-1}.png`;
 			scoreElement[timesLooped].src = `${imagePath}block.png`
 		}
 		
