@@ -4,8 +4,8 @@
 let coins = 0;
 let level = 0;
 let currentSettings = {
-	playerId: 0,
-	player: 'orange',
+	playerId: null,
+	player: null,
 	music: 0
 }
 
@@ -249,6 +249,20 @@ const colorToId = (id) => {
 			return 4;
 	}
 }
+const idToColor = (id) => {
+	switch (parseInt(id)) {
+		case 0:
+			return 'Orange';
+		case 1:
+			return 'Pink';
+		case 2:
+			return 'Purple';
+		case 3:
+			return 'White';
+		default:
+			return 'Orange';
+	}
+}
 
 const numberToUnit = (num) => {
 	if (num < 1000) {
@@ -280,11 +294,18 @@ const checkStorage = () => {
 			isRead: false
 		}); 
 	} else {
+		const playerItemsArr = strToArr(ls.items)
+		
 		level = parseInt(ls.level);
 		coins = parseInt(ls.coins);
 		
 		coinTextDOM.innerText = numberToUnit(coins);
 		levelTextDOM.innerText = `Level: ${level}`;
+		
+		currentSettings.playerId = playerItemsArr[playerItemsArr.length-1];
+		currentSettings.player = idToColor(playerItemsArr[playerItemsArr.length-1]);
+
+		console.log(currentSettings)
 	}
 }
 
@@ -374,9 +395,18 @@ const buyCard = (id, type) => {
 		if (data.name == id && selectedElement.style.cursor != 'not-allowed') {
 			// check if he bought it already
 			if (localStorage.items.includes(data.id)) {
+				let oldItems = strToArr(localStorage.items);
 				// update settings
 				currentSettings.playerId = data.id;
 				currentSettings.player = data.name.toLowerCase();
+				oldItems.push(data.id);
+				
+				// Write to storage
+				setStorage({
+					key: ['coins', 'items'],
+					value: [coins, oldItems],
+					isRead: false
+				});
 				
 				selectedElement.style.cursor = 'not-allowed';
 				selectedElement.style.background = 'var(--dark-green)'; 
@@ -395,7 +425,7 @@ const buyCard = (id, type) => {
 				// update variables/elements
 				coins -= data.price == 'FREE' ? 0 : data.price;
 				coinsElem.innerText = numberToUnit(coins);
-				oldItems.push(data.id);
+				oldItems.push(id == 'player' ? data.id : '');
 				
 				// update settings
 				currentSettings.playerId = data.id;
