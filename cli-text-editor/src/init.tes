@@ -1,0 +1,8 @@
+# Exit
+var <EXIT> => 'q',
+
+# Move
+var <MOVE_UP> => 'k',
+var <MOVE_DOWN> => 'j',
+var <MOVE_LEFT> => 'h',
+var <MOVE_RIGHT> => 'l',
