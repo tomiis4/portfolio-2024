@@ -1,11 +1,15 @@
 # Exit
-var <EXIT> => 'p'
+var <EXIT> => 'q'
+var <EXIT_MODE> => 'p' #TODO make to EXIT
 
 # Move
-var <MOVE_UP> => 'k'
-var <MOVE_DOWN> => 'j'
-var <MOVE_LEFT> => 'h'
-var <MOVE_RIGHT> => 'l'
+var <MOVE_UP> => 'w'
+var <MOVE_DOWN> => 's'
+var <MOVE_LEFT> => 'a'
+var <MOVE_RIGHT> => 'd'
 
 # Functions
-var <DELETE_LINE> => 'd'
+var <DELETE_LINE> => 'x'
+
+# Mode
+var <INSERT_MODE> => 'i'
