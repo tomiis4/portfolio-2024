@@ -2,8 +2,8 @@
 A typescript cli text editing software
 
 ### TODO
- - [ ] Read file
- - [ ] Edit file
+ - [x] Read file
+ - [x] Edit file
  - [ ] Functions
     - [ ] Copy
     - [ ] Paste
