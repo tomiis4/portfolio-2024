@@ -1,9 +1,22 @@
 # TES - Typescript Editing Software
 A typescript cli text editing software
 
+## Important
+ - [ ] Fix out of editor bug
+ - [ ] Fix arrows, enter in insert mode
+ - [ ] Switch to `for-loops` instead of `forEach`
+ - [ ] Re-write code
+ - [ ] Split to multiple files
+
 ### TODO
  - [x] Read file
  - [x] Edit file
+ - [ ] Select mode
+ - [ ] Select
+ - [ ] Move
+    - [ ] End of the word
+    - [ ] Start of the word
+    - [ ] Move by numbers (10j etc.)
  - [ ] Functions
     - [ ] Copy
     - [ ] Paste
