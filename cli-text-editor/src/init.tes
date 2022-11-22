@@ -1,15 +1,24 @@
+#TODO make uni-code non hard-coded
+#https://www.w3.org/TR/2012/WD-webdriver-20120710/#character-types
+
+
+# settings
+var <TAB_SIZE> => '3'
+
 # Exit
 var <EXIT> => 'q'
-var <EXIT_MODE> => 'p' #TODO make to EXIT
-
+var <EXIT_MODE> => '\u001B'
 # Move
-var <MOVE_UP> => 'w'
-var <MOVE_DOWN> => 's'
-var <MOVE_LEFT> => 'a'
-var <MOVE_RIGHT> => 'd'
+var <MOVE_UP> => 'k'
+var <MOVE_DOWN> => 'j'
+var <MOVE_LEFT> => 'h'
+var <MOVE_RIGHT> => 'l'
 
 # Functions
-var <DELETE_LINE> => 'x'
+var <DELETE_LINE> => 'd'
+var <SAVE_FILE> => 'w'
+
+var <DELETE_LETTER> => '\u0008'
 
 # Mode
 var <INSERT_MODE> => 'i'
