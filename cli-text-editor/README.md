@@ -2,7 +2,7 @@
 A typescript cli text editing software
 
 ## Important
- - [ ] Fix out of editor bug
+ - [ ] Fix out of line bug
  - [ ] Fix arrows, enter in insert mode
  - [ ] Switch to `for-loops` instead of `forEach`
  - [ ] Re-write code
@@ -26,3 +26,14 @@ A typescript cli text editing software
  #### Advanced
  - [ ] Syntax highlighting
  - [ ] Custom extensions
+
+## Controls
+- [ ] Basic
+  - `q` exit
+  - `w` save
+
+- [ ] NORMAL mode
+  - `h` left
+  - `l` right
+  - `j` down
+  - `k` up
