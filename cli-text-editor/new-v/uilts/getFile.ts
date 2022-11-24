@@ -14,13 +14,13 @@ const readFile = (fileName: string) => {
 
 const parseFile = (fileName: string) => {
 	const dataArray: string[] = readFile(fileName);
-	dataArray.forEach((value) => {
-		fileArray.push([value]);
-	});
+	for (let i=0; i <dataArray.length; i++) {
+		fileArray.push([dataArray[i]]);
+	}
 }
 
-const openFile = (path: string) => {
+const getFile = (path: string) => {
 	parseFile(path);
 	return fileArray;
 }
-export default openFile;
+export default getFile;
