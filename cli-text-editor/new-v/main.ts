@@ -1,6 +1,10 @@
-const fileName = process.argv[2];
+const fileName: string = process.argv[2];
 const stdin = process.stdin;
-const fs = require('node:fs');
+const fs = require('fs');
+
+// extern files
+import getFile from './uilts/getFile';
+import settingsData from './uilts/parseSettings';
 
 // input settings
 stdin.setRawMode(true);
@@ -13,7 +17,7 @@ let buffer: string[][] = [['Nice'], ['woow'], ['lee']];
 
 // editor settings
 let editorMode: 'normal' | 'insert' = 'normal';
-let settingsObj = {};
+let settingsObj = settingsData;
 let cursor = {
 	row: 0,
 	column: 0 
@@ -23,6 +27,7 @@ let cursor = {
 
 // Lines functions
 const createLine = (position: number, value: string = '') => {
+	isFileSaved = false;
 	buffer.splice(position, 0, [value]);
 }
 
@@ -64,6 +69,53 @@ const showAirline = () => {
 	const lineText = `\x1b[44m line: ${cursor.row}/${buffer.length} \x1b[0m`;
 	const fileText = `\x1b[41m file: ${isFileSaved==true?'':'*'}${fileName} \x1b[0m`;
 	console.log(`${modeText}${lineText}${fileText}`);
+}
+
+// file
+const openFile = () => {
+	if (fileName && fs.existsSync(fileName)) {
+		buffer = getFile(fileName)
+	}
+}
+
+const saveFile = async () => {
+	let storeBuffer: string[] = [];
+	
+	for (let i=0; i <buffer.length; i++) {
+		let storeLine: string[] = buffer[i][0].split('');
+		
+		storeLine.push('\n');
+		storeBuffer.push(storeLine.join(''));
+	}
+	
+	await fs.writeFile(`./${fileName}`, storeBuffer.join(''), (err: any) => {
+		if (err) {
+			console.log(err);
+		} else {
+			isFileSaved = true;
+			showBuffer();
+		}
+	});
+}
+
+const exitEditor = async () => {
+	let storeBuffer: string[] = [];
+	
+	for (let i=0; i <buffer.length; i++) {
+		let storeLine: string[] = buffer[i][0].split('');
+		
+		storeLine.push('\n');
+		storeBuffer.push(storeLine.join(''));
+	}
+	
+	await fs.writeFile(`./${fileName}`, storeBuffer.join(''), (err: any) => {
+		if (err) {
+			console.log(err);
+		} else {
+			isFileSaved = true;
+			process.exit();
+		}
+	});
 }
 
 // FUNCTIONS //
@@ -115,7 +167,7 @@ const keyboardInput = () => {
 			switch (data) {
 				// important functions
 				case settingsObj.EXIT || 'q':
-					process.exit();
+					exitEditor();
 					break;
 				
 				// moving
@@ -138,7 +190,7 @@ const keyboardInput = () => {
 				
 				// functions
 				case settingsObj.INSERT_MODE || 'i':
-					editMode = 'INSERT';
+					editorMode = 'insert';
 					showBuffer();
 					break;
 				case settingsObj.DELETE_LINE || 'd':
@@ -146,7 +198,7 @@ const keyboardInput = () => {
 					showBuffer();
 					break;
 				case settingsObj.SAVE_FILE || 'w':
-					// saveFile();
+					saveFile();
 					showBuffer();
 					break;
 				default: 
@@ -158,6 +210,8 @@ const keyboardInput = () => {
 
 
 const main = () => {
+	openFile();
 	keyboardInput();
 	showBuffer();
 }
+main();
