@@ -6,6 +6,9 @@ const fs = require('fs');
 import getFile from './uilts/getFile';
 import settingsData from './uilts/parseSettings';
 
+import saveFile from './uilts/saveFile';
+import showAirline from './uilts/showAirline';
+
 // input settings
 stdin.setRawMode(true);
 stdin.resume();
@@ -63,39 +66,11 @@ const deleteLine = (lineIndex: number) => {
 	cursor.row = cursor.row-1 == -1 ? 0 : cursor.row-1;
 }
 
-// visual functions
-const showAirline = () => {
-	const modeText = `\x1b[45m mode: ${editorMode.toUpperCase()} \x1b[0m`;
-	const lineText = `\x1b[44m line: ${cursor.row}/${buffer.length} \x1b[0m`;
-	const fileText = `\x1b[41m file: ${isFileSaved==true?'':'*'}${fileName} \x1b[0m`;
-	console.log(`${modeText}${lineText}${fileText}`);
-}
-
 // file
 const openFile = () => {
 	if (fileName && fs.existsSync(fileName)) {
 		buffer = getFile(fileName)
 	}
-}
-
-const saveFile = async () => {
-	let storeBuffer: string[] = [];
-	
-	for (let i=0; i <buffer.length; i++) {
-		let storeLine: string[] = buffer[i][0].split('');
-		
-		storeLine.push('\n');
-		storeBuffer.push(storeLine.join(''));
-	}
-	
-	await fs.writeFile(`./${fileName}`, storeBuffer.join(''), (err: any) => {
-		if (err) {
-			console.log(err);
-		} else {
-			isFileSaved = true;
-			showBuffer();
-		}
-	});
 }
 
 const exitEditor = async () => {
@@ -126,7 +101,13 @@ const showBuffer = () => {
 	// functions
 	lastLineCheck();
 	lineLetterCheck(buffer[cursor.row] ? buffer[cursor.row] : ['']);
-	showAirline();
+	showAirline(
+		editorMode,
+		cursor,
+		isFileSaved,
+		buffer,
+		fileName
+	);
 	
 	// show buffer
 	for (let i=0; i <buffer.length; i++) {
@@ -198,7 +179,11 @@ const keyboardInput = () => {
 					showBuffer();
 					break;
 				case settingsObj.SAVE_FILE || 'w':
-					saveFile();
+					saveFile(
+						buffer,
+						fileName
+					);
+					isFileSaved = true;
 					showBuffer();
 					break;
 				default: 
