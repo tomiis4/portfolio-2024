@@ -2,11 +2,11 @@
 A typescript cli text editing software
 
 ## Important
- - [ ] Fix out of line bug
+ - [x] Fix out of line bug
  - [ ] Fix arrows, enter in insert mode
- - [ ] Switch to `for-loops` instead of `forEach`
+ - [x] Switch to `for-loops` instead of `forEach`
  - [ ] Re-write code
- - [ ] Split to multiple files
+ - [x] Split to multiple files
 
 ### TODO
  - [x] Read file
