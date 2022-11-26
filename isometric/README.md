@@ -8,7 +8,7 @@
  - [ ] Levels
  - [x] Money system
  - [x] Load from database/localstorage
- - [ ] More items for shop
+ - [x] More items for shop
  - [ ] Win/lose screen.
  
 ### General
