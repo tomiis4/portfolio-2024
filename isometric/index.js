@@ -6,7 +6,7 @@ let level = 0;
 let currentSettings = {
 	playerId: null,
 	player: null,
-	music: 0
+	music: localStorage.music ? localStorage.music : 'theme-music-long.mp3' 
 }
 
 //-----UI-----//
@@ -22,7 +22,7 @@ const imagePath = './images/';
 // DOM
 const audioDOM = document.querySelector('audio');
 // TODO add autoplay
-const audioSourceDOM = '<audio src="./music/theme-music-long.mp3" loop></audio>';
+const audioSourceDOM = `<audio autoplay src="./music/${currentSettings.music}" loop></audio>`;
 const imageDOM = `<img src="${imagePath}coin.png" class="background-image">`;
 
 const coinDOM = () => {
@@ -70,6 +70,21 @@ const shopItems = {
 		}
 	],
 	
+	// music
+	music: [
+		{
+			img: `${imagePath}spike-0.png`,
+			name: "theme-music-long.mp3",
+			price: 'FREE',	
+			id: 4,
+		},
+		{
+			img: `${imagePath}spike-1.png`,
+			name: "theme-music-v2.mp3",
+			price: 66,	
+			id: 5,
+		}
+	],
 	// block
 	block: [
 		{
@@ -82,28 +97,12 @@ const shopItems = {
 			img: `${imagePath}portal-0.png`,
 			name: "Block2",
 			price: 6,	
-			id: 4,
+			id: 6,
 		},
 		{
 			img: `${imagePath}special-block.png`,
 			name: "Block22",
 			price: 606,	
-			id: 5,
-		},
-	],
-	
-	// music
-	music: [
-		{
-			img: `${imagePath}spike-0.png`,
-			name: "Music1",
-			price: 'FREE',	
-			id: 6,
-		},
-		{
-			img: `${imagePath}spike-1.png`,
-			name: "Music2",
-			price: 66,	
 			id: 6,
 		},
 	]
@@ -229,6 +228,8 @@ const getGame = async () => {
 		</div>
 	`;
 	
+	checkStorage();
+	
 	await startGame();
 }
 
@@ -287,10 +288,15 @@ const checkStorage = () => {
 	const levelTextDOM = document.getElementById('level-text');
 	const ls = localStorage
 
-	if (ls.coins == undefined || ls.items == undefined || ls.level == undefined) {
+	if (
+		ls.coins == undefined 
+		|| ls.items == undefined 
+		|| ls.level == undefined 
+		|| ls.music == undefined
+	) {
 		setStorage({
-			key: ['coins', 'items', 'level'],
-			value: [0, '', 0],
+			key: ['coins', 'items', 'level', 'music'],
+			value: [0, '0', 0, 'theme-music-long.mp3'],
 			isRead: false
 		}); 
 	} else {
@@ -304,8 +310,7 @@ const checkStorage = () => {
 		
 		currentSettings.playerId = playerItemsArr[playerItemsArr.length-1];
 		currentSettings.player = idToColor(playerItemsArr[playerItemsArr.length-1]);
-
-		console.log(currentSettings)
+		currentSettings.music = ls.music;
 	}
 }
 
@@ -390,42 +395,81 @@ const setStorage = ({key, value, isRead = false}) => {
 const buyCard = (id, type) => {
 	const coinsElem = document.querySelector('#coins-text');
 	const selectedElement = document.querySelector(`#${id}`);
-
+	
 	shopItems[type].forEach((data) => {
-		if (data.name == id && selectedElement.style.cursor != 'not-allowed') {
-			// check if he bought it already
-			if (localStorage.items.includes(data.id)) {
+		// current element
+		if (
+			data.name == id
+			&& selectedElement
+		) {
+			// if you already have bought player
+			if (
+				selectedElement.style.cursor == 'not-allowed'
+				&& localStorage.items.includes(data.id)
+				&& data.type == 'player'
+			) {
 				let oldItems = strToArr(localStorage.items);
+				
+				// change DOM style
+				selectedElement.style.cursor = 'not-allowed';
+				selectedElement.style.background = 'var(--dark-green)'; 
+				
 				// update settings
 				currentSettings.playerId = data.id;
 				currentSettings.player = data.name.toLowerCase();
 				oldItems.push(data.id);
 				
-				// Write to storage
+				// Write to storag1e
 				setStorage({
 					key: ['coins', 'items'],
 					value: [coins, oldItems],
 					isRead: false
 				});
-				
-				selectedElement.style.cursor = 'not-allowed';
-				selectedElement.style.background = 'var(--dark-green)'; 
-				
 				return;
 			}
 			
-			// buy 
-			if (coins >= data.price || data.price == 'FREE') {
+			// if you already have bought music
+			// else if (
+			// 	selectedElement.style.cursor == 'not-allowed'
+			// 	&& data.type == 'music'
+			// ) {
+			// 	// change DOM style
+			// 	selectedElement.style.cursor = 'not-allowed';
+			// 	selectedElement.style.background = 'var(--dark-green)'; 
+				
+			// 	// update settings
+			// 	currentSettings.music = data.id;
+				
+			// 	// Write to storage
+			// 	setStorage({
+			// 		key: ['coins', 'music'],
+			// 		value: [coins, data.id],
+			// 		isRead: false
+			// 	});
+			// 	return;
+			// }
+			
+			
+			// buy player
+			else if (
+				selectedElement.style.cursor != 'not-allowed'
+				&& type == 'player'
+			) {
+				if (coins < data.price && data.price != 'FREE') return;
+				if (!localStorage.items.includes(data.id)) return;
+				
+				console.log('Y')
+				
 				let oldItems = strToArr(localStorage.items);
-
-				// change elements
+				
+				// change DOM style
 				selectedElement.style.cursor = 'not-allowed';
 				selectedElement.style.background = 'var(--dark-green)'; 
-
+				
 				// update variables/elements
 				coins -= data.price == 'FREE' ? 0 : data.price;
 				coinsElem.innerText = numberToUnit(coins);
-				oldItems.push(id == 'player' ? data.id : '');
+				oldItems.push(data.id);
 				
 				// update settings
 				currentSettings.playerId = data.id;
@@ -437,15 +481,31 @@ const buyCard = (id, type) => {
 					value: [coins, oldItems],
 					isRead: false
 				});
+				return;
 			}
-		}
-		if (
-			data.name == id 
-			&& strToArr(localStorage.items).includes(data.id.toString())
-		) {
-			// update settings
-			currentSettings.playerId = data.id;
-			currentSettings.player = data.name.toLowerCase();
+			
+			// buy music
+			// if (
+			// 	selectedElement.style.cursor != 'not-allowed'
+			// 	&& data.type == 'music'
+			// 	&& coins >= data.price || data.price == 'FREE'
+			// ) {
+				
+			// 	// change DOM style
+			// 	selectedElement.style.cursor = 'not-allowed';
+			// 	selectedElement.style.background = 'var(--dark-green)'; 
+				
+			// 	// update settings
+			// 	currentSettings.music = data.id;
+				
+			// 	// Write to storage
+			// 	setStorage({
+			// 		key: ['coins', 'music'],
+			// 		value: [coins, data.id],
+			// 		isRead: false
+			// 	});
+			// 	return;
+			// }
 		}
 	})
 }
@@ -454,8 +514,7 @@ const buyCard = (id, type) => {
 const playMusic = () => {
 	const audioDOM = document.querySlector('audio');
 	
-	//TODO Turn it on
-	// audioDOM.play();
+	audioDOM.play();
 }
 
 
