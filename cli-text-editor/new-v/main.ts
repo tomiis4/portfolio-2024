@@ -16,7 +16,7 @@ stdin.setEncoding('utf-8');
 
 // file settings
 let isFileSaved: boolean = true;
-let buffer: string[][] = [['Nice'], ['woow'], ['lee']];
+let buffer: string[][] = [];
 
 // editor settings
 let editorMode: 'normal' | 'insert' = 'normal';
@@ -63,7 +63,25 @@ const lineLetterCheck = (cursorBufferArr: string[]) => {
 const deleteLine = (lineIndex: number) => {
 	isFileSaved = false;
 	buffer.splice(lineIndex, 1);
-	cursor.row = cursor.row-1 == -1 ? 0 : cursor.row-1;
+	
+	// if exist previous line delete
+	if (buffer[cursor.row+1]) {
+		buffer.splice(lineIndex+1, 1);
+		return;
+	} else {
+		buffer.splice(lineIndex, 1);
+		
+		if ((cursor.row-1) == -1) {
+			cursor.row = 0;
+		} else {
+			cursor.row -= 1;
+		}
+	}
+	
+	// if (buffer[cursor.row +1]) {
+	// 	cursor.row = cursor.row-1 == -1 ? 0 : cursor.row-1;
+	// }
+	
 }
 
 // file
@@ -92,6 +110,55 @@ const exitEditor = async () => {
 		}
 	});
 }
+
+// editor modes
+const insertMode = (keyPressed: string) => {
+	let bufferLineSplit = buffer[cursor.row][0].split('');
+	
+	// check if you can delete
+	if (keyPressed == '\u0008' && bufferLineSplit.length == 0) return;
+	
+	// delete letter
+	if (keyPressed == '\u0008') {
+		bufferLineSplit.splice(cursor.column, 1);
+		cursor.column--;
+	}
+	
+	// tab (horizontal & vertical)
+	else if (keyPressed == '\u0009' || keyPressed == '\u000B') {
+		const tabSize = settingsObj.TAB_SIZE ? settingsObj.TAB_SIZE : 4;
+		
+		for (let i=0; i <tabSize; i++) {
+			bufferLineSplit.splice(cursor.column, 0, ' ');
+			cursor.column++;
+		}
+	}
+	
+	// enter key
+	else if (keyPressed == '\u000d') {
+		bufferLineSplit = [''];
+		cursor.column = 0;
+		cursor.row += 1;
+		
+		isFileSaved = false;
+		buffer.splice(cursor.row, 0, ['']);
+		showBuffer();
+		
+		return;
+	}
+	
+	// write letter
+	else {
+		bufferLineSplit.splice(cursor.column, 0, keyPressed);
+		cursor.column++;
+	}
+	
+	buffer[cursor.row] = [bufferLineSplit.join('')];
+	isFileSaved = false;
+	
+	showBuffer();
+}
+
 
 // FUNCTIONS //
 
@@ -189,6 +256,11 @@ const keyboardInput = () => {
 				default: 
 					return;
 			}
+		}
+		
+		// insert mode
+		else if (editorMode == 'insert') {
+			insertMode(data);
 		}
 	});
 }
