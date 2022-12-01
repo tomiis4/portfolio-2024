@@ -5,7 +5,7 @@ A typescript cli text editing software
  - [x] Fix out of line bug
  - [ ] Fix arrows, enter in insert mode
  - [x] Switch to `for-loops` instead of `forEach`
- - [ ] Re-write code
+ - [x] Re-write code
  - [x] Split to multiple files
 
 ### TODO
@@ -37,3 +37,5 @@ A typescript cli text editing software
   - `l` right
   - `j` down
   - `k` up
+  
+  - `d` delete line
