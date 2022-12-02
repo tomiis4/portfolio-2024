@@ -6,6 +6,7 @@
  - [x] Animations
  - [x] Responzivity
  - [ ] Levels
+ - [ ] Buy function (remake)
  - [x] Money system
  - [x] Load from database/localstorage
  - [x] More items for shop
