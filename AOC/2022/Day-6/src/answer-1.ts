@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 const dataArray = (): string[] => {
 	try {
-		const data = fs.readFileSync('./test.txt', 'utf8');
+		const data = fs.readFileSync('./list.txt', 'utf8');
 		return data.split(/\r?\n/);
 	} catch (err) {
 		console.log(err);
@@ -11,41 +11,42 @@ const dataArray = (): string[] => {
 }
 
 const isDuplicate = (arr: any[]) => {
+	let isDuplicateArr = [];
 	for (let i=0; i < arr.length; i++) {
-		const value = arr[i];
+		let value = arr[i];
 		
-		if (arr.indexOf(value) != arr.lastIndexOf(value)) {
-			return true;
+		if (arr.indexOf(value) == i && arr.lastIndexOf(value) == i) {
+			isDuplicateArr.push(true);
 		} else {
-			return false;
+			isDuplicateArr.push(false);
 		}
 	}
+	
+	return isDuplicateArr.includes(false) ? true : false;
 }
 
 const getValues = () => {
 	const data = dataArray()[0].split('');
 	
-	let i=0;
 	let beforeData: string[] = [];
 	let result: null | number = null;
-	let currentLetter = '';
 	
 	data.forEach((letter, index) => {
-		i++;
 		if (beforeData.length == 4) {
 			beforeData.shift();
 			beforeData.push(letter)
 			
-			if (isDuplicate(beforeData) == false && index > 6) {
-				result = index+1;
-				console.log(i, letter, index, beforeData[0], currentLetter, result)
+			if (isDuplicate(beforeData) == false) {
+				if (result == null) {
+					result = index+1;
+				}
 			}
 		} else {
 			beforeData.push(letter)
 		}
 	})
 	
-	return [result, i];
+	return result;
 }
 
 
