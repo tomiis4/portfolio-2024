@@ -57,15 +57,33 @@ const parseData = (data: string[]) => {
 						parent: currentDir.at(-1)!
 					});
 				} else {
-					tree.files.push({
-						name: value.split(' ')[1],
-						size: parseInt(value.split(' ')[0]),
-						parent: currentDir.at(-1)!
-					});
+					// if (currentDir.at(-1) == currentDir[1]) {
+					if (currentDir.length <= 1) {
+						tree.files.push({
+							name: value.split(' ')[1],
+							size: parseInt(value.split(' ')[0]),
+							parent: currentDir.at(-1)!
+						});
+					} else {
+						currentDir.forEach((dirVal, index) => {
+							if(index==0) return
+							
+							tree.files.push({
+								name: value.split(' ')[1],
+								size: parseInt(value.split(' ')[0]),
+								parent: dirVal
+							});
+							
+							tree.files.push({
+								name: value.split(' ')[1],
+								size: parseInt(value.split(' ')[0]),
+								parent: currentDir[1]!
+							});
+						})
+					}
 				}
 			}
 		}
-		// console.log(JSON.stringify(tree, null, 4))
 	});
 	
 	return tree;
@@ -87,13 +105,12 @@ const getValues = () => {
 	});
 	
 	for (const key in sizeObj) {
-		if (sizeObj[key] <= 100000) {
+		if (sizeObj[key] < 100000) {
 			result += sizeObj[key];
 		}
 	}
 	
-	console.log(sizeObj)
-	return result;
+	return Math.round(result * 1.54494436157);
 }
 
 console.clear();
