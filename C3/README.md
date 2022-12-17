@@ -1,18 +1,14 @@
 # TODO
 
-## A Computer vision using JavaScript
+## A Target Score Detection Using Javascript
 
 ### Todo
+- [ ] Move to the TypeScript
 - [x] Blur image
 - [x] Black & White image
-- [ ] Make API
-- [ ] Detect edges
-- [ ] Bouding box
-- [ ] Object localization 
-### Projects
-- [ ] Hand action
-- [ ] Object detection
-- [ ] Object distance
+- [ ] Get shapes
+- [ ] Get distance
+- [ ] Get score
 
 ### Useful link
 <a href='https://en.wikipedia.org/wiki/Canny_edge_detector'> Canny Edge Detector (Wikipedia) </a> \
