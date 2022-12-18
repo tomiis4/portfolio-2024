@@ -7,7 +7,9 @@
    - [ ] Multiplayer
    - [ ] Icons
    - [ ] Sound effects
+   - [ ] Multiple objects for each type
+      - [ ] "kill" = multiple oponent's item
    - [ ] Move
-      - [ ] Automatically & Bouncing of the walls
-      - [ ] W/S/A/D
+      - [ ] Multiple objects
+      - [x] W/S/A/D
   - [ ] Lose/Win
