@@ -48,6 +48,11 @@ let player = {
 			position: [-50,-50],
 			width: 25,
 			height: 25
+		},
+		{
+			position: [75,75],
+			width: 25,
+			height: 25
 		}
 	]
 }
@@ -114,7 +119,20 @@ const updatePlayers = () => {
 		speed: 3,
 		
 		width: 50,
-		height: 50,		
+		height: 50,
+		
+		child: [
+		{
+			position: [-50,-50],
+			width: 25,
+			height: 25
+		},
+		{
+			position: [75,75],
+			width: 25,
+			height: 25
+		}
+	]	
 	});
 }
 
@@ -132,7 +150,7 @@ const checkColision = () => {
 		players[1].position[1] - height/2
 	];
 	
-	// check for colision 
+	// check for main box colision
 	if (
 		playerBox[0] < enemyBox[0] + width
 		&& playerBox[0] + width > enemyBox[0]
@@ -142,6 +160,29 @@ const checkColision = () => {
 	) {
 		console.log('Colision detected')
 	}
+	
+	
+	const childWidth = 25;
+	const childHeight = 25;
+	
+	players[0].child?.forEach((child) => {
+		const childBox = [
+			child.position[0] - width/2,
+			child.position[1] - height/2
+		];
+		
+		
+		// check for child colision
+		if (
+			childBox[0] < enemyBox[0] + width 
+			&& childBox[0] + childWidth > enemyBox[0]
+			
+			&& childBox[1] < enemyBox[1] + height
+			&& childHeight + childBox[1] > enemyBox[1]
+		) {
+			console.log('Child colision detected')
+		}
+	})
 }
 
 const loop = (): void => {
