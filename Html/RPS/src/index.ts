@@ -45,7 +45,7 @@ let player = {
 	
 	child: [
 		{
-			position: [-50,-50],
+			position: [0,75],
 			width: 25,
 			height: 25
 		},
@@ -103,8 +103,12 @@ const updatePlayers = () => {
 	
 	// move childs
 	player.child.forEach((child) => {
-		child.position[0] += player.velocity[0];
-		child.position[1] += player.velocity[1];
+		child.position[0] = child.position[0]+player.velocity[0] >= 0 && child.position[0]+player.velocity[0]+child.width <= width 
+			? child.position[0]+player.velocity[0] 
+			: child.position[0]
+		child.position[1] = child.position[1]+player.velocity[1] >= 0 && child.position[1]+player.velocity[1]+child.width <= width 
+			? child.position[1]+player.velocity[1] 
+			: child.position[1]
 	})
 	
 	// append to all players
@@ -165,12 +169,12 @@ const checkColision = () => {
 	const childWidth = 25;
 	const childHeight = 25;
 	
+	// child & child detection
 	players[0].child?.forEach((child) => {
 		const childBox = [
 			child.position[0] - width/2,
 			child.position[1] - height/2
 		];
-		
 		
 		// check for child colision
 		if (
@@ -182,7 +186,25 @@ const checkColision = () => {
 		) {
 			console.log('Child colision detected')
 		}
-	})
+		
+		// child & child
+		players[1].child?.forEach((oponentChild) => {
+			const oponentChBox = [
+				oponentChild.position[0] - childWidth/2,
+				oponentChild.position[1] - childHeight/2
+			]
+			
+			if (
+				childBox[0] < oponentChBox[0] + childWidth 
+				&& childBox[0] + childWidth > oponentChBox[0]
+				
+				&& childBox[1] < oponentChBox[1] + childHeight
+				&& childHeight + childBox[1] > oponentChBox[1]
+			) {
+				console.log('Child&Child colision detected')
+			}
+		})
+	});
 }
 
 const loop = (): void => {
