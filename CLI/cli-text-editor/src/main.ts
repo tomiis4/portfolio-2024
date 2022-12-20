@@ -77,11 +77,32 @@ const deleteLine = (lineIndex: number) => {
 			cursor.row -= 1;
 		}
 	}
+}
+
+const moveCursorTo = (to: 'end' | 'start') => {
+	const lineByLetters = buffer[cursor.row][0].split('');
 	
-	// if (buffer[cursor.row +1]) {
-	// 	cursor.row = cursor.row-1 == -1 ? 0 : cursor.row-1;
-	// }
-	
+	if (to == 'end') {
+		for (let i=0; i < lineByLetters.length; i++) {
+			const letter = lineByLetters[i];
+			
+			if (letter == ' ' && cursor.column < i-1) {
+				cursor.column = i-1;
+				return;
+			}
+		}
+	} else if (to == 'start') {
+		for (let j=cursor.column; j > 0; j--) {
+			const value = lineByLetters[j];
+			
+			if (value?.match(/[a-z]/)) {
+			
+			} else  if (cursor.column != j){
+				cursor.column = j;
+				return;
+			}
+		}
+	}
 }
 
 // file
@@ -233,6 +254,15 @@ const keyboardInput = () => {
 					break;
 				case settingsObj.MOVE_RIGHT || 'l':
 					cursor.column++;
+					showBuffer();
+					break;
+				
+				case 'e':
+					moveCursorTo('end');
+					showBuffer();
+					break;
+				case 'b':
+					moveCursorTo('start');
 					showBuffer();
 					break;
 				

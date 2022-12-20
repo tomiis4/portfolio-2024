@@ -3,7 +3,7 @@
 
 
 # settings
-var <TAB_SIZE> => '3'
+var <TAB_SIZE> => '1'
 
 # Exit
 var <EXIT> => 'q'
