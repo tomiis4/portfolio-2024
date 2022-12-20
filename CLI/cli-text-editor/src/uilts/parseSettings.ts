@@ -2,7 +2,7 @@ import {read} from "fs";
 const fs = require('fs');
 
 const initPath = './init.tes';
-let settingsArray: any = {};
+let settingsData: any = {};
 
 const readSettings = () => {
 	try { 
@@ -16,8 +16,8 @@ const readSettings = () => {
 const parseSettings = () => {
 	const dataArray: string[] = readSettings();
 
-	dataArray.forEach((value) => {
-		const fileLine = value.trim();
+	for (let i=0; i < dataArray.length; i++) {
+		const fileLine = dataArray[i].trim();
 		
 		// check for comments
 		if (fileLine.split('')[0] == '#') {
@@ -31,17 +31,16 @@ const parseSettings = () => {
 			const variableKey = fileString.match(/<(.*?)>/g)![0].replace(/<|>/g, '');
 			const variableValue = fileString.match(/("|'|`)(.*?)("|'|`)/g)![0].replace(/'|"|`/g, '');
 			
-			settingsArray[variableKey] =  variableValue;
+			settingsData[variableKey] =  variableValue;
 		}
-	});
+	}
 }
 
 
 const main = () => {
 	parseSettings();
-	console.log(settingsArray)
 }
 main();
 
 
-export default settingsArray;
+export default settingsData;

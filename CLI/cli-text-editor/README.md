@@ -38,7 +38,4 @@ A typescript cli text editing software
   - `j` down
   - `k` up
   
-  - `e` end of the word
-  - `b` start of the word
-  
   - `d` delete line
