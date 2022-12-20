@@ -14,8 +14,8 @@ A typescript cli text editing software
  - [ ] Select mode
  - [ ] Select
  - [ ] Move
-    - [ ] End of the word
-    - [ ] Start of the word
+    - [x] End of the word
+    - [x] Start of the word
     - [ ] Move by numbers (10j etc.)
  - [ ] Functions
     - [ ] Copy
@@ -37,5 +37,8 @@ A typescript cli text editing software
   - `l` right
   - `j` down
   - `k` up
+  
+  - `e` end of the word
+  - `b` start of the word
   
   - `d` delete line
