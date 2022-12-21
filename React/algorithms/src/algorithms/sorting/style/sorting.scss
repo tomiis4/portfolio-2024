@@ -1,0 +1,13 @@
+.container {
+	width: 80vw;
+	height: 40vh;
+	position: absolute;
+	
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.block {
+	width: 7%;
+	background: rgb(100,100,150);
+}

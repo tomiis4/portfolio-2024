@@ -1,13 +1,13 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 
 // pages
-import Render from './pages/render'
+import BubbleSort from './algorithms/sorting/bubble-sort/bubble-sort.tsx'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Render />} />
+        <Route path="/" element={<BubbleSort/>} />
       </Routes>
     </Router>
   )
