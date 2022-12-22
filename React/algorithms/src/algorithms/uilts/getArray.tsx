@@ -1,4 +1,4 @@
-const randNum = (max: number): number => { return Math.floor( Math.random() * max ) }
+const randNum = (max: number): number => { return Math.floor( Math.random() * max )+1 }
 
 function getArray(max: number, len: number): number[] {
     let array: number[] = [];
