@@ -5,7 +5,7 @@ import selectInput from '../../uilts/selectInput';
 
 import '../style/sortings.scss';
 
-function BubbleSort() {
+function QuickSort() {
 	// buttons & settings
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 	const [arrayLen, setArrLen] = useState<number>(10);
@@ -15,7 +15,7 @@ function BubbleSort() {
 	const [items, setItems] = useState<number[]>([]);
 	const [array, setArray] = useState<number[]>([]);
 	
-	useEffect(() => { generateArray(); document.title = 'Bubble Sort' }, []);
+	useEffect(() => { generateArray(); document.title = 'Quick Sort' }, []);
 	useEffect(() => {}, [items]);
 	useEffect(() => {}, [array]);
 	useEffect(() => {}, [arrayLen]);
@@ -44,33 +44,50 @@ function BubbleSort() {
 	} 
 	
 	const sortArray = async () => {
-		let isSorted: boolean = false;
+		quickSort(array, 0, array.length-1);
+	}
+	
+	const quickSort = async (arr: any[], leftNum:number, rightNum:number) => {
+		let pivot = arr[leftNum];
+		let left = leftNum, right = rightNum;
 		
-		while (isSorted == false) {
-			setIsDisabled(true);
-			isSorted = true;
-			for (let i=0; i < array.length; i++) {
-				sortSpeed != 0 ? await delay(sortSpeed) : sortArray
+		if (leftNum >= rightNum) return;
+		
+		while (left < right) {
+			await delay(sortSpeed);
+			
+			// make right less while pivot is smaller than right
+			while (arr[right] > pivot && left < right) {
+				right--;
+			}
+			
+			// reverse of the ^
+			while (arr[left] <= pivot && left < right) {
+				left++;
+			}
+			
+			if (left < right) {
+				const leftSwap = arr[left];
+				const rightSwap = arr[right];
 				
-				// check if item on left is bigger than right item
-				if (array[i] > array[i+1]) {
-					const left = array[i];
-					const right = array[i+1];
-					
-					array[i] = right;
-					array[i+1] = left;
-					
-					isSorted = false;
-				}
-				setItems([...array]);
+				arr[left] = rightSwap;
+				arr[right] = leftSwap;
 			}
 		}
-		setIsDisabled(false)
+		
+		// change pivot with right
+		arr[leftNum] = arr[right];
+		arr[right] = pivot;
+		
+		quickSort(arr, leftNum, right-1);
+		quickSort(arr, left+1, rightNum);
+		
+		setItems([...arr]);
 	}
 	
 	return (
 		<div className='array-sort'>
-			<h1> Bubble Sort {isDisabled ? '(Sorting...)' : ''} </h1>
+			<h1> Quick Sort {isDisabled ? '(Sorting...)' : ''} </h1>
 			<div className='settings'>
 				<input type='button' value='Generate Array' onClick={() => generateArray(undefined)} disabled={isDisabled} />
 				<input type='button' value='Sort Array' onClick={sortArray} disabled={isDisabled} />
@@ -114,4 +131,4 @@ function BubbleSort() {
 	)
 }
 
-export default BubbleSort;
+export default QuickSort;

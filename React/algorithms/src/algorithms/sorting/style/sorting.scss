@@ -67,7 +67,7 @@ input[type="range"] {
 	outline: none;
 	margin-top: 10px;
 	
-	&::-webkit-slider-thumb {
+	&::-webkit-slider-thumb, &::-moz-range-thumb {
 		-webkit-appearance: none;
 		appearance: none;
 		width: 20px;
