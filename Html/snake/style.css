@@ -1,0 +1,48 @@
+* {
+   margin:0;
+   padding: 0;
+}
+
+body {
+   background: rgb(55,50,80);
+   width: 100vw;
+   height: 100vh;
+   
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+#canvas {
+   border: 2px solid #fff;
+}
+
+.controls {
+   position: absolute;
+   top: 2%;
+   background: rgb(40,35,65);
+   height: 13vh;
+   width: 55%;
+   border-radius: 10px;
+   
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   flex-wrap: wrap;
+   
+   color: #ffffff;
+}
+
+.btn {
+   color: #fff;
+   font-size: 1.2em;
+   padding: 3%;
+   border: 2px solid #fff;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+.btn:active {
+   transition: 500ms;
+   background: rgb(30,25,55);
+}
