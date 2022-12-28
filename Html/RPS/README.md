@@ -5,6 +5,8 @@
   
   ## Todo
    - [ ] Multiplayer
+   
+   - [ ] Make code more readable (variables instead of obj. path)
 
    - [ ] Icons
    - [ ] Sound effects
