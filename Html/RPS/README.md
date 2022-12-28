@@ -4,15 +4,25 @@
  #### To compile use `tsc index.ts --target es2017`
   
   ## Todo
-   - [ ] Think of the meaning
    - [ ] Multiplayer
+
    - [ ] Icons
    - [ ] Sound effects
+
+   - [ ] Score
+
    - [ ] Multiple objects for each type
-      - [ ] "kill" = multiple oponent's item
+      - [ ] kill main = lose
+      - [x] kill child = change
+      - [ ] kill child = duplicate and change
    - [ ] Move
-      - [ ] Colision
-      - [ ] Bouncing
-      - [ ] Multiple objects
+      - [x] Colision
+      - [x] Bouncing
+      - [x] Multiple objects
       - [x] W/S/A/D
+      - [ ] More advanced movment (prob. change isMovment to isMovmentX & isMovmentY)
+   - [ ] GUI
+      - [ ] Main menu
+      - [ ] Join random room
+      - [ ] ? join room on code
   - [ ] Lose/Win
