@@ -1,10 +1,11 @@
 # Rock-Paper-Scissors
   A multiplayer game of three where you play as Rock, Paper or Scisors.
   Goal is to get as many as possible wins.
- #### To compile use `tsc index.ts --target es2017`
   
   ## Todo
    - [ ] Multiplayer
+
+   - [ ] Edit folders
    
    - [ ] Make code more readable (variables instead of obj. path)
 
@@ -17,12 +18,12 @@
       - [ ] kill main = lose
       - [x] kill child = change
       - [ ] kill child = duplicate and change
-   - [ ] Move
+   - [x] Move
       - [x] Colision
       - [x] Bouncing
       - [x] Multiple objects
       - [x] W/S/A/D
-      - [ ] More advanced movment (prob. change isMovment to isMovmentX & isMovmentY)
+      - [x] More advanced movment (prob. change isMovment to isMovmentX & isMovmentY)
    - [ ] GUI
       - [ ] Main menu
       - [ ] Join random room
