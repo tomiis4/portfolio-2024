@@ -3,9 +3,10 @@
   Goal is to get as many as possible wins.
   
   ## Todo
-   - [ ] Multiplayer
+   - [x] Multiplayer
+   - [ ] Fix multiplayer bug (flashing)
 
-   - [ ] Edit folders
+   - [ ] Edit folder files
    
    - [ ] Make code more readable (variables instead of obj. path)
 
@@ -15,8 +16,8 @@
    - [ ] Score
 
    - [ ] Multiple objects for each type
-      - [ ] kill main = lose
-      - [x] kill child = change
+      - [x] kill main = lose // not in multiplayer
+      - [x] kill child = change // not in multiplayer
       - [ ] kill child = duplicate and change
    - [x] Move
       - [x] Colision
