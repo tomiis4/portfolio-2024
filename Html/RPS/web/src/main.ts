@@ -3,6 +3,7 @@ import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 // @ts-ignore
 const socket = io('http://localhost:8080');
 
+
 import {PlayerType, Child, Player, GameResult} from './uilts/types';
 import {isNegative} from './uilts/check';
 import './style/style.css';
@@ -13,11 +14,15 @@ const width = window.innerWidth * 0.85, height = window.innerHeight * 0.85;
 
 canvasElem!.width = width;
 canvasElem!.height= height;
-
+const getType = ():PlayerType => {
+	const arr: PlayerType[] = ['rock', 'paper', 'scissors'];
+	
+	return arr[Math.floor(Math.random()*arr.length)];
+}
 
 let players: Player[] = [];
 let player: Player = {
-	type: 'scissors',
+	type: getType(),
 	position: [0,0],
 	velocity: [0,0],
 	
@@ -427,10 +432,6 @@ const moveChild = () => {
 
 // update everything about players
 const updatePlayers = () => {
-	// colision
-	parentChildColision();
-	childChildColision();
-	
 	// move
 	movePlayer();
 	moveChild();
@@ -439,38 +440,13 @@ const updatePlayers = () => {
 	player.velocity = resetVelocity(player.velocity, 0.1);
 	
 	// append data to all players
-	players = [];
 	players.push(player);
-	
-	
-	// testing oponent (REMOVE)
-	// players.push({
-	// 	type: 'paper',
-	// 	position: [200,200],
-	// 	velocity: [0,0],
-	// 	speed: 3,
-		
-	// 	width: 50,
-	// 	height: 50,
-	// 	isMoving: [false, false],
-		
-	// 	child: [
-	// 		{
-	// 			type: 'paper',
-	// 			position: [-50,-50],
-	// 			velocity: [0,0],
-	// 			width: 25,
-	// 			height: 25
-	// 		},
-	// 		{
-	// 			type: 'paper',
-	// 			position: [75,75],
-	// 			velocity: [0,0],
-	// 			width: 25,
-	// 			height: 25
-	// 		}
-	// 	]	
-	// });
+}
+
+const checkColisions = () => {
+	// colision
+	parentChildColision();
+	childChildColision();
 }
 
 const checkGame = () => {
@@ -479,12 +455,19 @@ const checkGame = () => {
 	checkOponentChildChild();
 }
 
+socket.on('received players', (newPlayer: Player[]) => {
+	players = newPlayer;
+});
+
 const loop = (): void => {
 	ctx!.clearRect(0,0, width, height);
 	
 	updatePlayers(); // update position players
 	appendPlayer(); // append players
+	checkColisions()
 	checkGame(); // check if someone win
+	
+	socket.emit('send player', player);
 	
 	window.requestAnimationFrame(loop);
 }
