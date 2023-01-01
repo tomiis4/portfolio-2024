@@ -1,0 +1,165 @@
+// normal font-family: 'Patua One', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+// title font-family: 'Passion One', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+
+// variables
+$br-main: 5px 250px;
+$br-round: 100px;
+
+$lg-background: linear-gradient(180deg, #001016 38.02%, #010B0E 68.75%);
+$lg-title: linear-gradient(180deg, #FFFFFF 25%, #37B662 100%);
+$rg-border: radial-gradient(126% 123.5% at 92% 7.7%, #DE619D 0%, #DED961 100%);
+
+$clr-gray: #C9C9C9;
+$clr-white: #fff;
+$clr-text: #F0F0F0;
+$clr-purple: #3D2DA1;
+
+$ff-title: 'Passion One', cursive;
+$ff-default: 'Patua One', cursive;
+
+
+
+// basic settings
+* {
+	z-index: 2;
+	margin: 0;
+	padding: 0;
+	font: inherit;
+	box-sizing: border-box;
+	
+	font-family: $ff-default;
+}
+
+body, html {
+	width: 100vw;
+	height: 100%;
+	
+	overflow-x: hidden;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	background: no-repeat $lg-background;
+}
+
+section {
+	min-height: 100vh;
+	display: block;	
+	width: 95vw;
+	
+	margin-left: 2.5vw;
+}
+
+a {
+	text-decoration: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+// border
+.page-border {
+	position: fixed;
+	width: 95vw;
+	height: 95vh;
+	
+	margin: 2.5vh 2.5vw;
+	background: $rg-border;
+	border-radius: $br-main;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	&::after {
+		content: '';
+		position: relative;
+		background: $lg-background;
+		border-radius: $br-main;
+		
+		width: 97%;
+		height: 97%;
+	}
+}
+
+nav {
+	// min-width: 40%;
+	// max-width: 95%;
+	width: auto;
+	box-sizing: border-box;
+	height: 8%;
+	
+	position: absolute;
+	top: 4.5%;
+	
+	background: rgba(217, 217, 217, 0.15);
+	border-radius: $br-round;
+	
+	display: inline-flex;
+	justify-content: space-evenly;
+	align-items: center;
+	
+	& a {
+		color: $clr-gray;
+		font-size: 2rem;
+		
+		padding: 1% 3%;
+		// margin: 1% 3%;
+		border-radius: $br-round;
+	}
+}
+// 		color: $gray;
+// 		text-decoration: none;
+// 		font-size: 1.8em;
+		
+// 		padding: 1% 3%;
+// 		border-radius: 100px;
+		
+// 		&:hover {
+// 			transition: 500ms;
+// 			background: #3D2DA1; 
+// 		}
+// 	}
+	
+// 	// responsivity
+// 	@media (max-width: 1050px) {
+// 		width: 50%;
+// 	}
+// 	@media (max-width: 650px) {
+// 		width: 65%;
+		
+// 		& a {
+// 			font-size: 1.5em;
+// 		}
+// 	}	
+// 	@media (max-width: 350px) {
+// 		width: 85%;
+// 	}
+// }
+
+// // main page
+// // .title {
+// // 	position: absolute;
+// // 	left: 10%;
+// // 	top: 18%;
+	
+// // 	font-family: 'Passion One', cursive;
+// // 	font-size: calc(6.5vw + 9vh);
+// // 	color: #fff;
+	
+// // 	& .title-name{
+// // 		background: linear-gradient(180deg, #FFFFFF 25%, #37B662 100%);
+		
+// // 		-webkit-background-clip: text;
+// // 		background-clip: text;
+		
+// // 		-webkit-text-fill-color: transparent;
+// // 		text-fill-color: transparent;
+// // 	}
+// // }
+
+// // .main h4 {
+// // 	color: $gray;
+// // 	font-size: 2em;
+// // }
