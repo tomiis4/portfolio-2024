@@ -8,22 +8,24 @@
     <script type='module' src='/src/main.ts' defer></script>
     <title> tomiis </title>
   </head>
-  <body>
+  <body>      
+    <nav>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Tools</a></li>
+        <li><a href="#">Contacts</a></li>
+      </ul>
+    </nav>
     <div class='page-border'>
-      <nav class='nav-bar'>
-        <a href='#'> About </a>
-        <a href='#'> Tools </a>
-        <a href='#'> Contacts </a>
-      </nav>
       <div class="scroll-bar">
-        <div class="bar main"></div>
-        <div class="bar about"></div>
-        <div class="bar tools"></div>
-        <div class="bar contacts"></div>
+        <div class="main bar-active"><a href="#"></a></div>
+        <div class="about"></div>
+        <div class="tools"></div>
+        <div class="contacts"></div>
       </div>
     </div>
-    <section>
-      <h1> Hi, <br> I'm Tomiis </h1>
+    <section id="main">
+      <h1> Hi, <br> I'm <span>Tomiis.</span> </h1>
       <h3> A front-end & software developer. </h3>
       <div class='explore-btn'>
         <p> <span class='explore-learn'> learn </span> more </p>
