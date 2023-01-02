@@ -4,13 +4,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
 
 // variables
-$br-main: 5px 250px;
+$br-main: 5px 225px;
 $br-round: 100px;
 
 $lg-background: linear-gradient(180deg, #001016 38.02%, #010B0E 68.75%);
 $lg-title: linear-gradient(180deg, #FFFFFF 25%, #37B662 100%);
 $rg-border: radial-gradient(126% 123.5% at 92% 7.7%, #DE619D 0%, #DED961 100%);
 
+$clr-one-border: #DE619D;
 $clr-gray: #C9C9C9;
 $clr-white: #fff;
 $clr-text: #F0F0F0;
@@ -19,6 +20,9 @@ $clr-purple: #3D2DA1;
 $ff-title: 'Passion One', cursive;
 $ff-default: 'Patua One', cursive;
 
+$i-animation: 350ms;
+$i-load: 450ms;
+
 
 
 // basic settings
@@ -26,6 +30,8 @@ $ff-default: 'Patua One', cursive;
 	z-index: 2;
 	margin: 0;
 	padding: 0;
+	
+	list-style: none;
 	font: inherit;
 	box-sizing: border-box;
 	
@@ -42,13 +48,19 @@ body, html {
 	background: no-repeat $lg-background;
 }
 
+
 section {
 	min-height: 100vh;
 	display: block;	
 	width: 95vw;
 	
 	margin-left: 2.5vw;
+	position: relative;
+	
+	z-index: 3;
 }
+
+
 
 a {
 	text-decoration: none;
@@ -84,82 +96,142 @@ a {
 }
 
 nav {
-	// min-width: 40%;
-	// max-width: 95%;
-	width: auto;
-	box-sizing: border-box;
-	height: 8%;
+	z-index: 5;
+	$width: 40%;
+	width: $width;
+	left: calc(50% - calc($width / 2));
+	margin: 0 auto;
 	
-	position: absolute;
-	top: 4.5%;
+	position: fixed;
+	top: 6.5%;
 	
+	display: flex;
+	justify-content: center;
+	
+	// box-sizing: border-box;
 	background: rgba(217, 217, 217, 0.15);
 	border-radius: $br-round;
+	backdrop-filter: blur(7.5px);
 	
-	display: inline-flex;
-	justify-content: space-evenly;
-	align-items: center;
+	@media (max-width: 600px) {
+	   $width: 80%;
+		width: $width;
+		left: calc(50% - calc($width / 2));
+	}
+	@media (max-width: 450px) {
+	   $width: 88%;
+		width: $width;
+		left: calc(50% - calc($width / 2));
+	}
 	
-	& a {
-		color: $clr-gray;
-		font-size: 2rem;
-		
-		padding: 1% 3%;
-		// margin: 1% 3%;
-		border-radius: $br-round;
+	& ul {
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+	}
+
+	& li {
+		flex: 1;
+		text-align: center;
 	}
 }
-// 		color: $gray;
-// 		text-decoration: none;
-// 		font-size: 1.8em;
-		
-// 		padding: 1% 3%;
-// 		border-radius: 100px;
-		
-// 		&:hover {
-// 			transition: 500ms;
-// 			background: #3D2DA1; 
-// 		}
-// 	}
-	
-// 	// responsivity
-// 	@media (max-width: 1050px) {
-// 		width: 50%;
-// 	}
-// 	@media (max-width: 650px) {
-// 		width: 65%;
-		
-// 		& a {
-// 			font-size: 1.5em;
-// 		}
-// 	}	
-// 	@media (max-width: 350px) {
-// 		width: 85%;
-// 	}
-// }
 
-// // main page
-// // .title {
-// // 	position: absolute;
-// // 	left: 10%;
-// // 	top: 18%;
+nav a {
+	display: block;
+	padding: 10px;
+	border-radius: $br-round;
 	
-// // 	font-family: 'Passion One', cursive;
-// // 	font-size: calc(6.5vw + 9vh);
-// // 	color: #fff;
+	color: $clr-gray;
+	font-size: 1.2rem;
 	
-// // 	& .title-name{
-// // 		background: linear-gradient(180deg, #FFFFFF 25%, #37B662 100%);
-		
-// // 		-webkit-background-clip: text;
-// // 		background-clip: text;
-		
-// // 		-webkit-text-fill-color: transparent;
-// // 		text-fill-color: transparent;
-// // 	}
-// // }
+	&:hover {
+		transition: $i-animation;
+		background: $clr-purple;
+		color: $clr-white;
+	}
+}
 
-// // .main h4 {
-// // 	color: $gray;
-// // 	font-size: 2em;
-// // }
+
+.scroll-bar {
+	z-index: 8;
+	position: absolute;
+	right: 3.5%;
+	margin-top: 4%;
+	height: 15%;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	
+	& div {
+		background: $rg-border;
+		border-radius: $br-round;
+		opacity: 0.5;
+		cursor: pointer;
+		
+		margin-top: 1%;
+		width: 13px;
+		height: 13px;
+	}
+	& .bar-active {
+		transition: i-animation;
+		opacity: 1;
+	}
+}
+
+
+// main page
+
+section#main {
+	position: absolute;
+	left: 12%;
+	top: 17%;
+	
+	display: flex;
+	flex-direction: column;
+}
+
+section h1 {
+	color: $clr-white;
+	font-size: 7.5vw;
+	font-family: $ff-title;
+	
+	@media (max-width: 550px) {
+		font-size: 13.5vw;
+	}
+	
+	& span {
+		background: linear-gradient(180deg, #FFFFFF 25%, #37B662 100%);
+		
+		-webkit-background-clip: text;
+		background-clip: text;
+		
+		-webkit-text-fill-color: transparent;
+		text-fill-color: transparent;
+	}
+} 
+
+section h3 {
+	color: $clr-gray;
+	font-size: 2.5vw;
+	margin-top: 0.5%;
+	
+	@media (max-width: 550px) {
+		font-size: 4.5vw;
+	}
+}
+
+.explore-btn {
+	color: $clr-gray;
+	font-size: 2.5vw;
+	margin-top: 6%;
+	cursor: pointer;
+	
+	& span {
+		border-bottom: 3px solid $clr-one-border; 
+	}
+	
+	@media (max-width: 550px) {
+		font-size: 4.5vw;
+	}
+}
