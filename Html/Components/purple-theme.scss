@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+
+$ff-default: 'Patua One', cursive; 
+
+
+
+$clr-background: radial-gradient(126% 123.5% at 92% 7.7%, #2D2C2C 0%, #131314 100%);
+
+$clr-white: rgb(230,230,230);
+$clr-gray: rgb(25,25,25);
+$clr-black: rgb(9,9,9);
+
+$clr-purple: #453C67;
+$clr-pink: #f6896f; 
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	
+	font-family: $ff-default;
+	
+	outline: none;
+	border: none;
+}
+
+body, html {
+	width: 100vw;
+	height: 130%;
+	overflow-x: hidden;
+	background: $clr-background no-repeat;
+	
+	scrollbar-width: thin;
+	scrollbar-color: $clr-black $clr-gray;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: $clr-gray; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: $clr-black; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	filter: brightness(80%);
+}
+
+ul, li {
+	list-style: none;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+a {
+	text-decoration: none;
+	color: interit;
+}
+
+input[type="text"] {
+	width: 20%;
+	aspect-ratio: 25/7;
+	background: $clr-purple;
+	border-radius: 7px;
+	
+	font-size: 1.4em;
+	padding-left: 2%;
+	color: $clr-white;
+	
+	&::placeholder {
+		color: $clr-gray;
+	}
+}
