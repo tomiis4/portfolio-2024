@@ -1,1 +1,1 @@
-# Projects based on website task
+# Some CLI challenges
