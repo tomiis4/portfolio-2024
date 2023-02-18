@@ -1,0 +1,17 @@
+a {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	flex-direction: column;
+	color: #DCD7BA;
+	width: 20%;
+
+	&:hover {
+		transition: 300ms;
+		scale: 1.05;
+	}
+}
+
+img {
+	width: 150%;
+}

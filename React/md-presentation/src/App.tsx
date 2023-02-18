@@ -1,13 +1,13 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 
 // pages
-const X = ()=> <> Presentation </>
+import Create from './pages/create/Create'
 
 function App() {
   return (
     <Router>
       <Routes>
-			<Route path="/" element={<X />} />
+			<Route path="/" element={<Create />} />
       </Routes>
     </Router>
   )
