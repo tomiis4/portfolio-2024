@@ -1,4 +1,4 @@
-# JavaScript
+# Typescript
 Repository full of my Javascript/Typescript projects
 
 ### Favorite projects
