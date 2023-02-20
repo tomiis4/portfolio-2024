@@ -46,8 +46,13 @@ hr {
 	position: fixed;
 
 	.slides-wrapper {
-		width: 95%;
-		height: 100%;
-		justify-content: space-evenly;
+		// width: 95%;
+		// height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 100%;
+  overflow-x: auto;
 	}
 }
