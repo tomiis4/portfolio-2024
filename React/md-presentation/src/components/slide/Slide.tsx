@@ -1,13 +1,12 @@
-import {useEffect, useState} from 'react'
 import './slide.scss'
 
 type Header = {
 	content: string,
 	position: number[]
-	fontSize: number,
-	fontFamily: number,
-	color: string,
-	background: string
+	fontSize?: number,
+	fontFamily?: number,
+	color?: string,
+	background?: string
 }
 
 type Paragraph = {
@@ -34,24 +33,31 @@ type Content = {
 
 type SlideT = {
 	id: number
-	width: number,
+	ratio: number,
 	height: number,
 	content: Content
 }
 
-const [style, setStyle] = useState({})
 
+const getSize = (ratio: number, height: number): number[] => {
+	const [heightR, widthR] = ratio.toString().split('')
+	const k = height / parseInt(heightR)
+	
+	return [k * parseInt(widthR), k * parseInt(heightR)]
+}
 
 const Slide = (e: SlideT) => {
-	useEffect(() => {
-		setStyle({
-			width: `${e.width}px`,
-			height: `${e.height}px`,
-		})
-	}, [])
+	const [width, height] = getSize(e.ratio, e.height)
 
 	return (
-		<div style={style} className='slide' id={e.id.toString()}>
+		<div 
+			style={{
+				width: `${width}px`,
+				height: `${height}px`,
+			}}  
+			className='slide' 
+			id={e.id.toString()}
+		>
 		</div>
 	)
 }
