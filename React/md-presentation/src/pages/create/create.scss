@@ -46,6 +46,13 @@ hr {
 	position: fixed;
 
 	.slides-wrapper {
+		display: flex;
+		align-items: center;
+
+
+		overflow-x: auto;
+		overflow-y: hidden;
+
 		width: 95%;
 		height: 100%;
 	}

@@ -17,6 +17,19 @@ const content = {
 				<Slide id={0} height={100} ratio={49} content={content} />
 				<Slide id={0} height={100} ratio={49} content={content} />
 				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
+				<Slide id={0} height={100} ratio={49} content={content} />
 			</div>
 		</div>
 	)

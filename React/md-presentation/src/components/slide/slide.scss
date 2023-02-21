@@ -1,5 +1,9 @@
 .slide {
 	border: 2px solid #000;
 	border-radius: 10px;
-	margin-right: 10px;
+
+	cursor: pointer;
+	margin-right: 20px;
+
+   flex-shrink: 0;
 }
