@@ -9,3 +9,7 @@
 		- [ ] syntax
 		- [ ] preview
 	- [ ] generate html
+- [ ] design
+	- [ ] create page
+	- [ ] presentating
+	- [ ] homepage
