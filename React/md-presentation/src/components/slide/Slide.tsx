@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import './slide.scss'
 
 type Header = {
@@ -33,21 +34,24 @@ type Content = {
 
 type SlideT = {
 	id: number
-	ratio: number,
+	ratio?: string,
 	height: number,
 	content: Content
 }
 
 
-const getSize = (ratio: number, height: number): number[] => {
-	const [heightR, widthR] = ratio.toString().split('')
+const getSize = (ratio: string | undefined, height: number): number[] => {
+	if (!ratio) { ratio = '16-9' }
+
+	const [widthR, heightR] = ratio.split('-')
 	const k = height / parseInt(heightR)
-	
+
 	return [k * parseInt(widthR), k * parseInt(heightR)]
 }
 
 const Slide = (e: SlideT) => {
 	const [width, height] = getSize(e.ratio, e.height)
+	const [isActive, setIsActive] = useState<boolean>(false)
 
 	return (
 		<div 
@@ -55,9 +59,13 @@ const Slide = (e: SlideT) => {
 				width: `${width}px`,
 				height: `${height}px`,
 			}}  
-			className='slide' 
+			className={isActive ? 'slide active' : 'slide'} 
 			id={e.id.toString()}
+			onClick={()=>isActive ? setIsActive(false) : setIsActive(true)}
 		>
+			<div className='slide-number center'>
+				{e.id + 1}
+			</div>
 		</div>
 	)
 }
