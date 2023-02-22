@@ -1,9 +1,31 @@
 .slide {
+	background: #DDDDDD;
 	border: 2px solid #000;
 	border-radius: 10px;
 
 	cursor: pointer;
 	margin-right: 20px;
+	position: relative;
 
    flex-shrink: 0;
+	overflow: hidden;
+
+	.slide-number {
+		position: absolute;
+		top: 4%;
+		left: 4%;
+		width: 17%;
+		height: 29%;
+
+		opacity: .7;
+
+		border-radius: 50px;
+		background: #222222;
+
+		color: #EEEEEE;
+	}
+}
+
+.active {
+	border: 4px solid red;
 }
