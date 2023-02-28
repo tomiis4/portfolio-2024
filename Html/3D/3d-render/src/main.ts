@@ -1,5 +1,8 @@
 import './scss/style.scss'
 
+import Parser from './utils/parser/Parser';
+
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas!.getContext('2d');
 const width = window.innerWidth * 0.9, height = window.innerHeight * 0.9;
@@ -7,7 +10,7 @@ const width = window.innerWidth * 0.9, height = window.innerHeight * 0.9;
 canvas!.width = width;
 canvas!.height= height;
 
-type V3 = [number,number,number][]
+type V3 = [number,number,number]
 type Line = {
 	x1: number,
 	y1: number,
@@ -17,89 +20,59 @@ type Line = {
 	color?: string
 }
 
-const scale = 20.00;
-const vertices: V3 = [
-	[1, 1, -1], //1
-	[1, -1, -1], //2
-	[1, 1, 1], //3
-	[1, -1, 1], //4
-	[-1, 1, -1], //5
-	[-1, -1, -1], //6
-	[-1, 1, 1], //7
-	[-1, -1, 1] //8
-];
-const faces: number[][] = [
-	[1,5,7,3], // bottom
-	[4,3,7,8], // front
-	[8,7,5,6], // left
-	[6,2,4,8], // top
-	[2,1,3,4], // right
-	[6,5,1,2]  // back
-]
+let scale = 20.00;
+let center = 50.00;
 
-const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3) => {
+const parsed_data = await Parser('./src/objects/icosphere.obj')
+
+const vertices: V3[] = parsed_data.vertices;
+const faces = parsed_data.faces
+
+const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3[]) => {
 	const sin_t = Math.sin(theta);
 	const cos_t = Math.cos(theta);
 
 	let new_vertices = [...vertices_arg];
 
 	new_vertices.forEach((arr,index) => {
-		let [x,y,z] = arr;
+		const [x,y,z] = arr;
+		let [x1,y1,z1]: V3 = [...arr];
 
 		if (dir == 'x') {
-			y = y*cos_t - z*sin_t
-			z = y*sin_t + z*cos_t
+			y1 = y*cos_t - z*sin_t
+			z1 = y*sin_t + z*cos_t
 		}
 
 		if (dir == 'y') {
-			x = x*cos_t + z*sin_t
-			z = -x*sin_t + z*cos_t
+			x1 = x*cos_t + z*sin_t
+			z1 = -x*sin_t + z*cos_t
 		}
 
 		if (dir == 'z') {
-			x = x*cos_t - y*sin_t
-			y = x*sin_t + y*cos_t
+			x1 = x*cos_t - y*sin_t
+			y1 = x*sin_t + y*cos_t
 		}
 
-		new_vertices[index] = [x,y,z]
+		new_vertices[index] = [x1,y1,z1]
 	});
 
 	return new_vertices;
 }
 
-const draw_cube = (x:number) => {
-	const verticesR = rotate_cube('y',x, vertices); 
+const draw_cube = (rotation: V3) => {
+	const roatatedX = rotate_cube('x', rotation[0], vertices)
+	const roatatedY = rotate_cube('y', rotation[1], roatatedX)
+	const verticesR = rotate_cube('z',rotation[2], roatatedY);
 
 	faces.forEach(elem => {
 		const a = verticesR[elem[0]-1]
 		const b = verticesR[elem[1]-1]
-		const c = verticesR[elem[2]-1]
-		const d = verticesR[elem[3]-1]
-
 
 		line({
-			x1: (a[0]+scale)*scale,
-			y1: (a[1]+scale)*scale,
-			x2: (b[0]+scale)*scale,
-			y2: (b[1]+scale)*scale,
-		})
-		line({
-			x1: (b[0]+scale)*scale,
-			y1: (b[1]+scale)*scale,
-			x2: (c[0]+scale)*scale,
-			y2: (c[1]+scale)*scale,
-		})
-		line({
-			x1: (c[0]+scale)*scale,
-			y1: (c[1]+scale)*scale,
-			x2: (d[0]+scale)*scale,
-			y2: (d[1]+scale)*scale,
-		})
-		line({
-			x1: (d[0]+scale)*scale,
-			y1: (d[1]+scale)*scale,
-			x2: (a[0]+scale)*scale,
-			y2: (a[1]+scale)*scale,
+			x1: (a[0]+center)*scale,
+			y1: (a[1]+center)*scale,
+			x2: (b[0]+center)*scale,
+			y2: (b[1]+center)*scale,
 		})
 	})
 }
@@ -121,12 +94,29 @@ const rangeX = document.querySelector('#x');
 const rangeY = document.querySelector('#y');
 const rangeZ = document.querySelector('#z');
 
-// main
+const scaleEl = document.querySelector('#scale');
+const centerEl = document.querySelector('#center');
+
+
+// let [x,y,z]: V3 = [0,0,0]
+
 const loop = () => {
 	ctx!.clearRect(0,0, width, height);
 
-	// @ts-ignore
-	draw_cube(parseInt(rangeX!.value)/50)
+	// automatical
+	// x += 0.03
+	// y += 0.02
+	// z += 0.01
+	// draw_cube([x,y,z])
+	scale = parseFloat(scaleEl!.value)
+	center = parseFloat(centerEl.value)
+
+	// manual
+	draw_cube([
+		parseInt( rangeX!.value ) /25,
+		parseInt( rangeY!.value ) /25,
+		parseInt( rangeZ!.value ) /25
+	])
 
 	window.requestAnimationFrame(loop);
 }
