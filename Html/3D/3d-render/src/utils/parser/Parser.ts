@@ -1,9 +1,8 @@
 type V3 = [number,number,number];
-type V2 = [number,number];
 
 type ParsedData = {
 	vertices: V3[],
-	faces: V2[]
+	faces: number[][]
 }
 
 const toInt = (n:string):number => {
@@ -29,14 +28,14 @@ const Parser = async(path: string): ParsedData => {
 	const data = content.split(/\r?\n/);
 
 	let vertices: V3[] = [];
-	let faces: V2[] = [];
+	let faces: number[][] = [];
 
 	for (let i=0; i < data.length; i++) {
 		const line = data[i];
 
 		// vertices
 		if (line.startsWith('v ')) {
-			const splited = line.replace(/v /, '').split(' ');
+			const splited = line.replace(/v/, '').trim().split(' ');
 			const [x,y,z] = splited
 
 			vertices.push([ toInt(x), toInt(y), toInt(z) ]);
@@ -44,24 +43,15 @@ const Parser = async(path: string): ParsedData => {
 
 		// faces
 		if (line.startsWith('f ')) {
-			const segments = line.replace(/f /, '').split(' ');
+			const segments = line.replace(/f/, '').trim().split(' ');
+			let temp_segments: number[] = [];
 
-			for (let j=0; j < segments.length-1; j++) {
-				const indexA = segments[j].split('/')[0];
-				const indexB = segments[j+1].split('/')[0];
-
-				if (j == segments.length-2) {
-					faces.push([
-						toInt(segments[segments.length-1].split('/')[0]),
-						toInt(segments[0].split('/')[0])
-					]);
-				} else {
-					faces.push([
-						toInt(indexA),
-						toInt(indexB)
-					]);
-				}
+			for (let j=0; j < segments.length; j++) {
+				const elem = segments[j];
+				temp_segments.push(toInt(elem));
 			}
+
+			faces.push(temp_segments)
 		}
 	}
 
