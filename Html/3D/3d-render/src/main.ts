@@ -2,7 +2,6 @@ import './scss/style.scss'
 
 import Parser from './utils/parser/Parser';
 
-
 const canvas = document.querySelector('canvas');
 const ctx = canvas!.getContext('2d');
 const width = window.innerWidth * 0.9, height = window.innerHeight * 0.9;
@@ -12,10 +11,8 @@ canvas!.height= height;
 
 type V3 = [number,number,number]
 type Line = {
-	x1: number,
-	y1: number,
-	x2: number,
-	y2: number,
+	vertices: V3[],
+	face: number[],
 	thicknes?: number,
 	color?: string
 }
@@ -23,7 +20,9 @@ type Line = {
 let scale = 20.00;
 let center = 50.00;
 
-const parsed_data = await Parser('./src/objects/icosphere.obj')
+const parsed_data = await Parser('./src/objects/cube.obj')
+
+console.log(parsed_data)
 
 const vertices: V3[] = parsed_data.vertices;
 const faces = parsed_data.faces
@@ -62,31 +61,32 @@ const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3[]) => {
 const draw_cube = (rotation: V3) => {
 	const roatatedX = rotate_cube('x', rotation[0], vertices)
 	const roatatedY = rotate_cube('y', rotation[1], roatatedX)
-	const verticesR = rotate_cube('z',rotation[2], roatatedY);
+	const verticesR = rotate_cube('z', rotation[2], roatatedY);
 
-	faces.forEach(elem => {
-		const a = verticesR[elem[0]-1]
-		const b = verticesR[elem[1]-1]
+	for (let i=0; i < faces.length; i++) {
+		const face = faces[i];
 
 		line({
-			x1: (a[0]+center)*scale,
-			y1: (a[1]+center)*scale,
-			x2: (b[0]+center)*scale,
-			y2: (b[1]+center)*scale,
+			face: face,
+			vertices: verticesR
 		})
-	})
+	}
 }
 
 const line = (e: Line) => {
 	ctx!.beginPath();   
 
-	ctx!.strokeStyle = e.color ?? 'white';
+	ctx!.fillStyle = e.color ?? 'white';
 	ctx!.lineWidth = e.thicknes ?? 3;
 
-	ctx!.moveTo(e.x1, e.y1);
-	ctx!.lineTo(e.x2, e.y2);
+	// for each item in one face
+	for (let i=0; i < e.face.length; i++) {
+		const [x,y,_] = e.vertices[e.face[i]-1];
 
-	ctx!.stroke(); 
+		ctx!.lineTo((x+center)*scale, (y+center)*scale);
+	}
+
+	ctx!.fill(); 
 }
 
 
