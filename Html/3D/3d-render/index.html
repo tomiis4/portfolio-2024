@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-	  <input id="x" type="range" max="100">
-	  <input id="y" type="range" max="100">
-	  <input id="z" type="range" max="100">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title> 3D Controls </title>
+	</head>
+	<body>
+		<div class="controls">
+			<input id="x" type="range" max="100">
+			<input id="y" type="range" max="100">
+			<input id="z" type="range" max="100">
 
-	  <canvas id="canvas"></canvas>
+			<input id="scale" type="range" max="200">
+			<input id="center" type="range" max="200">
+		</div>
 
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+		<canvas id="canvas"></canvas>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
 </html>
