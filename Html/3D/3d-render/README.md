@@ -1,1 +1,1 @@
-# 3D cube rendering
+# 3D rendering
