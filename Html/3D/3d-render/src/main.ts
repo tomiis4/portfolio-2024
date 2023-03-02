@@ -10,22 +10,33 @@ canvas!.width = width;
 canvas!.height= height;
 
 type V3 = [number,number,number]
-type Line = {
+type Face = {
 	vertices: V3[],
 	face: number[],
 	thicknes?: number,
 	color?: string
 }
 
-let scale = 20.00;
-let center = 50.00;
+const getTexture =()=> {
+	let temp_texture:string[] = [];
 
-const parsed_data = await Parser('./src/objects/cube.obj')
+	while (temp_texture.length != faces.length) {
+		const colors = {
+			gray: 'rgb(100,100,100)', 
+			blue: 'rgb(130,130,180)', 
+			green: 'rgb(130,180,130)', 
+			red: 'rgb(180,130,130)'
+		};
 
-console.log(parsed_data)
+		if (temp_texture.length % 2) {
+			temp_texture.push(colors.gray);
+		} else {
+			temp_texture.push(colors.red);
+		}
+	}
 
-const vertices: V3[] = parsed_data.vertices;
-const faces = parsed_data.faces
+	return temp_texture;
+}
 
 const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3[]) => {
 	const sin_t = Math.sin(theta);
@@ -58,6 +69,17 @@ const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3[]) => {
 	return new_vertices;
 }
 
+
+let scale = 20.00;
+let center = 50.00;
+
+const parsed_data = await Parser('./src/objects/car.obj')
+
+const vertices: V3[] = parsed_data.vertices;
+const faces = parsed_data.faces;
+const texture = getTexture();
+
+
 const draw_cube = (rotation: V3) => {
 	const roatatedX = rotate_cube('x', rotation[0], vertices)
 	const roatatedY = rotate_cube('y', rotation[1], roatatedX)
@@ -66,21 +88,23 @@ const draw_cube = (rotation: V3) => {
 	for (let i=0; i < faces.length; i++) {
 		const face = faces[i];
 
-		line({
+		draw_faces({
 			face: face,
-			vertices: verticesR
+			vertices: verticesR,
+			color: texture[i]
 		})
 	}
 }
 
-const line = (e: Line) => {
+const draw_faces = (e: Face) => {
 	ctx!.beginPath();   
 
-	ctx!.fillStyle = e.color ?? 'white';
+	// TODO make "shadows" or texture
 	ctx!.lineWidth = e.thicknes ?? 3;
 
 	// for each item in one face
 	for (let i=0; i < e.face.length; i++) {
+		ctx!.fillStyle = e.color ?? 'white';
 		const [x,y,_] = e.vertices[e.face[i]-1];
 
 		ctx!.lineTo((x+center)*scale, (y+center)*scale);
@@ -97,24 +121,21 @@ const rangeZ = document.querySelector('#z');
 const scaleEl = document.querySelector('#scale');
 const centerEl = document.querySelector('#center');
 
-
-// let [x,y,z]: V3 = [0,0,0]
-
 const loop = () => {
 	ctx!.clearRect(0,0, width, height);
 
-	// automatical
-	// x += 0.03
-	// y += 0.02
-	// z += 0.01
-	// draw_cube([x,y,z])
+	// @ts-ignoree
 	scale = parseFloat(scaleEl!.value)
+	// @ts-ignoree
 	center = parseFloat(centerEl.value)
 
-	// manual
+	// // manual
 	draw_cube([
+		// @ts-ignoree
 		parseInt( rangeX!.value ) /25,
+		// @ts-ignoree
 		parseInt( rangeY!.value ) /25,
+		// @ts-ignoree
 		parseInt( rangeZ!.value ) /25
 	])
 
