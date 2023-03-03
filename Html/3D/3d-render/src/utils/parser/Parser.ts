@@ -61,4 +61,4 @@ const Parser = async(path: string): ParsedData => {
 	};
 }
 
-export default  Parser;
+export default Parser;
