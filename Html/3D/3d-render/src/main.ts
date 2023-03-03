@@ -1,6 +1,7 @@
 import './scss/style.scss'
 
 import Parser from './utils/parser/Parser';
+import Rotate from './utils/rotate/Rotate';
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas!.getContext('2d');
@@ -38,52 +39,21 @@ const getTexture =()=> {
 	return temp_texture;
 }
 
-const rotate_cube = (dir: 'x'|'y'|'z', theta:number, vertices_arg: V3[]) => {
-	const sin_t = Math.sin(theta);
-	const cos_t = Math.cos(theta);
-
-	let new_vertices = [...vertices_arg];
-
-	new_vertices.forEach((arr,index) => {
-		const [x,y,z] = arr;
-		let [x1,y1,z1]: V3 = [...arr];
-
-		if (dir == 'x') {
-			y1 = y*cos_t - z*sin_t
-			z1 = y*sin_t + z*cos_t
-		}
-
-		if (dir == 'y') {
-			x1 = x*cos_t + z*sin_t
-			z1 = -x*sin_t + z*cos_t
-		}
-
-		if (dir == 'z') {
-			x1 = x*cos_t - y*sin_t
-			y1 = x*sin_t + y*cos_t
-		}
-
-		new_vertices[index] = [x1,y1,z1]
-	});
-
-	return new_vertices;
-}
-
 
 let scale = 20.00;
 let center = 50.00;
 
-const parsed_data = await Parser('./src/objects/car.obj')
+const parsed_data = await Parser('./src/objects/icosphere.obj')
 
 const vertices: V3[] = parsed_data.vertices;
 const faces = parsed_data.faces;
 const texture = getTexture();
 
 
-const draw_cube = (rotation: V3) => {
-	const roatatedX = rotate_cube('x', rotation[0], vertices)
-	const roatatedY = rotate_cube('y', rotation[1], roatatedX)
-	const verticesR = rotate_cube('z', rotation[2], roatatedY);
+const draw_object = (rotation: V3) => {
+	const roatatedX = Rotate('x', rotation[0], vertices)
+	const roatatedY = Rotate('y', rotation[1], roatatedX)
+	const verticesR = Rotate('z', rotation[2], roatatedY);
 
 	for (let i=0; i < faces.length; i++) {
 		const face = faces[i];
@@ -130,7 +100,7 @@ const loop = () => {
 	center = parseFloat(centerEl.value)
 
 	// // manual
-	draw_cube([
+	draw_object([
 		// @ts-ignoree
 		parseInt( rangeX!.value ) /25,
 		// @ts-ignoree
