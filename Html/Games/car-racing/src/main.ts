@@ -15,6 +15,7 @@ type V3 = [number,number,number];
 type V2 = [number,number];
 
 type Face = {
+	position: V2,
 	vertices: V3[],
 	face: number[],
 	scale: number,
@@ -47,28 +48,31 @@ type ModelData = {
 }
 
 // models
-const parsed_floor = await Parser('./src/objects/floor.obj');
-const floor_data: ModelData = {
+const parsed_floor = await Parser('./src/objects/road.obj');
+let floor_data: ModelData = {
 	vertices: parsed_floor.vertices,
 	faces: parsed_floor.faces,
-	scale: 1.5,
+	scale: 150.0,
 	texture: Texture({
 		faces: parsed_floor.faces,
-		baseColor: '#1C1C1C',
+		// baseColor: '#1C1C1C',
+		isRandom: true,
 		color: 'null'
 	})
 }
 
+console.log(floor_data)
+
 // let players: Car[] = []; // [0] = local player
 // let trees: Tree[] = [];
 let floor: Floor = {
-	rotation: [0,0,0],
-	position: [0,0],
+	rotation: [-1.58, 0, -1.5],  // 0=front, 1=clock from top, 2=clock
+	position: [570, 370],
 }
 
 
 // -- GLOBAL FUNCTIONS --
-const DrawModel = (e: {rotation: V3, data:ModelData}) => {
+const DrawModel = (e: {rotation: V3, data:ModelData, position: V2}) => {
 	const [x,y,z] = e.rotation;
 
 	const rotate_x = Rotate('x', x, e.data.vertices);
@@ -79,6 +83,7 @@ const DrawModel = (e: {rotation: V3, data:ModelData}) => {
 		const face = e.data.faces[i];
 
 		DrawFace({
+			position: e.position,
 			vertices: rotate_z,
 			face: face,
 			scale: e.data.scale,
@@ -95,7 +100,7 @@ const DrawFace = (e: Face) => {
 		ctx!.fillStyle = e.color ?? 'white';
 		const [x,y,_] = e.vertices[e.face[i]-1];
 
-		ctx!.lineTo(x * e.scale, y * e.scale)
+		ctx!.lineTo(x * e.scale + e.position[0] , y * e.scale + e.position[1])
 	}
 
 	ctx!.fill(); 
@@ -106,6 +111,7 @@ const DrawFace = (e: Face) => {
 const append_floor = () => {
 	DrawModel({
 		rotation: floor.rotation,
+		position: floor.position,
 		data: floor_data,
 	})
 }
@@ -126,23 +132,43 @@ const append_floor = () => {
 // }
 
 // controls
-// document.addEventListener('keydown', (e:KeyboardEvent) => {
-// 	switch (e.code) {
-// 		case 'KeyW':
-// 			// move Z +
-// 			break;
-// 		case 'KeyS':
-// 			// move Z -
-// 			break;
-// 		case 'KeyA':
-// 			// move X -
-// 			break;
-// 		case 'KeyD':
-// 			// move X +
-// 			break;
-// 		default: return
-// 	}
-// });
+document.addEventListener('keydown', (e:KeyboardEvent) => {
+	switch (e.code) {
+		case 'KeyW':
+			floor.rotation[0] += 0.02
+			break;
+		case 'KeyS':
+			floor.rotation[0] -= 0.02
+			break;
+		case 'KeyA':
+			floor.rotation[1] += 0.02
+			break;
+		case 'KeyD':
+			floor.rotation[1] -= 0.02
+			break;
+		case 'KeyQ':
+			floor.position[1] -= 5
+			break;
+		case 'KeyE':
+			floor.position[1] += 5
+			break;
+		case 'KeyX':
+			floor.position[0] -= 5
+			break;
+		case 'KeyC':
+			floor.position[0] += 5
+			break;
+		case 'KeyF':
+			floor_data.scale -= 5
+			break;
+		case 'KeyG':
+			floor_data.scale += 5
+			break;
+		default: return
+	}
+	console.log(floor)
+	console.log(floor_data.scale)
+});
 
 // type V3 = [number,number,number]
 // type Face = {
