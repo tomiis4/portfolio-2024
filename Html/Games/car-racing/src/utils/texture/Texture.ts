@@ -1,7 +1,8 @@
 type TextureT = {
 	faces: number[][],
+	isRandom?: boolean,
 	baseColor?: string,
-	color: 'red' | 'green' | 'blue' | 'null'
+	color: 'red' | 'green' | 'blue' | 'null' 
 }
 
 const Texture = (a: TextureT):string[] => {
@@ -10,6 +11,17 @@ const Texture = (a: TextureT):string[] => {
 	if (a.baseColor) {
 		return new Array(a.faces.length).fill(a.baseColor);
 	}
+
+	if (a.isRandom) {
+		const getColor=()=> '#' + Math.floor(Math.random() * 16777215).toString(16)
+
+		while (temp_texture.length != a.faces.length) {
+			temp_texture.push(getColor());
+		}
+
+		return temp_texture;
+	}
+
 
 	while (temp_texture.length != a.faces.length) {
 		const colors = {
