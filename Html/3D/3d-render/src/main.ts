@@ -10,6 +10,7 @@ const width = window.innerWidth * 0.9, height = window.innerHeight * 0.9;
 canvas!.width = width;
 canvas!.height= height;
 
+type V2 = [number,number];
 type V3 = [number,number,number]
 type Face = {
 	vertices: V3[],
@@ -43,7 +44,7 @@ const getTexture =()=> {
 let scale = 20.00;
 let center = 50.00;
 
-const parsed_data = await Parser('./src/objects/icosphere.obj')
+const parsed_data = await Parser('./src/objects/car.obj')
 
 const vertices: V3[] = parsed_data.vertices;
 const faces = parsed_data.faces;
@@ -66,6 +67,17 @@ const draw_object = (rotation: V3) => {
 	}
 }
 
+const project_vertex = (vertex: V3): V2 => {
+	const camera = { x: 0, y: 0, z: -5 };
+	const focalLength = 10;
+	const ratio = focalLength / (focalLength + vertex[2] + camera.z);
+
+	return [
+		vertex[0] * ratio + camera.x, 
+		vertex[1] * ratio + camera.y
+	];
+}
+
 const draw_faces = (e: Face) => {
 	ctx!.beginPath();   
 
@@ -75,7 +87,9 @@ const draw_faces = (e: Face) => {
 	// for each item in one face
 	for (let i=0; i < e.face.length; i++) {
 		ctx!.fillStyle = e.color ?? 'white';
-		const [x,y,_] = e.vertices[e.face[i]-1];
+		const vertex = e.vertices[e.face[i]-1];
+
+		const [x, y] = project_vertex(vertex); 
 
 		ctx!.lineTo((x+center)*scale, (y+center)*scale);
 	}
