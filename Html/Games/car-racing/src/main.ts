@@ -72,6 +72,18 @@ let floor: Floor = {
 
 
 // -- GLOBAL FUNCTIONS --
+const ProjectVeretex = (vertex: V3): V2 => {
+	const camera = { x: 0, y: 0, z: -5 };
+	const focalLength = 35;
+
+	const ratio = focalLength / (focalLength + vertex[2] + camera.z);
+
+	return [
+		vertex[0] * ratio + camera.x, 
+		vertex[1] * ratio + camera.y
+	];
+}
+
 const DrawModel = (e: {rotation: V3, data:ModelData, position: V2}) => {
 	const [x,y,z] = e.rotation;
 
@@ -92,13 +104,15 @@ const DrawModel = (e: {rotation: V3, data:ModelData, position: V2}) => {
 	}
 }
 
+
 const DrawFace = (e: Face) => {
 	ctx!.beginPath();   
 
 	// for each item in one face
 	for (let i=0; i < e.face.length; i++) {
 		ctx!.fillStyle = e.color ?? 'white';
-		const [x,y,_] = e.vertices[e.face[i]-1];
+		const vertex = e.vertices[e.face[i]-1];
+		const [x,y] = ProjectVeretex(vertex);
 
 		ctx!.lineTo(x * e.scale + e.position[0] , y * e.scale + e.position[1])
 	}
