@@ -6,7 +6,9 @@ const Rotate = (dir: 'x'|'y'|'z', theta: number, vertices_arg: V3[]) => {
 
 	let new_vertices = [...vertices_arg];
 
-	new_vertices.forEach((arr,index) => {
+	for (let i=0; i < new_vertices.length; i++) {
+		const arr = new_vertices[i];
+
 		const [x,y,z] = arr;
 		let [x1,y1,z1]: V3 = [...arr];
 
@@ -25,8 +27,8 @@ const Rotate = (dir: 'x'|'y'|'z', theta: number, vertices_arg: V3[]) => {
 			y1 = x*sin_t + y*cos_t
 		}
 
-		new_vertices[index] = [x1,y1,z1]
-	});
+		new_vertices[i] = [x1,y1,z1]
+	};
 
 	return new_vertices;
 }
