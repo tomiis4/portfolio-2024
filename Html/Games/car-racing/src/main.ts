@@ -31,8 +31,8 @@ type Face = {
 
 // type Tree = {
 // 	rotation: V3,
-// 	position: V3,
-// 	scale: number,
+	// position: V3,
+	// scale: number,
 // }
 
 type Floor = {
@@ -48,15 +48,15 @@ type ModelData = {
 }
 
 // models
-const parsed_floor = await Parser('./src/objects/road.obj');
+const parsed_floor = await Parser('./src/objects/cube.obj');
 let floor_data: ModelData = {
 	vertices: parsed_floor.vertices,
 	faces: parsed_floor.faces,
-	scale: 150.0,
+	scale: 190.0,
 	texture: Texture({
 		faces: parsed_floor.faces,
-		// baseColor: '#1C1C1C',
-		isRandom: true,
+		baseColor: '#FFFFFF',
+		// isRandom: true,
 		color: 'null'
 	})
 }
@@ -66,21 +66,23 @@ console.log(floor_data)
 // let players: Car[] = []; // [0] = local player
 // let trees: Tree[] = [];
 let floor: Floor = {
-	rotation: [-1.58, 0, -1.5],  // 0=front, 1=clock from top, 2=clock
-	position: [570, 370],
+	rotation: [0,0,0],  // 0=front, 1=clock from top, 2=clock
+	position: [width/2, height/2]
+	// position: [ 506.7, 340.65 ],
+	// rotation: [ 1.58, -1.48, -1.58 ]
 }
 
 
 // -- GLOBAL FUNCTIONS --
 const ProjectVeretex = (vertex: V3): V2 => {
-	const camera = { x: 0, y: 0, z: -5 };
-	const focalLength = 35;
+	const camera = [0, 0, -5];
+	const focalLength = 15;
 
-	const ratio = focalLength / (focalLength + vertex[2] + camera.z);
+	const ratio = focalLength / (focalLength + vertex[2] + camera[2]);
 
 	return [
-		vertex[0] * ratio + camera.x, 
-		vertex[1] * ratio + camera.y
+		vertex[0] * ratio + camera[0], 
+		vertex[1] * ratio + camera[1]
 	];
 }
 
@@ -104,20 +106,35 @@ const DrawModel = (e: {rotation: V3, data:ModelData, position: V2}) => {
 	}
 }
 
-
 const DrawFace = (e: Face) => {
-	ctx!.beginPath();   
+	ctx!.beginPath();
 
-	// for each item in one face
+	ctx!.lineWidth = 5;
+	ctx!.strokeStyle = "red";
+	ctx!.globalAlpha = 0.5;
+
+	// for each vertex in one face
 	for (let i=0; i < e.face.length; i++) {
 		ctx!.fillStyle = e.color ?? 'white';
+
 		const vertex = e.vertices[e.face[i]-1];
 		const [x,y] = ProjectVeretex(vertex);
 
-		ctx!.lineTo(x * e.scale + e.position[0] , y * e.scale + e.position[1])
+		ctx!.lineTo(x * e.scale + e.position[0], y * e.scale + e.position[1]);
+		
+		// to the first element to complete face
+		if (i == e.face.length-1) {
+			ctx!.fillStyle = e.color ?? 'white';
+
+			const vertex = e.vertices[e.face[0]-1];
+			const [x,y] = ProjectVeretex(vertex);
+
+			ctx!.lineTo(x * e.scale + e.position[0], y * e.scale + e.position[1]);
+		}
 	}
 
-	ctx!.fill(); 
+	ctx!.fill();
+	ctx!.stroke();
 }
 
 
@@ -160,6 +177,12 @@ document.addEventListener('keydown', (e:KeyboardEvent) => {
 		case 'KeyD':
 			floor.rotation[1] -= 0.02
 			break;
+		case 'KeyU':
+			floor.rotation[2] += 0.02
+			break;
+		case 'KeyI':
+			floor.rotation[2] -= 0.02
+			break;
 		case 'KeyQ':
 			floor.position[1] -= 5
 			break;
@@ -184,73 +207,6 @@ document.addEventListener('keydown', (e:KeyboardEvent) => {
 	console.log(floor_data.scale)
 });
 
-// type V3 = [number,number,number]
-// type Face = {
-// 	vertices: V3[],
-// 	face: number[],
-// 	thicknes?: number,
-// 	color?: string
-// }
-
-// const getTexture =()=> {
-// 	let temp_texture:string[] = [];
-
-// 	while (temp_texture.length != faces.length) {
-// 		const colors = {
-// 			gray: 'rgb(100,100,100)', 
-// 			blue: 'rgb(130,130,180)', 
-// 			green: 'rgb(130,180,130)', 
-// 			red: 'rgb(180,130,130)'
-// 		};
-
-// 		if (temp_texture.length % 2) {
-// 			temp_texture.push(colors.gray);
-// 		} else {
-// 			temp_texture.push(colors.red);
-// 		}
-// 	}
-
-// 	return temp_texture;
-// }
-
-// const parsed_data = await Parser('./src/objects/icosphere.obj')
-
-// const vertices: V3[] = parsed_data.vertices;
-// const faces = parsed_data.faces;
-// const texture = getTexture();
-
-
-// const draw_object = (rotation: V3) => {
-// 	const roatatedX = Rotate('x', rotation[0], vertices)
-// 	const roatatedY = Rotate('y', rotation[1], roatatedX)
-// 	const verticesR = Rotate('z', rotation[2], roatatedY);
-
-// 	for (let i=0; i < faces.length; i++) {
-// 		const face = faces[i];
-
-// 		draw_faces({
-// 			face: face,
-// 			vertices: verticesR,
-// 			color: texture[i]
-// 		})
-// 	}
-// }
-
-// const draw_faces = (e: Face) => {
-// 	ctx!.beginPath();   
-
-// 	ctx!.lineWidth = e.thicknes ?? 3;
-
-// 	// for each item in one face
-// 	for (let i=0; i < e.face.length; i++) {
-// 		ctx!.fillStyle = e.color ?? 'white';
-// 		const [x,y,_] = e.vertices[e.face[i]-1];
-
-// 		ctx!.lineTo(30*x+50, 30*y+50)
-// 	}
-
-// 	ctx!.fill(); 
-// }
 
 const loop = () => {
 	ctx!.clearRect(0,0, width, height);
