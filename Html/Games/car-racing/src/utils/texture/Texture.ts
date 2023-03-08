@@ -13,10 +13,23 @@ const Texture = (a: TextureT):string[] => {
 	}
 
 	if (a.isRandom) {
-		const getColor=()=> '#' + Math.floor(Math.random() * 16777215).toString(16)
+		// random color
+		// const getColor=()=> '#' + Math.floor(Math.random() * 16777215).toString(16)
+
+		// while (temp_texture.length != a.faces.length) {
+		// 	temp_texture.push(getColor());
+		// }
+		// return temp_texture;
+
+		// shades
+		let [r,g,b] = [0,0,0];
 
 		while (temp_texture.length != a.faces.length) {
-			temp_texture.push(getColor());
+			r += 235 / a.faces.length;
+			g += 230 / a.faces.length;
+			b += 230 / a.faces.length;
+
+			temp_texture.push(`rgb(${r},${g},${b})`);
 		}
 
 		return temp_texture;
