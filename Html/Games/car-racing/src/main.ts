@@ -47,17 +47,21 @@ type ModelData = {
 	texture: string[]
 }
 
+//data
+let camera = [0, 0, -5];
+let focalLength = 15;
+
 // models
-const parsed_floor = await Parser('./src/objects/cube.obj');
+const parsed_floor = await Parser('./src/objects/car.obj');
 let floor_data: ModelData = {
 	vertices: parsed_floor.vertices,
 	faces: parsed_floor.faces,
-	scale: 190.0,
+	scale: 150.0,
 	texture: Texture({
 		faces: parsed_floor.faces,
-		baseColor: '#FFFFFF',
+		// baseColor: '#FFFFFF',
 		// isRandom: true,
-		color: 'null'
+		color: 'green'
 	})
 }
 
@@ -68,16 +72,11 @@ console.log(floor_data)
 let floor: Floor = {
 	rotation: [0,0,0],  // 0=front, 1=clock from top, 2=clock
 	position: [width/2, height/2]
-	// position: [ 506.7, 340.65 ],
-	// rotation: [ 1.58, -1.48, -1.58 ]
 }
 
 
 // -- GLOBAL FUNCTIONS --
 const ProjectVeretex = (vertex: V3): V2 => {
-	const camera = [0, 0, -5];
-	const focalLength = 15;
-
 	const ratio = focalLength / (focalLength + vertex[2] + camera[2]);
 
 	return [
@@ -109,9 +108,9 @@ const DrawModel = (e: {rotation: V3, data:ModelData, position: V2}) => {
 const DrawFace = (e: Face) => {
 	ctx!.beginPath();
 
-	ctx!.lineWidth = 5;
-	ctx!.strokeStyle = "red";
-	ctx!.globalAlpha = 0.5;
+	ctx!.lineWidth = 2;
+	ctx!.strokeStyle = "#CCCCCC";
+	ctx!.globalAlpha = 0.6;
 
 	// for each vertex in one face
 	for (let i=0; i < e.face.length; i++) {
@@ -165,6 +164,29 @@ const append_floor = () => {
 // controls
 document.addEventListener('keydown', (e:KeyboardEvent) => {
 	switch (e.code) {
+		// case 'KeyQ':
+		// 	focalLength += 3
+		// 	break;
+		// case 'KeyE':
+		// 	focalLength -= 3
+		// 	break;
+		// case 'KeyW':
+		// 	camera[0] += 1;
+		// 	break;
+		// case 'KeyS':
+		// 	camera[0] -= 1;
+		// 	break;
+		// case 'KeyA':
+		// 	camera[1] += 1;
+		// 	break;
+		// case 'KeyD':
+		// 	camera[1] -= 1;
+		// case 'KeyX':
+		// 	camera[2] += 1;
+		// 	break;
+		// case 'KeyC':
+		// 	camera[2] -= 1;
+		// 	break;
 		case 'KeyW':
 			floor.rotation[0] += 0.02
 			break;
