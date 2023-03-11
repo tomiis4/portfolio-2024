@@ -1,7 +1,13 @@
-import './scss/style.scss'
+import './scss/style.scss';
 
 import Parser from './utils/parser/Parser';
 import Rotate from './utils/rotate/Rotate';
+import ProjectVeretex from './utils/project-vertex/ProjectVertex';
+import Texture from './utils/texture/Texture';
+// import Gradient from './utils/gradient/Gradient';
+
+import { ModelData, Model, FaceArg, Camera } from './utils/Types';
+import SortFaces from './utils/sort-faces/SortFaces';
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas!.getContext('2d');
@@ -10,118 +16,128 @@ const width = window.innerWidth * 0.9, height = window.innerHeight * 0.9;
 canvas!.width = width;
 canvas!.height= height;
 
-type V2 = [number,number];
-type V3 = [number,number,number]
-type Face = {
-	vertices: V3[],
-	face: number[],
-	thicknes?: number,
-	color?: string
+
+// global data
+const camera: Camera = {
+	position: [0, 0, -5],
+	focal_length: 15
 }
 
-const getTexture =()=> {
-	let temp_texture:string[] = [];
+// models
+const parsed_model = await Parser('./src/objects/car.obj');
 
-	while (temp_texture.length != faces.length) {
-		const colors = {
-			gray: 'rgb(100,100,100)', 
-			blue: 'rgb(130,130,180)', 
-			green: 'rgb(130,180,130)', 
-			red: 'rgb(180,130,130)'
-		};
+const model_data: ModelData = {
+	vertices: parsed_model.vertices,
+	faces: parsed_model.faces,
+	texture: Texture({
+		faces: parsed_model.faces,
+		baseColor: '#000',
+		specialType: 'fade'
+	})
+}
 
-		if (temp_texture.length % 2) {
-			temp_texture.push(colors.gray);
-		} else {
-			temp_texture.push(colors.red);
-		}
-	}
-
-	return temp_texture;
+let model: Model = {
+	rotation: [1.54, 1.54, 1.54],
+	position: [width/2, height/2],
+	scale: 90,
+	// transparent: 0.8
 }
 
 
-let scale = 20.00;
-let center = 50.00;
+// -- GLOBAL FUNCTIONS --
 
-const parsed_data = await Parser('./src/objects/car.obj')
+const DrawModel = (e:{data:ModelData, model:Model}) => {
+	const data = e.data, model = e.model;
 
-const vertices: V3[] = parsed_data.vertices;
-const faces = parsed_data.faces;
-const texture = getTexture();
+	const [x,y,z] = model.rotation;
 
+	const rotate_x = Rotate('x', x, data.vertices);
+	const rotate_y = Rotate('y', y, rotate_x);
+	const rotate_z = Rotate('z', z, rotate_y);
 
-const draw_object = (rotation: V3) => {
-	const roatatedX = Rotate('x', rotation[0], vertices)
-	const roatatedY = Rotate('y', rotation[1], roatatedX)
-	const verticesR = Rotate('z', rotation[2], roatatedY);
+	const faces = SortFaces({
+		camera: camera,
+		vertices: rotate_z,
+		faces: data.faces
+	});
+
+	// debugger;
+	// console.log(faces, e.data.faces)
 
 	for (let i=0; i < faces.length; i++) {
 		const face = faces[i];
+		const texture = data.texture[i];
 
-		draw_faces({
+		DrawFace({
+			vertices: rotate_z,
 			face: face,
-			vertices: verticesR,
-			color: texture[i]
+			model: model,
+			texture: texture
 		})
 	}
 }
 
-const project_vertex = (vertex: V3): V2 => {
-	const camera = { x: 0, y: 0, z: -5 };
-	const focalLength = 10;
-	const ratio = focalLength / (focalLength + vertex[2] + camera.z);
+const DrawFace = (e: FaceArg) => {
+	const [x,y] = e.model.position;
+	const scale = e.model.scale;
+	const transparent = e.model.transparent;
+	const stroke = e.model.stroke;
 
-	return [
-		vertex[0] * ratio + camera.x, 
-		vertex[1] * ratio + camera.y
-	];
-}
+	ctx!.beginPath();
 
-const draw_faces = (e: Face) => {
-	ctx!.beginPath();   
 
-	// TODO make "shadows" or texture
-	ctx!.lineWidth = e.thicknes ?? 3;
+	// color & transparent
+	ctx!.globalAlpha = transparent ?? 1;
+	ctx!.fillStyle = e.texture;
 
-	// for each item in one face
-	for (let i=0; i < e.face.length; i++) {
-		ctx!.fillStyle = e.color ?? 'white';
-		const vertex = e.vertices[e.face[i]-1];
+	// stroke
+	ctx!.lineWidth = stroke ?? 0;
+	ctx!.strokeStyle = '#FFFFFF';
 
-		const [x, y] = project_vertex(vertex); 
+	// +1 for drawing to first vertex
+	const face_len = e.face.length;
+	for (let i=0; i < face_len+1; i++) {
+		const vertex = e.vertices[ e.face[ i%face_len ]-1 ];
+		const [projectedX, projectedY] = ProjectVeretex(vertex, camera);
 
-		ctx!.lineTo((x+center)*scale, (y+center)*scale);
+		ctx!.lineTo(
+			projectedX * scale + x, 
+			projectedY * scale + y
+		);
 	}
 
-	ctx!.fill(); 
+
+	ctx!.stroke();
+	ctx!.fill();
 }
 
 
-const rangeX = document.querySelector('#x');
-const rangeY = document.querySelector('#y');
-const rangeZ = document.querySelector('#z');
+// -- PROJECT FUNCTIONS --
+const project_model = () => {
+	DrawModel({
+		data: model_data,
+		model: model
+	});
+}
 
-const scaleEl = document.querySelector('#scale');
-const centerEl = document.querySelector('#center');
+
+const xI = document.querySelector('#x')
+const yI = document.querySelector('#y')
+const zI = document.querySelector('#z')
 
 const loop = () => {
 	ctx!.clearRect(0,0, width, height);
 
-	// @ts-ignoree
-	scale = parseFloat(scaleEl!.value)
-	// @ts-ignoree
-	center = parseFloat(centerEl.value)
+	// controls (delete)
+	// @ts-ignore
+	model.rotation[0] = parseInt(xI.value) /10
+	// @ts-ignore
+	model.rotation[1] = parseInt(yI.value) /10
+	// @ts-ignore
+	model.rotation[2] = parseInt(zI.value) /10
 
-	// // manual
-	draw_object([
-		// @ts-ignoree
-		parseInt( rangeX!.value ) /25,
-		// @ts-ignoree
-		parseInt( rangeY!.value ) /25,
-		// @ts-ignoree
-		parseInt( rangeZ!.value ) /25
-	])
+
+	project_model();
 
 	window.requestAnimationFrame(loop);
 }
