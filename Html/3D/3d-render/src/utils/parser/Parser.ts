@@ -1,9 +1,4 @@
-type V3 = [number,number,number];
-
-type ParsedData = {
-	vertices: V3[],
-	faces: number[][]
-}
+import { V3, ParsedData } from "../Types";
 
 const toInt = (n:string):number => {
 	return parseFloat(n);
@@ -22,8 +17,7 @@ const get_data = async (url:string) => {
 	return n;
 }
 
-// @ts-ignore
-const Parser = async(path: string): ParsedData => {
+const Parser = async (path: string): Promise<ParsedData> => {
 	const content:string = await get_data(path)
 	const data = content.split(/\r?\n/);
 
