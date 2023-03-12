@@ -38,7 +38,7 @@ const model_data: ModelData = {
 
 let model: Model = {
 	rotation: [1.54, 1.54, 1.54],
-	position: [width/2, height/2],
+	position: [width/2, height/2+180],
 	scale: 90,
 	// transparent: 0.8
 }
@@ -47,8 +47,7 @@ let model: Model = {
 // -- GLOBAL FUNCTIONS --
 
 const DrawModel = (e:{data:ModelData, model:Model}) => {
-	const data = e.data, model = e.model;
-
+	const { data, model } = e
 	const [x,y,z] = model.rotation;
 
 	const rotate_x = Rotate('x', x, data.vertices);
@@ -61,9 +60,6 @@ const DrawModel = (e:{data:ModelData, model:Model}) => {
 		faces: data.faces
 	});
 
-	// debugger;
-	// console.log(faces, e.data.faces)
-
 	for (let i=0; i < faces.length; i++) {
 		const face = faces[i];
 		const texture = data.texture[i];
@@ -73,7 +69,7 @@ const DrawModel = (e:{data:ModelData, model:Model}) => {
 			face: face,
 			model: model,
 			texture: texture
-		})
+		});
 	}
 }
 
@@ -98,11 +94,11 @@ const DrawFace = (e: FaceArg) => {
 	const face_len = e.face.length;
 	for (let i=0; i < face_len+1; i++) {
 		const vertex = e.vertices[ e.face[ i%face_len ]-1 ];
-		const [projectedX, projectedY] = ProjectVeretex(vertex, camera);
+		const [projected_x, projected_y] = ProjectVeretex(vertex, camera);
 
 		ctx!.lineTo(
-			projectedX * scale + x, 
-			projectedY * scale + y
+			projected_x * scale + x, 
+			projected_y * scale + y
 		);
 	}
 

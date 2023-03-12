@@ -1,34 +1,35 @@
-import Center from "../center/Center";
-import Distance from "../distance/Distance";
+import Center from "./center/Center";
+import Distance from "./distance/Distance";
 import { FacesArray, SortFacesArg } from "../Types";
 
 const SortFaces = (e: SortFacesArg): number[][] => {
 	const camera_position = e.camera.position;
+	const faces_len = e.faces.length;
 
-	let result: FacesArray[] = [];
+	let distances: FacesArray[] = new Array(faces_len);
 	let sorted_faces: number[][] = [];
 
 	// get distances
-	for (let i=0; i < e.faces.length; i++) {
+	for (let i=0; i < faces_len; i++) {
 		const face_center = Center({
 			vertices: e.vertices,
 			faces: e.faces,
 			face_index: i
 		});
 
-		result.push({
+		distances[i] = {
 			index: i,
 			distance: Distance(face_center, camera_position)
-		});
+		};
 	}
 
-	// sort (big -> small)
-	result.sort((a, b) => {
-		return b.distance - a.distance
+	// sort
+	distances.sort((a, b) => {
+		return b.distance - a.distance;
 	});
 
-	for (let i=0; i < result.length; i++) {
-		const index = result[i].index;
+	for (let i=0; i < faces_len; i++) {
+		const index = distances[i].index;
 		sorted_faces.push(e.faces[index]);
 	}
 
