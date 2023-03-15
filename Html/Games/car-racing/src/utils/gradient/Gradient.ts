@@ -1,11 +1,6 @@
-type GradientT = {
-	ctx: CanvasRenderingContext2D,
-	width: number,
-	height: number,
-	colors: string[]
-}
+import { GradientArg } from "../Types";
 
-const Gradient = (e: GradientT):CanvasGradient => {
+const Gradient = (e: GradientArg):CanvasGradient => {
 	const gradient = e.ctx.createLinearGradient(0, 0, e.width, e.height);
 	const len = 1 / e.colors.length;
 
