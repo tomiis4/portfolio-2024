@@ -1,13 +1,4 @@
-type V3 = [number,number,number];
-
-type ParsedData = {
-	vertices: V3[],
-	faces: number[][]
-}
-
-const toInt = (n:string):number => {
-	return parseFloat(n);
-}
+import { V3, ParsedData } from "../Types";
 
 const get_data = async (url:string) => {
 	let n = ''
@@ -22,10 +13,10 @@ const get_data = async (url:string) => {
 	return n;
 }
 
-// @ts-ignore
-const Parser = async(path: string): ParsedData => {
+// get *.obj models as argument and return array of vertices and faces
+const Parser = async (path: string): Promise<ParsedData> => {
 	const content:string = await get_data(path)
-	const data = content.split(/\r?\n/);
+	const data = content.replace(/^(vn|vt).*(\r?\n)/gm, '').split(/\r?\n/);
 
 	let vertices: V3[] = [];
 	let faces: number[][] = [];
@@ -38,7 +29,7 @@ const Parser = async(path: string): ParsedData => {
 			const splited = line.replace(/v/, '').trim().split(' ');
 			const [x,y,z] = splited
 
-			vertices.push([ toInt(x), toInt(y), toInt(z) ]);
+			vertices.push([ parseFloat(x), parseFloat(y), parseFloat(z) ]);
 		}
 
 		// faces
@@ -48,7 +39,7 @@ const Parser = async(path: string): ParsedData => {
 
 			for (let j=0; j < segments.length; j++) {
 				const elem = segments[j];
-				temp_segments.push(toInt(elem));
+				temp_segments.push(parseFloat(elem));
 			}
 
 			faces.push(temp_segments)

@@ -1,54 +1,47 @@
-type TextureT = {
-	faces: number[][],
-	isRandom?: boolean,
-	baseColor?: string,
-	color: 'red' | 'green' | 'blue' | 'null' 
+import { TextureArg } from "../Types";
+
+const getHex = () => {
+	return '#' + Math.floor(Math.random() * 16777215).toString();
 }
 
-const Texture = (a: TextureT):string[] => {
+const Texture = (e: TextureArg):string[] => {
+	const len = e.faces.length;
+	const specialType = e.specialType;
+
 	let temp_texture:string[] = [];
 
-	if (a.baseColor) {
-		return new Array(a.faces.length).fill(a.baseColor);
+	// full color
+	if (e.baseColor && !specialType) {
+		return new Array(len).fill(e.baseColor);
 	}
 
-	if (a.isRandom) {
-		// random color
-		// const getColor=()=> '#' + Math.floor(Math.random() * 16777215).toString(16)
-
-		// while (temp_texture.length != a.faces.length) {
-		// 	temp_texture.push(getColor());
-		// }
-		// return temp_texture;
-
-		// shades
-		let [r,g,b] = [0,0,0];
-
-		while (temp_texture.length != a.faces.length) {
-			r += 235 / a.faces.length;
-			g += 230 / a.faces.length;
-			b += 230 / a.faces.length;
-
-			temp_texture.push(`rgb(${r},${g},${b})`);
+	while (temp_texture.length != len) {
+		if (specialType == 'random') {
+			temp_texture.push(getHex());
 		}
 
-		return temp_texture;
-	}
+		if (specialType == 'fade') {
+			temp_texture.push(`rgb(
+				${255 - temp_texture.length*(255/len)},
+				${255 - temp_texture.length*(255/len)},
+				${255 - temp_texture.length*(255/len)}
+			)`);
+		}
 
+		if (specialType == 'mix') {
+			const colors = {
+				gray: 'rgb(100,100,100)', 
+				blue: 'rgb(130,130,180)', 
+				green: 'rgb(130,180,130)', 
+				red: 'rgb(180,130,130)'
+			};
 
-	while (temp_texture.length != a.faces.length) {
-		const colors = {
-			gray: 'rgb(100,100,100)', 
-			null: 'rgb(100,100,100)', 
-			blue: 'rgb(130,130,180)', 
-			green: 'rgb(130,180,130)', 
-			red: 'rgb(180,130,130)'
-		};
-
-		if (temp_texture.length % 2) {
-			temp_texture.push(colors.gray);
-		} else {
-			temp_texture.push(colors[a.color]);
+			if (temp_texture.length % 2) {
+				temp_texture.push(colors.gray);
+			} else {
+				// @ts-ignore
+				temp_texture.push(colors[e.baseColor] ?? colors.red);
+			}
 		}
 	}
 
