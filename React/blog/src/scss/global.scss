@@ -1,1 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 
+body {
+	background: radial-gradient(100% 316% at 0% 0%, #4F8074 0%, #896BA3 100%);
+	overflow-x: hidden;
+
+	width: 100vw;
+	min-height: 100vh;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
