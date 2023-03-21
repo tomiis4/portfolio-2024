@@ -7,6 +7,8 @@ $code-font: 'Signika Negative', sans-serif;
 $global-font: 'Aref Ruqaa Ink', serif;
 
 $c-white: #FFFFFF;
+$c-purple: #896BA3;
+$c-grey: #E4E4E4;
 
 * {
 	margin: 0;
@@ -14,15 +16,17 @@ $c-white: #FFFFFF;
 	box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
 	background: radial-gradient(100% 316% at 0% 0%, #4F8074 0%, #896BA3 100%);
 	overflow-x: hidden;
 
 	width: 100vw;
-	min-height: 100vh;
+	min-height: 500vh;
 }
 
-h1,h2,h3,h4,h5,h6,p {
+h1,h2,h3,h4,h5,h6,p, ul, li, div {
 	font-family: $global-font;
 	color: $c-white;
 }
@@ -31,6 +35,8 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+
+s { text-decoration: none; }
 
 .center {
 	display: flex;
