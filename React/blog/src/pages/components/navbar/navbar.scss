@@ -6,8 +6,7 @@
 	top: 2%;
 	position: fixed;
 
-	// delete
-	// background: rgba(#000000, 0.2);
+	z-index: 42069;
 
 	display: flex;
 	align-items: center;
@@ -45,7 +44,7 @@
 		}
 
 		a { display: flex; }
-		div { cursor: pointer; padding-top: 1%; }
+		div { cursor: pointer; padding-bottom: 4%; }
 	}
 }
 
