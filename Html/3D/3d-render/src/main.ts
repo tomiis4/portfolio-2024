@@ -4,7 +4,7 @@ import Parser from './utils/parser/Parser';
 import Rotate from './utils/rotate/Rotate';
 import ProjectVeretex from './utils/project-vertex/ProjectVertex';
 import Texture from './utils/texture/Texture';
-// import Gradient from './utils/gradient/Gradient';
+import Gradient from './utils/gradient/Gradient';
 
 import { ModelData, Model, FaceArg, Camera } from './utils/Types';
 import SortFaces from './utils/sort-faces/SortFaces';
@@ -24,23 +24,32 @@ const camera: Camera = {
 }
 
 // models
-const parsed_model = await Parser('./src/objects/car.obj');
+const parsed_model = await Parser('./src/objects/tree.obj');
 
 const model_data: ModelData = {
 	vertices: parsed_model.vertices,
 	faces: parsed_model.faces,
+	// texture: Texture({
+	// 	faces: parsed_model.faces,
+	// 	baseColor: '#000',
+	// 	specialType: 'fade'
+	// })
 	texture: Texture({
 		faces: parsed_model.faces,
-		baseColor: '#000',
-		specialType: 'fade'
+		baseColor: Gradient({
+			colors: [ '#1f4037', '#1f4037', '#99f2c8', '#99f2c8'],
+			ctx: ctx!,
+			width: width,
+			height: height
+		})
 	})
 }
 
 let model: Model = {
 	rotation: [1.54, 1.54, 1.54],
-	position: [width/2, height/2+180],
-	scale: 90,
-	// transparent: 0.8
+	position: [width/2-200, height/2],
+	scale: 30,
+	stroke: 1.5
 }
 
 
@@ -103,7 +112,7 @@ const DrawFace = (e: FaceArg) => {
 	}
 
 
-	ctx!.stroke();
+	stroke ? ctx!.stroke() : null;
 	ctx!.fill();
 }
 
