@@ -1,0 +1,51 @@
+@import '../../scss/global.scss';
+
+.blog {
+
+	position: absolute;
+	left: 15%;
+	top: calc(10vh + 2% + 3vh); // navbar is 10vh width && 2%
+
+	// border: 2px solid #000;
+
+	width: 70%;
+	height: auto;
+
+	h1 {
+	font-family: $blog-font;
+		color: $c-white;
+		font-size: 2.3em;
+	}
+
+	p {
+	font-family: $blog-font;
+		color: $c-grey;
+		font-size: 1.2em;
+		font-weight: 400;
+
+		padding-top: 1%;
+		padding-left: 2%;
+
+		&::first-letter {
+			font-size: 1.4em;
+		}
+
+		b {
+			color: rgb(240,240,240);
+			font-weight: 600;
+		}
+	}
+}
+
+code {
+	background: rgba(#090909, 0.5);
+
+	padding: 4px;
+	border-radius: 7px;
+	color: rgb(200,200,200);
+
+	font-weight: bold;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1em;
+}
+
