@@ -32,7 +32,7 @@ function Navbar() {
 			<div className='links'>
 				<Link 
 					id={0}
-					to={'#about-me'} 
+					to={'/#about-me'} 
 					name={'Home'} 
 					isActive={isActive[0]}
 					function={handleClick} 
@@ -46,7 +46,7 @@ function Navbar() {
 				/>
 				<Link 
 					id={2}
-					to={'#'} 
+					to={'/blog'} 
 					name={'Articles'} 
 					isActive={isActive[2]}
 					function={handleClick} 
