@@ -55,6 +55,8 @@
 			left: 0;
 			top: 0;
 
+			transition: width 1s;
+
 			font-size: 2em;
 			font-weight: 500;
 
@@ -69,7 +71,6 @@
 			align-items: center;
 
 			margin: 2%;
-			// border: 3px solid #fff;
 
 			p, h5 { color: $c-grey; }
 
@@ -83,5 +84,34 @@
 				font-size: 2em;
 			}
 		}
+
+	}
+}
+
+.load1 {
+	animation: load1 0.5s linear;
+	// background: red;
+}
+.load2 {
+	// background: #000;
+	animation: load2 0.5s linear;
+}
+
+@keyframes load1 {
+	0% {
+		opacity: 0.6;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes load2 {
+	0% {
+		opacity: 0.6;
+	}
+
+	100% {
+		opacity: 1;
 	}
 }

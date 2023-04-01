@@ -1,31 +1,67 @@
 import './blogs.scss'
 import Navbar from "../components/navbar/Navbar";
 import Code from './components/Code';
+import db from '../../data/ConfigFirebase';
+
+import {useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+
+type Data = {
+	title: string,
+	content?: Content
+}
+
+type Order = {
+	type: 'code' | 'text',
+	index: number,
+}
+
+type Code = {
+	file: string,
+	content: string,
+}
+
+type Content = {
+	order: Order[],
+	code?: Code[],
+	text?: string[]
+}
 
 function Blog() {
-	const code = `package main
-		import "fmt"
+	const {blogID} = useParams();
+	const [data, setData] = useState<Data>({title: ''});
 
-		func main() {
-			&nbsp;&nbsp;&nbsp; fmt.Printf("Hello, %s", name)
-		}`;
-
-		const paragraphs = [`Bionic reading is a type of reading that uses technology to enhance the reading experience for people with reading difficulties or disabilities. The goal of bionic reading is to <code>improve</code> reading speed, comprehension, and enjoyment for people who struggle with traditional reading methods.`, `Bionic reading can be especially helpful for people with dyslexia, ADHD, or other reading difficulties, as well as for people with visual impairments or other disabilities that make traditional reading methods challenging.`]; 
+	useEffect( () => {
+		db.collection("blogs").doc(blogID).get().then(doc => {
+			if (doc.exists) {
+				const data = doc.data()
+				setData({
+					title: data!.title ?? 'No data found',
+					content: data!.content
+				})
+			} else {
+				console.error('No data found');
+			}
+		}).catch(err => {
+			console.error(err);
+		})
+	}, [])
 
 	return (
 		<>
 			<Navbar/>
 			<div className="blog">
-				<h1> Bionic reading </h1>
+				<h1> {data.title} </h1>
 				{
-					paragraphs.map(p => {
-						return <p dangerouslySetInnerHTML={{__html: p}}></p>
-					})
-				}
-				<Code content={code} fileName={'main.go'} />
-				{
-					paragraphs.map(p => {
-						return <p dangerouslySetInnerHTML={{__html: p}}></p>
+					data.content?.order.map(order => {
+						const type = order.type
+						const content = data.content![type]![order.index];
+
+						if (type == 'text') {
+							return <p dangerouslySetInnerHTML={{__html: content}}></p>
+						} else if (type == 'code') {
+							return <Code content={content.content} fileName={content.file} />
+						}
 					})
 				}
 			</div>

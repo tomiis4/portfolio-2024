@@ -1,5 +1,5 @@
 import './navbar.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaGithub, FaInstagram } from 'react-icons/fa'
 import Link from './link/Link';
 
@@ -12,6 +12,17 @@ function Navbar() {
 
 		setIsActive(temp_active)
 	}
+
+	useEffect(() => {
+		const location = window.location.pathname.replace(/\//g, '');
+
+		if (location.startsWith('blog')) {
+			setIsActive([false, false, true])
+		}
+		if (location.startsWith('projects')) {
+			setIsActive([false, true, false])
+		}
+	}, [])
 
 	return (
 		<div className='navbar'>
@@ -32,7 +43,7 @@ function Navbar() {
 			<div className='links'>
 				<Link 
 					id={0}
-					to={'/#about-me'} 
+					to={'/'} 
 					name={'Home'} 
 					isActive={isActive[0]}
 					function={handleClick} 
@@ -46,7 +57,7 @@ function Navbar() {
 				/>
 				<Link 
 					id={2}
-					to={'/blog'} 
+					to={'/blogs'} 
 					name={'Articles'} 
 					isActive={isActive[2]}
 					function={handleClick} 

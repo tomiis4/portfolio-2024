@@ -1,4 +1,4 @@
-import './blogs.scss'
+import '../blogs.scss'
 
 type CodeArg = {
 	content: string,
@@ -60,7 +60,7 @@ function Code(e: CodeArg) {
 		const stringRegex = /("|').*?\1/g;
 		const numberRegex = /[0-9]/g;
 		const varNameRegex = /(let|var|const)\s+([a-zA-Z_]\w*)\s*=/g;
-		const functionNameRegex = /(?<!\.)\b([^(\s]*)\(/g;
+		const functionNameRegex = /\b(\w+)\(/g;
 		const objectRegex = /(?<=\.)[a-zA-Z]+/g;
 
 		let placeholders: string[] = [];
@@ -108,7 +108,7 @@ function Code(e: CodeArg) {
 
 
 		// Split the code into individual lines and tokens
-		const lines = code.split('\n');
+		const lines = code.split('<br>');
 		let html = '';
 
 		for (let i = 0; i < lines.length; i++) {

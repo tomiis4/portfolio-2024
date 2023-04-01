@@ -3,8 +3,10 @@
 .navbar {
 	width: 100vw;
 	height: 10vh;
-	top: 2%;
+	top: 0;
 	position: fixed;
+
+	backdrop-filter: blur(10px);
 
 	z-index: 42069;
 

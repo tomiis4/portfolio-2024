@@ -29,11 +29,18 @@ const data = {
 };
 
 function Info() {
+	const [langClass, setLangClass] = useState<'stat load1' | 'stat load2'>('stat load1')
 	const [lang, setLang] = useState<Lang>('ReactJs');
 	const languages: Lang[] = ['ReactJs', 'TypeScript', 'SCSS', 'GoLang'];
 
 	const handleLangSelect = (lang: Lang) => {
 		setLang(lang);
+
+		if (langClass == 'stat load1') {
+			setLangClass('stat load2');
+		} else {
+			setLangClass('stat load1');
+		}
 	}
 
 
@@ -59,15 +66,15 @@ function Info() {
 				</ul>
 				<div className='lang-stats'>
 					<h3> {lang} </h3>
-					<div className='stat'>
+					<div className={langClass}>
 						<h5> {data[lang].years} </h5>
 						<p> years </p>
 					</div>
-					<div className='stat'>
+					<div className={langClass}>
 						<h5> {data[lang].projects} </h5>
 						<p> projects </p>
 					</div>
-					<div className='stat'>
+					<div className={langClass}>
 						<h5> {data[lang].skill}/10 </h5>
 						<p> complexity </p>
 					</div>
