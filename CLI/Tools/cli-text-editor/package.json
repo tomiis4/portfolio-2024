@@ -1,5 +1,5 @@
 {
-  "name": "qwac",
+  "name": "TES",
   "version": "0.0.1",
   "description": "A light weight text editor",
   "main": "./src/index.ts",

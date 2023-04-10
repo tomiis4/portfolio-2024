@@ -10,6 +10,8 @@ const readFile = (fileName: string) => {
 	} catch (err) {
 		console.error(err);
 	}
+
+   return ['']
 }
 
 const parseFile = (fileName: string) => {

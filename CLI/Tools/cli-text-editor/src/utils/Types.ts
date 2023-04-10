@@ -5,6 +5,10 @@ type File = {
    name: string
 }
 
+type Keymap = {
+   [key: string]: string
+}
+
 type StatuslineArg = {
    mode: Mode,
    file: File,
@@ -23,4 +27,4 @@ type BufferlineArg = {
    buffers: File[]
 }
 
-export type { Mode, StatuslineArg, BufferlineArg, File, Buffer };
+export type { Mode, StatuslineArg, BufferlineArg, File, Buffer, Keymap };
