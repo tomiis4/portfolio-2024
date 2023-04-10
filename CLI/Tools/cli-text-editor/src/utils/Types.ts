@@ -37,4 +37,4 @@ type Cursor = {
    column: number
 }
 
-export type { Mode, StatuslineArg, BufferlineArg, File, Buffer, Keymap, SaveFileArg, Cursor, Buffer };
+export type { Mode, StatuslineArg, BufferlineArg, File, Buffer, Keymap, SaveFileArg, Cursor };

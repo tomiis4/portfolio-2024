@@ -24,22 +24,41 @@ import getBuffers from "./utils/file/getBuffers";
 // data
 let buffersNames: string[] = [];
 
-let buffers: Buffer[] = getBuffers(buffersNames);
+let buffers: Buffer[] = [];
 let buffer = 0;
 
 let mode: Mode = 'normal';
 let cursor: Cursor= {
-   row: 1,
+   row: 15,
    column: 0
 };
 
 // FUNCTIONS
 
 const displayUI = () => {
+   // reset
+   console.clear();
+
    Bufferline({
       openBuffer: buffer,
       buffers: buffers
    });
+
+   // load content
+   const cBuffer = buffers[buffer].content;
+   for (let i=0; i < cBuffer.length; i++) {
+      const line = cBuffer[i];
+
+      // selected line
+      if (i+1 == cursor.row) {
+         let lineArr = line.split('');
+         lineArr[cursor.column] = `\x1b[100m\x1b[4m${lineArr[cursor.column]}\x1b[0m`;
+
+         console.log(`${i+1}  ${lineArr.join('')}`);
+      } else {
+         console.log(` ${i+1} ${line}`);
+      }
+   }
 
    Statusline({
       mode: mode,
@@ -62,6 +81,7 @@ const loadBuffers = () => {
 
 function main() {
    loadBuffers();
+   buffers = getBuffers(buffersNames);
    displayUI();
 }
 main();

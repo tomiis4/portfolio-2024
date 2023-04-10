@@ -2,26 +2,39 @@
 A typescript cli text editing software
 
 ## Important
- - [x] Fix out of line bug
- - [ ] Fix arrows, enter in insert mode
- - [x] Switch to `for-loops` instead of `forEach`
- - [x] Re-write code
- - [x] Split to multiple files
+ - [ ] Re-write code
 
 ### TODO
  - [x] Read file
- - [x] Edit file
+ - [ ] Edit file
  - [ ] Select mode
+    - [ ] Yank
  - [ ] Select
  - [ ] Move
-    - [x] End of the word
-    - [x] Start of the word
+    - [ ] HJKL
+    - [ ] End of the word
+    - [ ] Start of the word
+    - [ ] Start of the word reverse
     - [ ] Move by numbers (10j etc.)
  - [ ] Functions
     - [ ] Copy
     - [ ] Paste
     - [ ] Cut
     - [ ] Undo 
+ - [ ] Command
+    - [ ] Exit
+    - [ ] Save
+    - [ ] Search
+ - [ ] Plugins
+    - [ ] Autoclose
+    - [ ] Commentary
+    - [ ] Bufferline
+       - [ ] Close buffers
+       - [ ] Cycle buffers
+       - [ ] Move buffers
+    - [ ] Statusline
+       - [ ] Make custom
+
  
  #### Advanced
  - [ ] Syntax highlighting

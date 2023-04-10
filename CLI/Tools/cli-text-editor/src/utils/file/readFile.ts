@@ -6,15 +6,15 @@ const readFile = (path: string): string[] => {
       const content = data.split(/\r?\n/);
 
       if (content.length == 0) {
-         return ['']
+         return [''];
       }
 
 		return content; 
 	} catch (err) {
-		console.error(err);
+      return [''];
 	}
 
-   return ['']
+   return [''];
 }
 
 export default readFile;

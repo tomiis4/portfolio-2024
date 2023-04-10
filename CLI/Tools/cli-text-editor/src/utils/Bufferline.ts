@@ -15,7 +15,7 @@ const Bufferline = (e: BufferlineArg) => {
       }
    });
 
-   console.log(strBuffers.join('|'));
+   console.log('\x1b[100m'+strBuffers.join('|'))+'\x1b[0m';
 }
 
 export default Bufferline;
