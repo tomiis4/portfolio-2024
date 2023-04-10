@@ -9,11 +9,16 @@ type Keymap = {
    [key: string]: string
 }
 
+type SaveFileArg = {
+   content: string[],
+   path: string
+}
+
 type StatuslineArg = {
    mode: Mode,
-   file: File,
+   buffer: File,
    cursor: number,
-   fileLen: number
+   bufferLen: number
 }
 
 type Buffer = {
@@ -24,7 +29,12 @@ type Buffer = {
 
 type BufferlineArg = {
    openBuffer: number,
-   buffers: File[]
+   buffers: Buffer[]
 }
 
-export type { Mode, StatuslineArg, BufferlineArg, File, Buffer, Keymap };
+type Cursor = {
+   row: number,
+   column: number
+}
+
+export type { Mode, StatuslineArg, BufferlineArg, File, Buffer, Keymap, SaveFileArg, Cursor, Buffer };

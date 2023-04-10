@@ -9,13 +9,13 @@ const getName = ({isSaved, name}: File) => {
       return `\x1b[31m ${saved(name, isSaved)} \x1b[0m`;
    }
 }
-
+// Take arguments: mode, buffer (name, isSaved), cursor (y), bufferLen
 const Statusline = (e: StatuslineArg) => {
-   const f = e.file;
+   const f = e.buffer;
 
    const mode = `\x1b[45m  ${e.mode.toUpperCase()} \x1b[0m`;
    const name = getName(f)
-   const cursor = `${e.cursor}:${e.fileLen}`;
+   const cursor = `${e.cursor}:${e.bufferLen}`;
 
    console.log(`${mode}${name}| ${cursor}`)
 }

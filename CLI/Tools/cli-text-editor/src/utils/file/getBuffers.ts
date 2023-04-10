@@ -1,8 +1,16 @@
 import { Buffer } from '../Types';
 import readFile from "./readFile";
 
-const getBuffer = (names: string[]): Buffer[] => {
+const getBuffers = (names: string[]): Buffer[] => {
    let buffers: Buffer[] = [];
+
+   if (names.length == 0) {
+      return [{
+         content: [''],
+         name: 'buffer-0',
+         isSaved: false
+      }];
+   }
 
    for (let i=0; i < names.length; i++) {
       buffers.push({
@@ -15,4 +23,4 @@ const getBuffer = (names: string[]): Buffer[] => {
    return buffers;
 }
 
-export default getBuffer;
+export default getBuffers;
