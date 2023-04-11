@@ -20,3 +20,5 @@ const getConfig = (): Keymap => {
 
    return keymaps
 }
+
+export default getConfig;

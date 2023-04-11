@@ -1,10 +1,5 @@
 const stdin = process.stdin;
 const argv = process.argv;
-// import fs from "fs"
-
-// extern files
-// import getFile from './uilts/getFile';
-// import settingsData from './uilts/parseSettings';
 
 // types
 import { Cursor, Mode, Buffer } from "./utils/Types";
@@ -15,13 +10,16 @@ import Statusline from "./utils/Statusline";
 
 // functions
 import getBuffers from "./utils/file/getBuffers";
+import getConfig from './utils/file/getConfig';
 
 // input settings
-// stdin.setRawMode(true);
-// stdin.resume();
-// stdin.setEncoding('utf-8');
+stdin.setRawMode(true); // show text
+stdin.resume();
+stdin.setEncoding('utf-8');
 
 // data
+const config = getConfig();
+
 let buffersNames: string[] = [];
 
 let buffers: Buffer[] = [];
@@ -76,12 +74,45 @@ const loadBuffers = () => {
       for (let i=2; i < argv.length; i++) {
          buffersNames.push(argv[i]);
       }
+
+      buffers = getBuffers(buffersNames);
+   } else {
+      buffers = [{
+         content: [''],
+         name: 'buffer-0',
+         isSaved: false
+      }];
    }
 }
 
+const loadKeys = () => {
+   stdin.on('data', (key: string) => {
+      // exit from visual/insert/commant mode when pressed ECS
+      if (key == '\u001B') {
+         mode = 'normal';
+         displayUI();
+
+         return;
+      }
+
+      // NORMAL mode
+      if (mode == 'normal') {
+         switch (key) {
+            case 'x':
+               
+               break;
+
+            default:
+               break;
+         }
+      }
+   })
+}
+
+
 function main() {
    loadBuffers();
-   buffers = getBuffers(buffersNames);
+   loadKeys();
    displayUI();
 }
 main();
