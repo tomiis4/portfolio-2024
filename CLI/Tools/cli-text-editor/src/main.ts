@@ -11,6 +11,7 @@ import Statusline from "./utils/Statusline";
 // functions
 import getBuffers from "./utils/file/getBuffers";
 import getConfig from './utils/file/getConfig';
+import DefaultConfig from "./utils/DefaultConfig";
 
 // input settings
 stdin.setRawMode(true); // show text
@@ -18,10 +19,12 @@ stdin.resume();
 stdin.setEncoding('utf-8');
 
 // data
+const defaultConfig = DefaultConfig;
 const config = getConfig();
 
 let buffersNames: string[] = [];
 
+let commandBuffer = '';
 let buffers: Buffer[] = [];
 let buffer = 0;
 
@@ -85,6 +88,11 @@ const loadBuffers = () => {
    }
 }
 
+const processCommand = (command: string) => {
+   // ...
+}
+
+// TAB = \u0009 \u000B
 const loadKeys = () => {
    stdin.on('data', (key: string) => {
       // exit from visual/insert/commant mode when pressed ECS
@@ -93,6 +101,20 @@ const loadKeys = () => {
          displayUI();
 
          return;
+      }
+
+      // COMMAND
+      if (mode == 'command') {
+         // if you enter command
+         if (key == '\u000d') {
+            processCommand(commandBuffer)
+            commandBuffer = '';
+         } else {
+            commandBuffer += key;
+         }
+      }
+      if (key == ':') {
+         mode = 'command';
       }
 
       // NORMAL mode
@@ -106,6 +128,7 @@ const loadKeys = () => {
                break;
          }
       }
+      displayUI();
    })
 }
 

@@ -1,4 +1,4 @@
-type Mode = 'normal' | 'insert' | 'command' | 'visual';
+type Mode = 'normal' | 'insert' | 'command' | 'visual' | 'command';
 
 type File = {
    isSaved: boolean,
