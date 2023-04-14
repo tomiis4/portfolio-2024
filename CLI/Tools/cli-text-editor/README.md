@@ -2,18 +2,18 @@
 A typescript cli text editing software
 
 ## Important
-- [ ] Re-write code
+- [x] Re-write code
 
 ### TODO
 - [x] Load buffer
 - [x] Read buffer
-- [ ] Edit buffer
+- [x] Edit buffer
 - [ ] Multiple buffers
 - [ ] Select mode
    - [ ] Yank
 - [ ] Select
 - [ ] Move
-   - [ ] HJKL
+   - [x] HJKL
    - [ ] End of the word
    - [ ] Start of the word
    - [ ] Start of the word reverse
@@ -44,14 +44,17 @@ A typescript cli text editing software
 
 ## Controls
 - [ ] Basic
-   - `q` exit
-   - `w` save
+   - `:q` exit
+   - `:w <file-name>` save
 
 - [ ] NORMAL mode
    - `h` left
    - `l` right
    - `j` down
    - `k` up
+
+   - `o` new line (down)
+   - `O` new line (up)
  
    - `e` end of the word
    - `b` start of the word
