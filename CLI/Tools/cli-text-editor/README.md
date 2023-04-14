@@ -2,43 +2,61 @@
 A typescript cli text editing software
 
 ## Important
- - [x] Fix out of line bug
- - [ ] Fix arrows, enter in insert mode
- - [x] Switch to `for-loops` instead of `forEach`
- - [x] Re-write code
- - [x] Split to multiple files
+- [x] Re-write code
 
 ### TODO
- - [x] Read file
- - [x] Edit file
- - [ ] Select mode
- - [ ] Select
- - [ ] Move
-    - [x] End of the word
-    - [x] Start of the word
-    - [ ] Move by numbers (10j etc.)
- - [ ] Functions
-    - [ ] Copy
-    - [ ] Paste
-    - [ ] Cut
-    - [ ] Undo 
- 
- #### Advanced
- - [ ] Syntax highlighting
- - [ ] Custom extensions
+- [x] Load buffer
+- [x] Read buffer
+- [x] Edit buffer
+- [ ] Multiple buffers
+- [ ] Select mode
+   - [ ] Yank
+- [ ] Select
+- [ ] Move
+   - [x] HJKL
+   - [ ] End of the word
+   - [ ] Start of the word
+   - [ ] Start of the word reverse
+   - [ ] Move by numbers (10j etc.)
+- [ ] Functions
+   - [ ] Copy
+   - [ ] Paste
+   - [ ] Cut
+   - [ ] Undo 
+- [ ] Command
+   - [ ] Exit
+   - [ ] Save
+   - [ ] Search
+- [ ] Plugins
+   - [ ] Autoclose
+   - [ ] Commentary
+   - [ ] Bufferline
+      - [ ] Close buffers
+      - [ ] Cycle buffers
+      - [ ] Move buffers
+   - [ ] Statusline
+      - [ ] Make custom
+
+
+#### Advanced
+- [ ] Syntax highlighting
+- [ ] Custom extensions
 
 ## Controls
 - [ ] Basic
-  - `q` exit
-  - `w` save
+   - `:q` exit
+   - `:w <file-name>` save
 
 - [ ] NORMAL mode
-  - `h` left
-  - `l` right
-  - `j` down
-  - `k` up
-  
-  - `e` end of the word
-  - `b` start of the word
-  
-  - `d` delete line
+   - `h` left
+   - `l` right
+   - `j` down
+   - `k` up
+
+   - `o` new line (down)
+   - `O` new line (up)
+ 
+   - `e` end of the word
+   - `b` start of the word
+ 
+   - `d` delete line
