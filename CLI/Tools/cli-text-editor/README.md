@@ -56,7 +56,7 @@ A typescript cli text editing software
    - `o` new line (down)
    - `O` new line (up)
  
-   - `e` end of the word
-   - `b` start of the word
+   - [ ] `e` end of the word
+   - [ ] `b` start of the word
  
-   - `d` delete line
+   - [ ] `d` delete line
