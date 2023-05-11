@@ -186,7 +186,8 @@ const processCommand = (command: string) => {
    }
 }
 
-const startsKey = (key: string, obj: [key:string]: string): [boolean, number] => {
+// FIXME: fix type in params.
+const startsKey = (key: string, obj: unknown): [boolean, number] => {
    for (const k of obj) {
       if (obj[k].length > 1 && obj[k].startsWidth(key)) {
          return [true, obj[k].length]
@@ -221,7 +222,11 @@ const loadKeys = () => {
       // store keys to bufer
       if (mode != 'insert' && mode != 'command') {
          // if is buffer empty
-         if (keyBuffer == '' && defaultConfig.normal)
+         // FIXME: fix for normal && visual
+         const doesStart = startsKey(keyBuffer, defaultConfig.normal)
+         if (keyBuffer == '' && defaultConfig.normal) {
+            console.log("YAY")
+         }
       }
 
 
