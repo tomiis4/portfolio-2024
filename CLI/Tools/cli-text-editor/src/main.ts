@@ -27,6 +27,8 @@ const userConfig = getConfig();
 let buffersNames: string[] = [];
 
 let commandBuffer = '';
+let keyBuffer = '';
+
 let buffers: Buffer[] = [];
 let buffer = 0;
 
@@ -184,6 +186,16 @@ const processCommand = (command: string) => {
    }
 }
 
+const startsKey = (key: string, obj: [key:string]: string): [boolean, number] => {
+   for (const k of obj) {
+      if (obj[k].length > 1 && obj[k].startsWidth(key)) {
+         return [true, obj[k].length]
+      }
+   }
+
+   return [false, -1]
+}
+
 // TAB = \u0009 \u000B
 const loadKeys = () => {
    let canInsert = true;
@@ -205,6 +217,13 @@ const loadKeys = () => {
       } else {
          canInsert = true;
       }
+
+      // store keys to bufer
+      if (mode != 'insert' && mode != 'command') {
+         // if is buffer empty
+         if (keyBuffer == '' && defaultConfig.normal)
+      }
+
 
       // COMMAND
        if (key == ':' && mode != 'insert') {
