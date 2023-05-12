@@ -2,7 +2,8 @@
 A typescript cli text editing software
 
 ## Important
-- [x] Re-write code
+- [ ] Keymap with multiple letters
+- [ ] Config
 
 ### TODO
 - [x] Load buffer

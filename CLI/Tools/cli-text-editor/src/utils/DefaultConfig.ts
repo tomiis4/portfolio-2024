@@ -1,4 +1,6 @@
-const DefaultConfig = {
+import { Config } from "./Types";
+
+const DefaultConfig: Config = {
    global: {
       TAB_LEN: '3',
       EXIT_MODE: '\u001B',

@@ -1,8 +1,8 @@
 const stdin = process.stdin;
-const argv = process.argv;
+const argv = process.argv;;
 
 // types
-import { Cursor, Mode, Buffer } from './utils/Types';
+import { Cursor, Mode, Buffer, Config } from './utils/Types';
 
 // ui
 import Bufferline from './utils/Bufferline';
@@ -27,6 +27,10 @@ const userConfig = getConfig();
 let buffersNames: string[] = [];
 
 let commandBuffer = '';
+let keys = {
+   buffer: '',
+   timeout: 0,
+}
 let keyBuffer = '';
 
 let buffers: Buffer[] = [];
@@ -187,12 +191,7 @@ const processCommand = (command: string) => {
 }
 
 // FIXME: fix type in params.
-const startsKey = (key: string, obj: unknown): [boolean, number] => {
-   for (const k of obj) {
-      if (obj[k].length > 1 && obj[k].startsWidth(key)) {
-         return [true, obj[k].length]
-      }
-   }
+const startsKey = (key: string, obj: Config): [boolean, number] => {
 
    return [false, -1]
 }
@@ -219,14 +218,8 @@ const loadKeys = () => {
          canInsert = true;
       }
 
-      // store keys to bufer
+      // store keys to bufer when is normal/visual mode
       if (mode != 'insert' && mode != 'command') {
-         // if is buffer empty
-         // FIXME: fix for normal && visual
-         const doesStart = startsKey(keyBuffer, defaultConfig.normal)
-         if (keyBuffer == '' && defaultConfig.normal) {
-            console.log("YAY")
-         }
       }
 
 
