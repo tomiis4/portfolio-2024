@@ -24,7 +24,7 @@ const camera: Camera = {
 }
 
 // models
-const parsed_model = await Parser('./src/objects/tree.obj');
+const parsed_model = await Parser('./src/objects/cone.obj');
 
 const model_data: ModelData = {
 	vertices: parsed_model.vertices,
@@ -37,7 +37,9 @@ const model_data: ModelData = {
 	texture: Texture({
 		faces: parsed_model.faces,
 		baseColor: Gradient({
-			colors: [ '#1f4037', '#1f4037', '#99f2c8', '#99f2c8'],
+			// colors: [ '#1f4037', '#1f4037', '#99f2c8', '#99f2c8'],
+			// colors: [ '#e00b19', '#e00b19', '#0b27e0', '#0b27e0'],
+			colors: [ '#0be067', '#0be067', '#870be0', '#870be0'],
 			ctx: ctx!,
 			width: width,
 			height: height
@@ -47,8 +49,8 @@ const model_data: ModelData = {
 
 let model: Model = {
 	rotation: [1.54, 1.54, 1.54],
-	position: [width/2-200, height/2],
-	scale: 30,
+	position: [width/2-200, height/2-50],
+	scale: 140,
 	stroke: 1.5
 }
 
