@@ -1,0 +1,23 @@
+// default
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #001016;
+}
+
+// background
+#background .blur {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: rgba(24, 22, 44, 0.05);
+    backdrop-filter: blur(125px);
+}
+
+#background .section {
+    background: #14232A;
+    position: fixed;
+}
