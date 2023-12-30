@@ -1,4 +1,6 @@
 // default
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Titan+One&display=swap');
+
 html, body {
     margin: 0;
     padding: 0;
@@ -6,7 +8,29 @@ html, body {
 
 body {
     background: #001016;
+    height: 500vh;
 }
+
+// animations
+@keyframes FadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.fade-out { animation: 600ms linear FadeOut; opacity: 0; }
+
+@keyframes FadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.fade-in { animation: 600ms linear FadeIn; opacity: 1; }
 
 // background
 #background .blur {
@@ -17,7 +41,33 @@ body {
     backdrop-filter: blur(125px);
 }
 
-#background .section {
+#background .s {
     background: #14232A;
     position: fixed;
 }
+
+
+// section-0
+#section-0 {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+
+#section-0 .change-lang {
+    position: absolute;
+    width: 6vh;
+    bottom: 5vh;
+    right: 5vw;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+#section-0 .title {
+    width: 70vw;
+    left: 15vw;
+    top: 15%;
+    position: absolute;
+}
+
