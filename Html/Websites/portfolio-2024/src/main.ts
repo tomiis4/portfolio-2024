@@ -1,85 +1,8 @@
-// TODO: use same things (%, vw, vh)
-
+import background_section, { Section } from './data';
 import './style.scss';
 
-type Section = {
-    width: number // %
-    height: number // %
-    top: number // %
-    left: number // %
-    rotate?: number // deg
-}
-
 const params = new URLSearchParams(window.location.search)
-const body = document.body;
 const window_height = window.innerHeight;
-const background_colors = [
-    '#001016', '#010B0E', 
-    '010607', '#010607', '#000000'
-];
-const background_section: Section[][] = [
-    [ // stage 0
-        {
-            width: 35,
-            height: 37,
-            top: 0,
-            left: 0,
-            rotate: 0,
-        }, {
-            width: 20,
-            height: 20,
-            top: 10,
-            left: 77,
-            rotate: 0,
-        }, {
-            width: 65,
-            height: 39,
-            top: 71,
-            left: 14,
-            rotate: 0,
-        }
-    ], [ // stage 1
-        {
-            width: 61,
-            height: 119,
-            top: -13,
-            left: -12,
-            rotate: -8,
-        }, {
-            width: 20,
-            height: 20,
-            top: -5,
-            left: 85,
-            rotate: 0,
-        }, {
-            width: 49,
-            height: 30,
-            top: 50,
-            left: 75,
-            rotate: 3,
-        }
-    ], [ // stage 2
-        {
-            width: 61,
-            height: 119,
-            top: -13,
-            left: -12,
-            rotate: -8,
-        }, {
-            width: 20,
-            height: 20,
-            top: -5,
-            left: 85,
-            rotate: 0,
-        }, {
-            width: 49,
-            height: 30,
-            top: 50,
-            left: 75,
-            rotate: 3,
-        }
-    ]
-];
 
 let stage = 0;
 let language = params.get('l') ? params.get('l') : 'cz';
@@ -129,8 +52,7 @@ const changeLang = () => {
 }
 
 const setStageBg = (direction: 'up'|'down'|'none') => {
-    body.style.background = background_colors[stage]
-    const next_stage = direction == 'up' ? stage - 1 : 
+    const next_stage = direction == 'up' && stage != 0 ? stage - 1 : 
         direction == 'down' ? stage + 1 : stage
 
     for (let i:number=0; i < 3; i++) {
@@ -149,13 +71,6 @@ const setStageBg = (direction: 'up'|'down'|'none') => {
             section!.style[key_a] = arr_range[scrolled - stage * window_height] + unit
             console.log(arr_range[scrolled - stage * window_height] + unit)
         }
-
-
-        // section!.style.width = style.width
-        // section!.style.height = style.height
-        // section!.style.top = style.top
-        // section!.style.left = style.left
-        // section!.style.rotate = style.rotate || 0
     }
 }
 
@@ -173,33 +88,3 @@ const calcLength = (A: number, B: number, N: number): number[] => {
 
 setStageBg('none');
 changeLang();
-/*
-
-
-display height (100)
-start scroll (0)
-end scroll (100)
-
-bod A (1)
-bod B (15)
-
-
-
-- array from A -> B (len 100)
-    - [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
