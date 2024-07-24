@@ -605,8 +605,8 @@ const delay = (ms) => {
 //		return x,y in pixels
 const getPosition = (array, width) => {
 	// calculate position and scale it to the block size
-	const getX = (array[0] * 1 + array[1] * -1) * (width / 2);
-	const getY = (array[0] * 0.5 + array[1] * 0.5) * (width / 2) + scale;
+	const getX = (array[0] * 0.9 + array[1] * -0.9) * width;
+	const getY = (array[0] * 0.45 + array[1] * 0.45) * (width / 2) + scale;
 	
 	return [getX, getY];
 }
