@@ -16,16 +16,20 @@ const width = 55;
 const img = document.querySelector("#i");
 const img2 = document.querySelector("#i2");
 
-const drawRow = (row, nRow, it) => {
+const drawRow = (row, nRow, it, dir) => {
     row.forEach((block, n) => {
         if (block == 1) {
-            // down
-            // const getX = (nRow - n) * (width / 2);
-            // const getY = (nRow + n) / 2 * (width / 2);
+            let getX, getY = 0;
 
-            // up
-            const getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width);
-            const getY = (nRow + n) / 2 * (width / 2)- (nRow * 0.75 * width);
+            if (dir == "up") {
+                // up
+                getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width);
+                getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width);
+            } else if (dir == "down") {
+                // down
+                getX = (nRow - n) * (width / 2);
+                getY = (nRow + n) / 2 * (width / 2);
+            }
 
             ctx!.imageSmoothingEnabled = false;
             ctx!.drawImage(it, getX + 200, getY + 100, width, width);
@@ -35,13 +39,13 @@ const drawRow = (row, nRow, it) => {
 
 const drawObject = (object, it) => {
     const data = object.data;
-    
+
     if (object.type == "up") {
         data.reverse()
     }
 
     data.forEach((row, n) => {
-        drawRow(row, n, it)
+        drawRow(row, n, it, object.type)
     })
 }
 const generateRandomGrid = (rows, cols) => {
@@ -89,7 +93,7 @@ const loop = () => {
     // drawObject(generateRandomGrid(25,25), img)
 
     // TODO
-    // drawObject(objects.board, img)
+    drawObject(objects.board, img)
 
 
     // draw from bottom, reverse array
