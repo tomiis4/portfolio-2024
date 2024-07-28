@@ -16,53 +16,41 @@ const width = 55;
 const img = document.querySelector("#i");
 const img2 = document.querySelector("#i2");
 
-const drawRow = (row, nRow, it, dir) => {
-    row.forEach((block, n, array) => {
-        if (block == 1) {
-            let getX, getY = 0;
+const drawRow = (row, nRow, image, data) => {
+    const { type, rotation } = data
 
-            if (dir == "up") {
-                // up
-                // getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width);
-                // getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width) - width / 2;
+    row.forEach((block, nBlock) => {
+        let getX, getY = 0;
 
-                // roatateed 90deg
-                getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width) + (n * width) - (width);
-                getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width)
-            } else if (dir == "down") {
-                // down
-                getX = (nRow - n) * (width / 2);
-                getY = (nRow + n) / 2 * (width / 2);
-            }
-
-            ctx!.imageSmoothingEnabled = false;
-            ctx!.drawImage(it, getX + 200, getY + 250, width, width);
+        if (block == 0) {
+            return
+        } else if (type == "up") {
+            getX = (nRow - nBlock) * (width / 2) - (nRow * 0.5 * width);
+            getY = (nRow + nBlock) / 2 * (width / 2) - (nRow * 0.75 * width);
+        } else if (type == "down") {
+            getX = (nRow - nBlock) * (width / 2);
+            getY = (nRow + nBlock) / 2 * (width / 2);
         }
+
+        if (rotation == 90) {
+            getX += (nBlock * width) - (width);
+            getY += width / 2;
+        }
+
+        ctx!.drawImage(image, getX + 200, getY + 250, width, width);
     })
 }
 
-const drawObject = (object, it) => {
+const drawObject = (object, image) => {
     const data = object.data;
 
     if (object.type == "up") {
         data.reverse()
     }
 
-    data.forEach((row, n) => {
-        drawRow(row, n, it, object.type)
+    data.forEach((row, idx) => {
+        drawRow(row, idx, image, object)
     })
-}
-const generateRandomGrid = (rows, cols) => {
-    const grid = [];
-    for (let i = 0; i < rows; i++) {
-        const row = [];
-        for (let j = 0; j < cols; j++) {
-            // row.push(Math.floor(Math.random() * 2));
-            row.push(1);
-        }
-        grid.push(row);
-    }
-    return grid;
 }
 
 const objects = {
