@@ -17,14 +17,18 @@ const img = document.querySelector("#i");
 const img2 = document.querySelector("#i2");
 
 const drawRow = (row, nRow, it, dir) => {
-    row.forEach((block, n) => {
+    row.forEach((block, n, array) => {
         if (block == 1) {
             let getX, getY = 0;
 
             if (dir == "up") {
                 // up
-                getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width);
-                getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width);
+                // getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width);
+                // getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width) - width / 2;
+
+                // roatateed 90deg
+                getX = (nRow - n) * (width / 2) - (nRow * 0.5 * width) + (n * width) - (width);
+                getY = (nRow + n) / 2 * (width / 2) - (nRow * 0.75 * width)
             } else if (dir == "down") {
                 // down
                 getX = (nRow - n) * (width / 2);
@@ -32,7 +36,7 @@ const drawRow = (row, nRow, it, dir) => {
             }
 
             ctx!.imageSmoothingEnabled = false;
-            ctx!.drawImage(it, getX + 200, getY + 100, width, width);
+            ctx!.drawImage(it, getX + 200, getY + 250, width, width);
         }
     })
 }
@@ -64,23 +68,28 @@ const generateRandomGrid = (rows, cols) => {
 const objects = {
     board: {
         type: "down",
+        rotation: 0,
         data: [
-            [0, 0, 1, 1, 0, 0],
-            [0, 1, 1, 1, 1, 0],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [0, 1, 1, 1, 1, 0],
-            [0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0],
         ]
     },
     portal: {
         type: "up",
+        rotation: 90,
         data: [
             [1, 1, 1],
             [1, 0, 1],
-            [1, 0, 1],
+            [1, 0, 0],
             [1, 0, 1],
             [1, 1, 1],
         ]
@@ -89,14 +98,8 @@ const objects = {
 
 const loop = () => {
     ctx!.clearRect(0, 0, cWidth, cHeight);
-    // drawObject(objects.board)
-    // drawObject(generateRandomGrid(25,25), img)
 
-    // TODO
     drawObject(objects.board, img)
-
-
-    // draw from bottom, reverse array
     drawObject(objects.portal, img2)
 
     // window.requestAnimationFrame(loop);
