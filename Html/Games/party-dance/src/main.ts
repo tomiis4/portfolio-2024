@@ -10,7 +10,12 @@ const ctx = canvas!.getContext('2d');
 // TODO
 // - velká mapa
 // - z toho co vidí uživatel -> střed = postavička
-// - přidávání objektů na mapu
+//
+// TODO: clean up math operations
+//
+// TODO: add map center movment -> player
+//
+// TODO: add map center movment -> player
 
 const width = 55;
 const img = <CanvasImageSource>document.querySelector("#i")!;
