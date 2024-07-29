@@ -17,7 +17,8 @@ const img = <CanvasImageSource>document.querySelector("#i")!;
 const img2 = <CanvasImageSource>document.querySelector("#i2")!;
 
 const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Object) => {
-    const { type, rotation } = data
+    const { type, rotation, position } = data
+    const [movX, movY] = position;
 
     row.forEach((block, nBlock) => {
         let getX = 0, getY = 0;
@@ -40,25 +41,28 @@ const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Ob
             getX -= width;
             getY += width / 2;
         } else if (rotation == 270) {
-            getX += (nBlock * width) - (width*2) ;
+            getX += (nBlock * width) - (width * 2);
         }
 
+        getX += (movX * width / 2) - (movY * width/2);
+        getY += (movY * width / 4) + (movX * width / 4);
 
         ctx!.drawImage(image, getX + 200, getY + 250, width, width);
     })
 }
 
 const drawObject = (object: Object, image: CanvasImageSource) => {
-    const data = object.data;
+    const {type, rotation, data} = object
 
-    if (object.type == "up") {
+    if (type == "up") {
         data.reverse()
     }
 
     data.forEach((row, idx) => {
-        if (object.rotation != 90 && object.rotation != 180) {
+        if (![90,180].includes(rotation)) {
             row.reverse()
         }
+
         drawRow(row, idx, image, object)
     })
 }
@@ -66,6 +70,7 @@ const drawObject = (object: Object, image: CanvasImageSource) => {
 type Objects = { [key: string]: Object }
 type Object = {
     type: "up" | "down",
+    position: [number, number],
     rotation: number,
     data: number[][]
 }
@@ -74,6 +79,7 @@ type Object = {
 const objects: Objects = {
     board: {
         type: "down",
+        position: [0, 0],
         rotation: 0,
         data: [
             [0, 0, 0, 1, 0, 0, 0],
@@ -91,7 +97,8 @@ const objects: Objects = {
     },
     portal: {
         type: "up",
-        rotation: 270,
+        position: [4, 0],
+        rotation: 90,
         data: [
             [1, 0, 1],
             [1, 0, 1],
