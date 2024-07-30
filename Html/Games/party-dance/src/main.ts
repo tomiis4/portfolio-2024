@@ -11,8 +11,6 @@ const ctx = canvas!.getContext('2d');
 // - velká mapa
 // - z toho co vidí uživatel -> střed = postavička
 //
-// TODO: clean up math operations
-//
 // TODO: add map center movment -> player
 //
 // TODO: add map center movment -> player
@@ -31,8 +29,8 @@ const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Ob
         if (block == 0) {
             return
         } else if (type == "up") {
-            getX = (nRow - nBlock) * (width / 2) - (nRow * 0.5 * width) - (width / 2);
-            getY = (nRow + nBlock) / 2 * (width / 2) - (nRow * 0.75 * width) - (width / 4);
+            getX = -(0.5 * width * nBlock) - (0.5 * width)
+            getY = (-2 * nRow * width + nBlock * width) / 4 - (0.25 * width)
         } else if (type == "down") {
             getX = (nRow - nBlock) * (width / 2);
             getY = (nRow + nBlock) / 2 * (width / 2);
@@ -40,7 +38,7 @@ const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Ob
 
         //FIXME UP only
         if (rotation == 90) {
-            getX += (nBlock * width) - (width);
+            getX += nBlock * width - width;
             getY += width / 2;
         } else if (rotation == 180) {
             getX -= width;
@@ -49,7 +47,7 @@ const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Ob
             getX += (nBlock * width) - (width * 2);
         }
 
-        getX += (movX * width / 2) - (movY * width/2);
+        getX += (movX * width / 2) - (movY * width / 2);
         getY += (movY * width / 4) + (movX * width / 4);
 
         ctx!.drawImage(image, getX + 200, getY + 250, width, width);
@@ -57,14 +55,14 @@ const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Ob
 }
 
 const drawObject = (object: Object, image: CanvasImageSource) => {
-    const {type, rotation, data} = object
+    const { type, rotation, data } = object
 
     if (type == "up") {
         data.reverse()
     }
 
     data.forEach((row, idx) => {
-        if (![90,180].includes(rotation)) {
+        if (![90, 180].includes(rotation)) {
             row.reverse()
         }
 
