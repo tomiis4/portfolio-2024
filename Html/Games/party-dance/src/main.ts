@@ -18,6 +18,7 @@ const ctx = canvas!.getContext('2d');
 const width = 55;
 const img = <CanvasImageSource>document.querySelector("#i")!;
 const img2 = <CanvasImageSource>document.querySelector("#i2")!;
+const p = <CanvasImageSource>document.querySelector("#p")!;
 
 const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Object) => {
     const { type, rotation, position } = data
@@ -58,7 +59,7 @@ const drawObject = (object: Object, image: CanvasImageSource) => {
     const { type, rotation, data } = object
 
     if (type == "up") {
-        data.reverse()
+        // data.reverse()
     }
 
     data.forEach((row, idx) => {
@@ -79,7 +80,7 @@ type Object = {
 }
 
 
-const objects: Objects = {
+let objects: Objects = {
     board: {
         type: "down",
         position: [0, 0],
@@ -109,15 +110,37 @@ const objects: Objects = {
             [1, 0, 1],
             [1, 1, 1],
         ]
+    },
+    player: {
+        type: "up",
+        position: [2,2],
+        rotation: 0,
+        data: [[1]]
     }
 }
+
+document.addEventListener("keydown", (k) => {
+    if (k.key == "w") {
+        objects.player.position[0] += 0.3;
+    }
+    if (k.key == "s") {
+        objects.player.position[0] -= 0.3;
+    }
+    if (k.key == "a") {
+        objects.player.position[1] += 0.3;
+    }
+    if (k.key == "d") {
+        objects.player.position[1] -= 0.3;
+    }
+})
 
 const loop = () => {
     ctx!.clearRect(0, 0, cWidth, cHeight);
 
     drawObject(objects.board, img)
     drawObject(objects.portal, img2)
+    drawObject(objects.player, p)
 
-    // window.requestAnimationFrame(loop);
+    window.requestAnimationFrame(loop);
 }
 window.requestAnimationFrame(loop);
