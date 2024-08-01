@@ -13,7 +13,10 @@ const ctx = canvas!.getContext('2d');
 //
 // TODO: add map center movment -> player
 //
-// TODO: add map center movment -> player
+// TODO: add height, scale to
+// TODO: add tick-rate (movment, jump, idle animation), generation with proper opacity
+//  - add everything to array - each block object (position, blockimg, "opacity" index), 
+//  - sort by index 
 
 const width = 55;
 const img = <CanvasImageSource>document.querySelector("#i")!;
@@ -121,16 +124,16 @@ let objects: Objects = {
 
 document.addEventListener("keydown", (k) => {
     if (k.key == "w") {
-        objects.player.position[0] += 0.3;
+        objects.player.position[0] -= 1;
     }
     if (k.key == "s") {
-        objects.player.position[0] -= 0.3;
+        objects.player.position[0] += 1;
     }
     if (k.key == "a") {
-        objects.player.position[1] += 0.3;
+        objects.player.position[1] += 1;
     }
     if (k.key == "d") {
-        objects.player.position[1] -= 0.3;
+        objects.player.position[1] -= 1;
     }
 })
 
