@@ -1,0 +1,34 @@
+@import "./variables.scss";
+
+body, html {
+    background: $black;
+    margin: 0;
+    padding: 0;
+    scrollbar-color: $red transparent;
+}
+
+body {
+    width: 100vw;
+    color: $white;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: $red;
+    border-radius: 3px;
+}
+
+* {
+    font-family: var(--font-hind);
+}
+
+h1, h2 {
+    font-family: var(--font-anton);
+    letter-spacing: 0.1rem;
+}
+
+p {
+    letter-spacing: 20px;
+    text-align: justify;
+    letter-spacing: 0.3rem;
+    line-height: 150%;
+}
