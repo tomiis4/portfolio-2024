@@ -14,7 +14,7 @@ const ctx = canvas!.getContext('2d');
 // TODO: add map center movment -> player
 //
 // TODO: add height, scale to
-// TODO: add tick-rate (movment, jump, idle animation), generation with proper opacity
+// TODO: add tick-rate, generation with proper opacity
 //  - add everything to array - each block object (position, blockimg, "opacity" index), 
 //  - sort by index 
 
@@ -22,6 +22,20 @@ const width = 55;
 const img = <CanvasImageSource>document.querySelector("#i")!;
 const img2 = <CanvasImageSource>document.querySelector("#i2")!;
 const p = <CanvasImageSource>document.querySelector("#p")!;
+
+type Objects = { [key: string]: Object }
+type Object = {
+    type: "up" | "down",
+    position: [number, number],
+    rotation: number,
+    data: number[][]
+}
+type DObject = {
+    image: string,
+    position: [number, number],
+    size: [number, number],
+    zindex: number
+}
 
 const drawRow = (row: number[], nRow: number, image: CanvasImageSource, data: Object) => {
     const { type, rotation, position } = data
@@ -74,14 +88,6 @@ const drawObject = (object: Object, image: CanvasImageSource) => {
     })
 }
 
-type Objects = { [key: string]: Object }
-type Object = {
-    type: "up" | "down",
-    position: [number, number],
-    rotation: number,
-    data: number[][]
-}
-
 
 let objects: Objects = {
     board: {
@@ -91,7 +97,6 @@ let objects: Objects = {
         data: [
             [0, 0, 0, 1, 0, 0, 0],
             [0, 0, 1, 1, 1, 0, 0],
-            [0, 1, 1, 1, 1, 1, 0],
             [0, 1, 1, 1, 1, 1, 0],
             [1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1],
@@ -116,7 +121,7 @@ let objects: Objects = {
     },
     player: {
         type: "up",
-        position: [2,2],
+        position: [2, 2],
         rotation: 0,
         data: [[1]]
     }
@@ -138,7 +143,8 @@ document.addEventListener("keydown", (k) => {
 })
 
 const loop = () => {
-    ctx!.clearRect(0, 0, cWidth, cHeight);
+    ctx!.fillStyle = "rgb(160,140,160)";
+    ctx!.fillRect(0, 0, cWidth, cHeight);
 
     drawObject(objects.board, img)
     drawObject(objects.portal, img2)
