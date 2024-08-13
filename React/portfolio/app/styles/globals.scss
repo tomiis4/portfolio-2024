@@ -5,16 +5,19 @@
     font-family: var(--font-hind);
     margin: 0;
     padding: 0;
+    z-index: 2;
 }
 
 ::-moz-selection, ::selection{
-    background: $dark-red;
+    color: $black;
+    background: $white;
 }
 
 body, html {
     background: $black;
     scrollbar-color: $red transparent;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {

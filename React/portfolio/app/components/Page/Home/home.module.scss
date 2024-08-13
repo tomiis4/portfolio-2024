@@ -1,4 +1,45 @@
 @import "../../../styles/variables.scss";
 
-.home {
+@keyframes ChangeTextColor {
+    0% {
+        background: -webkit-linear-gradient(0deg, $red 0%, $dark-red 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    33% {
+        background: -webkit-linear-gradient(90deg, $red 0%, $dark-red 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    66% {
+        background: -webkit-linear-gradient(180deg, $red 0%, $dark-red 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    100% {
+        background: -webkit-linear-gradient(270deg, $red 0%, $dark-red 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.home{
+    flex-wrap: wrap;
+
+    h1 {
+        font-size: 17vw;
+        text-align: center;
+        width: 100%;
+    }
+
+    h4 {
+        position: absolute;
+        bottom: 1rem;
+        text-align: center;
+        color: $red;
+        width: 100%;
+        animation: ChangeTextColor 5s linear infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 }

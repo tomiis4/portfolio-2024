@@ -1,12 +1,10 @@
-import { RefObject } from "react"
 import style from "./home.module.scss"
 
-type P = {ref: RefObject<HTMLElement>}
-
-export default function Home(p: P) {
+export default function Home() {
     return (
-        <section className={style.home} ref={p.ref}>
+        <section className={style.home} id="home">
             <h1> Welcome! </h1>
+            <h4> scroll down </h4>
         </section>
     )
 }

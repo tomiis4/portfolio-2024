@@ -1,10 +1,7 @@
-import BackgroundText from "@/components/Background/BackgroundText"
-
 export default function Projects() {
     return (
-        <section>
+        <section id="projects">
             <h1> Pr </h1>
-            {/* <BackgroundText text={ "Projects" }/> */}
         </section>
     )
 }

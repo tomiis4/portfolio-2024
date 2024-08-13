@@ -12,35 +12,37 @@ import Contacts from "@/c/Page/Contacts/Contacts";
 export default function Page() {
     const refs = {
         home: useRef<HTMLDivElement>(null),
-        about: useRef<HTMLDivElement>(null),
+        aboutme: useRef<HTMLDivElement>(null),
         projects: useRef<HTMLDivElement>(null),
         contacts: useRef<HTMLDivElement>(null),
     }
     const isVisible = {
         home: useOnDisplay(refs.home),
-        about: useOnDisplay(refs.about),
+        aboutme: useOnDisplay(refs.aboutme),
         projects: useOnDisplay(refs.projects),
         contacts: useOnDisplay(refs.contacts),
     }
-    const [bgText, setBgText] = useState("");
+    const [bgText, setBgText] = useState("Welcome");
 
     useEffect(() => {
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
+                // window.location.hash = "#" + key
+
                 switch (key) {
                     case "home": setBgText("Welcome"); break;
-                    case "about": setBgText("About Me"); break;
+                    case "aboutme": setBgText("About Me"); break;
                     case "projects": setBgText("Projects"); break;
                     case "contacts": setBgText("Contacts"); break;
                 }
-            } 
+            }
         }
     }, [isVisible])
 
     return (
         <>
             <div ref={refs.home}><Home /></div>
-            <div ref={refs.about}><AboutMe /></div>
+            <div ref={refs.aboutme}><AboutMe /></div>
             <div ref={refs.projects}><Projects /></div>
             <div ref={refs.contacts}><Contacts /></div>
 
