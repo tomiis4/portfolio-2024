@@ -1,0 +1,10 @@
+@import "../../styles/variables.scss";
+
+.navbar {
+    position: fixed;
+    height: 10vh;
+    width: 100vw;
+    z-index:2;
+    background: $dark-black;
+    opacity: 0.5;
+}
