@@ -8,25 +8,25 @@ import { useHash } from "@/u/useHash";
 
 export default function Navbar() {
     const hash = useHash();
-    const navIndex = ['home', 'aboutme', 'projects', 'contacts']
+    const listHash = ['home', 'aboutme', 'projects', 'contacts']
     const params = useParams();
     const [active, setActive] = useState([style.active, '', '', '']);
 
     useEffect(() => {
         let newActive = new Array(4).fill("");
-        const updatedHash = window.location.hash.replace('#', '');
+        const windowHash = window.location.hash.replace('#', '');
 
-        newActive[navIndex.indexOf(updatedHash)] = style.active
+        newActive[listHash.indexOf(windowHash)] = style.active
         setActive(newActive)
     }, [hash, params, setActive])
 
     return (
         <header className={style.navbar}>
             <nav>
-                <Link className={active[0]} href={"#home"}>Home</Link>
-                <Link className={active[1]} href={"#aboutme"}>About Me</Link>
-                <Link className={active[2]} href={"#projects"}>Projects</Link>
-                <Link className={active[3]} href={"#contacts"}>Contacts</Link>
+                <Link className={active[0]} href={"?n=t#home"}>Home</Link>
+                <Link className={active[1]} href={"?n=t#aboutme"}>About Me</Link>
+                <Link className={active[2]} href={"?n=t#projects"}>Projects</Link>
+                <Link className={active[3]} href={"?n=t#contacts"}>Contacts</Link>
             </nav>
         </header>
     )
