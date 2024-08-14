@@ -23,10 +23,10 @@ export default function Navbar() {
     return (
         <header className={style.navbar}>
             <nav>
-                <Link className={active[0]} href={"?n=t#home"}>Home</Link>
-                <Link className={active[1]} href={"?n=t#aboutme"}>About Me</Link>
-                <Link className={active[2]} href={"?n=t#projects"}>Projects</Link>
-                <Link className={active[3]} href={"?n=t#contacts"}>Contacts</Link>
+                <Link className={active[0]} href={"#home"}>Home</Link>
+                <Link className={active[1]} href={"#aboutme"}>About Me</Link>
+                <Link className={active[2]} href={"#projects"}>Projects</Link>
+                <Link className={active[3]} href={"#contacts"}>Contacts</Link>
             </nav>
         </header>
     )

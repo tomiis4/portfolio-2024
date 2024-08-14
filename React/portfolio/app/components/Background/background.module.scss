@@ -22,3 +22,26 @@
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+@keyframes show {
+    from { opacity: 0 }
+    to { opacity: 0.15 }
+}
+
+@keyframes hide {
+    from { opacity: 0.15 }
+    to { opacity: 0 }
+}
+
+.show_anim {
+    opacity: 0.15;
+    animation: show 1000ms ease-in;
+}
+.hide_anim {
+    opacity: 0;
+    animation: hide 1000ms ease-in;
+}
+
+.h {
+    opacity: 0;
+}

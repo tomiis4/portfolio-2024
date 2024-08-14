@@ -18,6 +18,7 @@ export default function Page() {
     const hash = window.location.hash.replace('#', '')
     const router = useRouter();
     const pathname = usePathname();
+
     const refs = {
         home: useRef<HTMLDivElement>(null),
         aboutme: useRef<HTMLDivElement>(null),
@@ -38,9 +39,8 @@ export default function Page() {
 
     useEffect(() => {
         for (const [key, value] of Object.entries(isVisible)) {
-
-            if (params.get('n') != 't' && value) {
-                router.push(`#${key}`);
+            if (value) {
+                router.push(`#${key}`, { scroll: false });
 
                 switch (key) {
                     case "home": setBgText("Welcome"); break;
@@ -48,11 +48,6 @@ export default function Page() {
                     case "projects": setBgText("Projects"); break;
                     case "contacts": setBgText("Contacts"); break;
                 }
-            }
-            if (value && key == hash && params.get("n") == 't') {
-                const sp = new URLSearchParams(params.toString())
-                sp.set("n", "n")
-                router.push(`${pathname}?${sp}#${hash}`)
             }
         }
     }, [isVisible])
