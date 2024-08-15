@@ -24,7 +24,7 @@ export default function AboutMe() {
                 return (<p key={i}>
                     {row.split(' ').map((word, j) => {
                         return (
-                            <span key={j} className={word.match(/\[.+\]/) ? style.highlight : ""}>
+                            <span key={j} className={word.match(/\[.+\]/) ? style.hl : ""}>
                                 {word.replace(/\[(.+)\]/, '$1') + ' '}
                             </span>
                         );
