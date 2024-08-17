@@ -2,7 +2,10 @@ import Image from "next/image";
 import style from "./projects.module.scss";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import useOnDisplay from "@/utils/useOnDisplay";
+import useOnDisplay from "@/h/useOnDisplay";
+import Text from "@/c/Text/Text";
+
+// TODO: add projects
 
 type Project = {
     title: string
@@ -51,6 +54,7 @@ export default function Projects() {
             }
         })
         setActiveID(value)
+        scrollTo(value)
     };
 
     const moveSide = (side: "left" | "right") => {
@@ -66,6 +70,7 @@ export default function Projects() {
     }
 
     const scrollTo = (id: number) => {
+        //@ts-ignore
         const width = wrapperRef!.current!.scrollLeftMax / (projects.length - 1)
 
         setActiveID(id)
@@ -79,7 +84,7 @@ export default function Projects() {
                     {
                         projects.map((project, idx) => {
                             return (
-                                <div className={style.card} ref={projectsRef[idx]}>
+                                <div className={style.card} ref={projectsRef[idx]} key={idx}>
                                     <Image
                                         src={project.image}
                                         alt={"image"}
@@ -93,17 +98,7 @@ export default function Projects() {
                                         <span className={style.hl}> | </span>
                                         <Link href={project.link[0]}> {project.link[1]} </Link>
                                     </h4>
-                                    <p>
-                                        {
-                                            project.text.split(' ').map((word, i) => {
-                                                return (
-                                                    <span key={i} className={word.match(/\[.+\]/) ? style.hl : ""}>
-                                                        {word.replace(/\[(.+)\]/, '$1') + ' '}
-                                                    </span>
-                                                );
-                                            })
-                                        }
-                                    </p>
+                                    <Text text={project.text} />
                                 </div>)
                         })
                     }

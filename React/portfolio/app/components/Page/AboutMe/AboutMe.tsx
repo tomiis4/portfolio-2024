@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import style from "./aboutme.module.scss";
-// import useOnDisplay from "@/utils/useOnDisplay";
+import Text from '@/c/Text/Text';
 
 export default function AboutMe() {
     const ref = useRef<HTMLDivElement>(null);
@@ -10,27 +10,14 @@ export default function AboutMe() {
         "In addition, I have [2] [years] of experience with [GoLang] and [Lua], which has allowed me to work on a variety of projects with different architectures and complexities."
     ]
 
-    // useEffect(() => {
-    //     console.log(param)
-    //     if (isRefVisible ) {
-    //         router.push("#aboutme")
-    //     }
-    // }, [isRefVisible])
-
     return (
         <section className={style.aboutme} id="aboutme">
             <div ref={ref}>
-            {text.map((row, i) => {
-                return (<p key={i}>
-                    {row.split(' ').map((word, j) => {
-                        return (
-                            <span key={j} className={word.match(/\[.+\]/) ? style.hl : ""}>
-                                {word.replace(/\[(.+)\]/, '$1') + ' '}
-                            </span>
-                        );
-                    })}
-                </p>)
-            })}
+                {text.map((row) => {
+                    return (
+                        <Text text={row} />
+                    )
+                })}
             </div>
         </section>
     )

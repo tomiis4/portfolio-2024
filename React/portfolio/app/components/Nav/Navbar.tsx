@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import style from "./navbar.module.scss"
-import { useHash } from "@/u/useHash";
+import { useHash } from "@/h/useHash";
 
 export default function Navbar() {
     const hash = useHash();
