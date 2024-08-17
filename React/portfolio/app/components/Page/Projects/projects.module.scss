@@ -13,7 +13,7 @@
     p {
         width: 90%;
         padding: 0%;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
 
     span {
@@ -25,32 +25,46 @@
     }
 
     img {
-        width: 43% !important;
+        width: 45% !important;
         height: auto !important;
         position: relative !important;
         float: right;
         border-radius: 8px;
-        padding-left: 2%;
-        padding-bottom: 2%;
+        margin-left: 2%;
+        margin-bottom: 2%;
     }
 
     a {
         color: $gray;
         text-decoration: none;
+
+        &:hover {
+            color: $pink;
+            transition: 200ms;
+        }
     }
 }
 
 .wrapper {
-    height: 100%;
-    width: 100%;
     position: relative;
     top: 0;
     left: 0;
+    height: 100%;
+    width: 100%;
+
     overflow-y: hidden;
     overflow-x: scroll !important;
 
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
     display: grid;
     grid-auto-flow: column;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .switch {
@@ -69,6 +83,7 @@
         background: none;
         border: 0;
         outline: none;
+        margin: 0 1%;
 
         color: $white;
         font-size: 1.5rem;
@@ -76,11 +91,16 @@
     }
 
     span {
-        width: 13px;
-        height: 13px;
+        width: 10px;
+        height: 10px;
         border-radius: 50px;
         background: $gray;
         margin-top: 1%;
+
+        &:hover {
+            background: $pink;
+            transition: 200ms;
+        }
     }
 }
 
@@ -113,5 +133,5 @@
 }
 
 .hl_bg {
-    background: $pink !important;
+    background: $red !important;
 }
