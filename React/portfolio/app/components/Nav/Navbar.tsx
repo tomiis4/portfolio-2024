@@ -1,6 +1,6 @@
 "use client"
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import style from "./navbar.module.scss"
@@ -8,13 +8,20 @@ import { useHash } from "@/h/useHash";
 
 export default function Navbar() {
     const hash = useHash();
-    const listHash = ['home', 'aboutme', 'projects', 'contacts']
     const params = useParams();
-    const [active, setActive] = useState([style.active, '', '', '']);
+    const router = useRouter();
+    const listHash = ['home', 'aboutme', 'projects', 'contacts']
+    const [active, setActive] = useState<string[]>([style.active, '', '', '']);
+
+    const handleClick = (idx: number) => {
+        const windowHash = window.location.hash;
+        router.replace(windowHash, {scroll: false})
+        router.push(`#${listHash[idx]}`, {scroll: true})
+    }
 
     useEffect(() => {
-        let newActive = new Array(4).fill("");
         const windowHash = window.location.hash.replace('#', '');
+        let newActive = new Array(4).fill("");
 
         newActive[listHash.indexOf(windowHash)] = style.active
         setActive(newActive)
@@ -23,10 +30,20 @@ export default function Navbar() {
     return (
         <header className={style.navbar}>
             <nav>
-                <Link className={active[0]} href={"#home"}>Home</Link>
-                <Link className={active[1]} href={"#aboutme"}>About Me</Link>
-                <Link className={active[2]} href={"#projects"}>Projects</Link>
-                <Link className={active[3]} href={"#contacts"}>Contacts</Link>
+                {
+                    ["Home", "About Me", "Projects", "Contacts"].map((val, idx) => {
+                        return (
+                            <Link
+                                className={active[idx]}
+                                onClick={() => handleClick(idx)}
+                                href={`#${listHash[idx]}`}
+                                scroll={false}
+                            >
+                                {val}
+                            </Link>
+                        )
+                    })
+                }
             </nav>
         </header>
     )
