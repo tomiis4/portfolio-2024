@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import useOnDisplay from '@/h/useOnDisplay';
-import useLink from "@/h/useLink";
 import BackgroundText from '@/c/Background/BackgroundText';
 
 import Home from "@/c/Page/Home/Home";
@@ -15,10 +14,7 @@ type Refs = { [key: string]: MutableRefObject<any> }
 type Visible = { [key: string]: boolean }
 
 export default function Page() {
-    const hash = window.location.hash.replace("#", "")
     const router = useRouter();
-    const link = useLink();
-    const isScroll = useRef(false);
     const [bgText, setBgText] = useState<string>("Welcome");
 
     const refs: Refs = {
@@ -34,15 +30,20 @@ export default function Page() {
         contacts: useOnDisplay(refs.contacts),
     }
 
-    // TODO fix: after scroll, it does not update right away
-    // because of the navbar does not know you are scrolling, make new hook, which will count in scroll a navbar
-    const handleScroll = () => isScroll.current = true
-
     useEffect(() => {
+        const hash = window.location.hash.replace("#", "")
+        const isParam = window.location.search == "?t=t"
+
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
-                const changeScroll = link.linkTo(`#${key}`, isScroll.current)
-                isScroll.current = changeScroll ?? isScroll.current
+                if (key != hash) {
+                    if (!isParam) window.location.hash = `#${key}`;
+                    if (isParam) router.replace(`#${key}`, { scroll: false }); 
+                }
+
+                const url = new URL(window.location.href);
+                url.searchParams.delete("t");
+                window.history.replaceState({}, '', url.toString());
 
                 switch (key) {
                     case "home": setBgText("Welcome"); break;
@@ -55,7 +56,7 @@ export default function Page() {
     }, [isVisible])
 
     return (
-        <div onWheel={handleScroll} onTouchMove={handleScroll}>
+        <div >
             <div ref={refs.home}><Home /></div>
             <div ref={refs.aboutme}><AboutMe /></div>
             <div ref={refs.projects}><Projects /></div>
