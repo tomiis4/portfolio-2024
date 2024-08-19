@@ -37,13 +37,16 @@ export default function Page() {
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
                 if (key != hash) {
-                    if (!isParam) window.location.hash = `#${key}`;
-                    if (isParam) router.replace(`#${key}`, { scroll: false }); 
+                    if (!isParam) router.replace(`#${key}`, { scroll: true });
+                    if (isParam) router.replace(`#${key}`, { scroll: false });
                 }
 
-                const url = new URL(window.location.href);
-                url.searchParams.delete("t");
-                window.history.replaceState({}, '', url.toString());
+                if (isParam) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete("t");
+                    window.history.replaceState({}, '', url.toString());
+                }
+
 
                 switch (key) {
                     case "home": setBgText("Welcome"); break;
