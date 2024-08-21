@@ -1,3 +1,13 @@
+// TODO
+// [0]: kontakty
+// [1]: úvodní animace
+// [2]: přidat projekty
+// [3]: dynamický title
+// [4]: responzivita
+// [5]: favicon
+// [6]: description
+// [7]: README
+
 "use client"
 
 import { useRouter } from "next/navigation";
