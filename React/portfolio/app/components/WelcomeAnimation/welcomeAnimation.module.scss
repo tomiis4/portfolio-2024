@@ -1,0 +1,33 @@
+@import "../../styles/variables.scss";
+
+
+.welcome {
+    position: fixed;
+    width: 380vw;
+    top: 50%;
+    left: 62%;
+    transform: translate(-50%, -50%);
+
+    color: $white;
+    font-size: 14vw;
+    text-align: center;
+    z-index: 5;
+
+    white-space: nowrap;
+    user-select: none;
+
+    display: flex;
+    justify-content: space-around;
+    vertical-align: middle;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    animation: anim 3s linear;
+}
+
+@keyframes anim {
+  from { width:180vw; }
+  to { width:380vw; }
+}

@@ -3,6 +3,7 @@ import { anton, hind } from "@/fonts";
 
 import "@/s/globals.scss"
 import Navbar from '@/c/Nav/Navbar'
+import WelcomeAnimation from "./components/WelcomeAnimation/WelcomeAnimation";
 
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
             <body>
                 <Navbar />
                 <main> {children} </main>
+                <WelcomeAnimation />
             </body>
         </html>
     );

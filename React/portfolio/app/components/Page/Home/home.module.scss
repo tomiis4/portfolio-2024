@@ -23,6 +23,11 @@
     }
 }
 
+@keyframes anim {
+  from { scale:0.2; }
+  to { scale:1; }
+}
+
 .home{
     flex-wrap: wrap;
 
@@ -30,6 +35,7 @@
         font-size: 17vw;
         text-align: center;
         width: 100%;
+        animation: anim 3s ease-in;
     }
 
     h4 {

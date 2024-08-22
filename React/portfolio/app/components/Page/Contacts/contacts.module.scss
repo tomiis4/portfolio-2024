@@ -57,3 +57,34 @@
         }
     }
 }
+
+.anim {
+  &:after {
+    background: #fff;
+    content: "";
+    height: 155px;
+    left: -75px;
+    opacity: .2;
+    position: absolute;
+    top: -50px;
+    transform: rotate(35deg);
+    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+    width: 50px;
+    z-index: -10;
+  }
+    // animation: 1s bg;
+}
+
+@keyframes bg {
+  0% {background: radial-gradient(circle, rgba($white, 0.2) 0%, rgba($black, 0.2) 100%);}
+  10% {background: radial-gradient(circle, rgba($white, 0.2) 10%, rgba($black, 0.2) 100%);}
+  20% {background: radial-gradient(circle, rgba($white, 0.2) 20%, rgba($black, 0.2) 100%);}
+  30% {background: radial-gradient(circle, rgba($white, 0.2) 30%, rgba($black, 0.2) 100%);}
+  40% {background: radial-gradient(circle, rgba($white, 0.2) 40%, rgba($black, 0.2) 100%);}
+  50% {background: radial-gradient(circle, rgba($white, 0.2) 50%, rgba($black, 0.2) 100%);}
+  60% {background: radial-gradient(circle, rgba($white, 0.2) 60%, rgba($black, 0.2) 100%);}
+  70% {background: radial-gradient(circle, rgba($white, 0.2) 70%, rgba($black, 0.2) 100%);}
+  80% {background: radial-gradient(circle, rgba($white, 0.2) 80%, rgba($black, 0.2) 100%);}
+  90% {background: radial-gradient(circle, rgba($white, 0.2) 90%, rgba($black, 0.2) 100%);}
+  100% {background: radial-gradient(circle, rgba($white, 0.2) 100%, rgba($black, 0.2) 100%);}
+}

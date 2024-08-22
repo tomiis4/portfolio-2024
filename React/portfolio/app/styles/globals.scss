@@ -15,9 +15,14 @@
 
 body, html {
     background: $black;
-    scrollbar-color: $red transparent;
     overflow-x: hidden;
+
+    scrollbar-color: $red transparent;
     scroll-behavior: smooth;
+}
+
+main, header {
+    animation: anim 3s ease-in;
 }
 
 body {
@@ -46,4 +51,9 @@ section {
     width: 100vw;
     display: flex;
     align-items: center;
+}
+
+@keyframes anim {
+  from { opacity:0; }
+  to { opacity:1; }
 }
