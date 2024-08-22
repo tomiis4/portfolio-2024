@@ -1,12 +1,11 @@
 // TODO
-// [0]: kontakty
-// [1]: úvodní animace
-// [2]: přidat projekty
-// [3]: dynamický title
-// [4]: responzivita
-// [5]: favicon
-// [6]: description
-// [7]: README
+// [0]: úvodní animace
+// [1]: přidat projekty
+// [2]: dynamický title
+// [3]: responzivita
+// [4]: favicon
+// [5]: description
+// [6]: README
 
 "use client"
 
