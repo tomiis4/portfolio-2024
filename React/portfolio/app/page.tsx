@@ -1,11 +1,10 @@
 // TODO
-// [0]: úvodní animace
-// [1]: přidat projekty
-// [2]: dynamický title
-// [3]: responzivita
-// [4]: favicon
-// [5]: description
-// [6]: README
+// [0]: responzivita
+// [1]: dynamický title
+// [2]: favicon
+// [3]: description
+// [4]: přidat projekty
+// [5]: README
 
 "use client"
 
@@ -46,8 +45,13 @@ export default function Page() {
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
                 if (key != hash) {
-                    if (!isParam) router.replace(`#${key}`, { scroll: true });
-                    if (isParam) router.replace(`#${key}`, { scroll: false });
+                    // FIXME
+                    // window.location.hash = `#${key}`
+                    if (!isParam) {
+                        document.getElementById(key)!.scrollIntoView(true);
+                    }
+                    // if (!isParam) router.push(`#${key}`, { scroll: true }); console.log("Should scroll");
+                    if (isParam) router.push(`#${key}`, { scroll: false });
                 }
 
                 if (isParam) {

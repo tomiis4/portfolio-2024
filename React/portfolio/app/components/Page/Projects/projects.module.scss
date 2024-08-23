@@ -77,13 +77,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    width: 10%;
 
     button {
         background: none;
         border: 0;
         outline: none;
-        margin: 0 1%;
 
         color: $white;
         font-size: 1.5rem;
@@ -95,7 +93,11 @@
         height: 10px;
         border-radius: 50px;
         background: $gray;
-        margin-top: 1%;
+        margin-top: 1px;
+        margin: 0 2px;
+
+        &:first-of-type { margin-left:5px; }
+        &:last-of-type { margin-right: 5px; }
 
         &:hover {
             background: $pink;
@@ -130,4 +132,25 @@
 
 .hl_bg {
     background: $red !important;
+}
+
+
+@media only screen and (max-width: 800px) {
+    .box {
+        width: 80% !important;
+        height: 80vh;
+    }
+
+    .card {
+        width: 80vw !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .projects {
+        h1 { order: 1; font-size: 1.7rem !important; }
+        h4 { order: 2; font-size: 1.2rem !important; }
+        img { order: 3; width: 90% !important; margin-top: 0; }
+        p { order: 4; font-size: 1.1rem !important; letter-spacing: 0.2rem; padding-top: 2%; }
+    }
 }

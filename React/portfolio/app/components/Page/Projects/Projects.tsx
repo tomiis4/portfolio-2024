@@ -71,10 +71,10 @@ export default function Projects() {
 
     const scrollTo = (id: number) => {
         //@ts-ignore
-        const width = wrapperRef!.current!.scrollLeftMax / (projects.length - 1)
+        const width = wrapperRef!.current!.scrollWidth / (projects.length)
 
         setActiveID(id)
-        wrapperRef!.current!.scrollLeft = id * width
+        wrapperRef!.current!.scrollLeft = width * id
     }
 
     return (

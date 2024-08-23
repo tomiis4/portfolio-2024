@@ -16,9 +16,9 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${anton.variable} ${hind.variable}`}>
             <body>
+                <WelcomeAnimation />
                 <Navbar />
                 <main> {children} </main>
-                {/* <WelcomeAnimation /> */}
             </body>
         </html>
     );

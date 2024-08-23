@@ -29,7 +29,9 @@ export default function Contacts() {
     ]
 
     const handleCopy = (text: string, idx: number) => {
-        navigator.clipboard.writeText(text)
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text)
+        }
 
         let newAnim = new Array(3).fill('');
         newAnim[idx] = style.anim;
@@ -51,7 +53,7 @@ export default function Contacts() {
                 {
                     data.map((social, idx) => {
                         return (
-                            <UseHoverEffect className={anim[idx]} onClick={() => handleCopy(social.name, idx)}>
+                            <UseHoverEffect className={anim[idx]} onClick={() => handleCopy(social.link, idx)}>
                                 <FontAwesomeIcon icon={social.icon} style={{ color: "#f2f2f2" }} />
                                 <h2>
                                     <Link target="_blank" href={social.link}> {social.name} </Link>

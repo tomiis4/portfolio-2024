@@ -36,7 +36,14 @@ export const UseHoverEffect = (p: P) => {
 
     return (
         //@ts-ignore
-        <div {...p} onMouseMove={(e) => handleMouse(e)} onMouseLeave={handleLeave} style={style}>
+        <div 
+            {...p}
+            onMouseMove={(e) => handleMouse(e)}
+            onTouchMove={(e) => handleMouse(e)}
+            onTouchEnd={handleLeave}
+            onMouseLeave={handleLeave}
+            style={style}
+        >
             {p.children}
         </div>
     )

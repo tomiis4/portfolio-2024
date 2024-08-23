@@ -1,5 +1,26 @@
 @import "../../../styles/variables.scss";
 
+@media only screen and (max-width: 850px) {
+    .aboutme {
+        p {
+            font-size: 1.2rem !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .aboutme {
+        div {
+            width: 85% !important;
+            height: 70vh !important;
+        }
+        p {
+            font-size: 1rem !important;
+            letter-spacing: 0.2rem !important;
+        }
+    }
+}
+
 .aboutme {
     div {
         background: rgba($black, 0.2);
