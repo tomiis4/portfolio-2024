@@ -18,7 +18,7 @@ export default function RootLayout({
             <body>
                 <Navbar />
                 <main> {children} </main>
-                <WelcomeAnimation />
+                {/* <WelcomeAnimation /> */}
             </body>
         </html>
     );

@@ -6,8 +6,8 @@ import { UseHoverEffect } from "@/hooks/useHoverEffect"
 import { useEffect, useState } from "react"
 
 export default function Contacts() {
-    const [anim, setAnim] = useState({});
-    const data = [
+    const [anim, setAnim] = useState<string[]>(['', '', '']);
+    let data = [
         {
             icon: faGoogle,
             link: "mailto:tomas.kudynek@gmail.com",
@@ -28,16 +28,20 @@ export default function Contacts() {
         }
     ]
 
-    const handleCopy = (text:string) => {
+    const handleCopy = (text: string, idx: number) => {
         navigator.clipboard.writeText(text)
 
-        setAnim(style.anim)
-        // tady se dá to upozornění
+        let newAnim = new Array(3).fill('');
+        newAnim[idx] = style.anim;
+
+        setAnim(newAnim)
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         setTimeout(() => {
-            setAnim("")
+            if (anim.includes(style.anim)) {
+                setAnim(['', '', ''])
+            }
         }, 1000)
     }, [anim])
 
@@ -45,9 +49,9 @@ export default function Contacts() {
         <section className={style.contacts} id="contacts">
             <div className={style.wrapper}>
                 {
-                    data.map((social) => {
+                    data.map((social, idx) => {
                         return (
-                            <UseHoverEffect className={anim} onClick={() => handleCopy(social.name)}>
+                            <UseHoverEffect className={anim[idx]} onClick={() => handleCopy(social.name, idx)}>
                                 <FontAwesomeIcon icon={social.icon} style={{ color: "#f2f2f2" }} />
                                 <h2>
                                     <Link target="_blank" href={social.link}> {social.name} </Link>
