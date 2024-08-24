@@ -45,13 +45,8 @@ export default function Page() {
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
                 if (key != hash) {
-                    // FIXME
-                    // window.location.hash = `#${key}`
-                    if (!isParam) {
-                        document.getElementById(key)!.scrollIntoView(true);
-                    }
-                    // if (!isParam) router.push(`#${key}`, { scroll: true }); console.log("Should scroll");
-                    if (isParam) router.push(`#${key}`, { scroll: false });
+                    if (!isParam) router.replace(`#${key}`, { scroll: true });
+                    if (isParam) router.replace(`#${key}`, { scroll: false });
                 }
 
                 if (isParam) {

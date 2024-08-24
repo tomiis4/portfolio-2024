@@ -10,7 +10,9 @@ export default function Navbar() {
     const hash = useHash();
     const params = useParams();
     const listHash = ['home', 'aboutme', 'projects', 'contacts']
+    const listName = ["Home", "About Me", "Projects", "Contacts"]
     const [active, setActive] = useState<string[]>([style.active, '', '', '']);
+    const [visible, setVisible] = useState(true);
 
     useEffect(() => {
         const windowHash = window.location.hash.replace('#', '');
@@ -20,19 +22,40 @@ export default function Navbar() {
         setActive(newActive)
     }, [hash, params, setActive])
 
+
+    const pc = listName.map((val, idx) => {
+        return (
+            <nav>
+                <Link className={active[idx]} href={`?t=t#${listHash[idx]}`} >
+                    {val}
+                </Link>
+            </nav>
+        )
+    })
+
+    const phone = <>
+        <div className={visible ? style.visible : ""}>
+            <span />
+            <span />
+            <span />
+        </div>
+        <nav>
+            {listName.map((val, idx) => {
+                return (<>
+                    <Link className={`${active[idx]} `} href={`?t=t#${listHash[idx]}`} >
+                        {val}
+                    </Link>
+                </>)
+            })}
+        </nav>
+    </>;
+
+
     return (
         <header className={style.navbar}>
-            <nav>
-                {
-                    ["Home", "About Me", "Projects", "Contacts"].map((val, idx) => {
-                        return (
-                            <Link className={active[idx]} href={`?t=t#${listHash[idx]}`} >
-                                {val}
-                            </Link>
-                        )
-                    })
-                }
-            </nav>
+            {
+                document.body.clientWidth < 750 ? phone : pc
+            }
         </header>
     )
 }
