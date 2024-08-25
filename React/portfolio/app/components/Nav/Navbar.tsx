@@ -14,6 +14,10 @@ export default function Navbar() {
     const [active, setActive] = useState<string[]>([style.active, '', '', '']);
     const [visible, setVisible] = useState(true);
 
+    const handleNavbar = () => {
+        setVisible(!visible);
+    }
+
     useEffect(() => {
         const windowHash = window.location.hash.replace('#', '');
         let newActive = new Array(4).fill("");
@@ -34,12 +38,12 @@ export default function Navbar() {
     })
 
     const phone = <>
-        <div className={visible ? style.visible : ""}>
+        <div className={visible ? style.visible : ""} onClick={handleNavbar}>
             <span />
             <span />
             <span />
         </div>
-        <nav>
+        <nav className={visible ? style.visible : ""}>
             {listName.map((val, idx) => {
                 return (<>
                     <Link className={`${active[idx]} `} href={`?t=t#${listHash[idx]}`} >
