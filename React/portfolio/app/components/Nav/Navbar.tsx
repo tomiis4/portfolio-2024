@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import style from "./navbar.module.scss"
 import { useHash } from "@/h/useHash";
+import BackgroundText from "../Background/BackgroundText";
 
 export default function Navbar() {
     const hash = useHash();
@@ -12,7 +13,7 @@ export default function Navbar() {
     const listHash = ['home', 'aboutme', 'projects', 'contacts']
     const listName = ["Home", "About Me", "Projects", "Contacts"]
     const [active, setActive] = useState<string[]>([style.active, '', '', '']);
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
 
     const handleNavbar = () => {
         setVisible(!visible);
@@ -27,15 +28,17 @@ export default function Navbar() {
     }, [hash, params, setActive])
 
 
-    const pc = listName.map((val, idx) => {
-        return (
-            <nav>
-                <Link className={active[idx]} href={`?t=t#${listHash[idx]}`} >
-                    {val}
-                </Link>
-            </nav>
-        )
-    })
+    const pc = <nav>
+        {
+            listName.map((val, idx) => {
+                return (
+                    <Link className={active[idx]} href={`?t=t#${listHash[idx]}`} >
+                        {val}
+                    </Link>
+                )
+            })
+        }
+    </nav>
 
     const phone = <>
         <div className={visible ? style.visible : ""} onClick={handleNavbar}>
@@ -46,7 +49,7 @@ export default function Navbar() {
         <nav className={visible ? style.visible : ""}>
             {listName.map((val, idx) => {
                 return (<>
-                    <Link className={`${active[idx]} `} href={`?t=t#${listHash[idx]}`} >
+                    <Link onClick={handleNavbar} className={`${active[idx]} `} href={`?t=t#${listHash[idx]}`} >
                         {val}
                     </Link>
                 </>)

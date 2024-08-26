@@ -47,7 +47,7 @@
             margin: 6px 0;
             transition: 400ms  cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-            &:nth-of-type(1){ width:50%; }
+            &:nth-of-type(1){ width:50%;  }
             &:nth-of-type(2){ width:100%; }
             &:nth-of-type(3){ width:75%; }
         }
@@ -55,19 +55,31 @@
 
 }
 
+@media only screen and (max-width: 750px) {
+    nav:not(.visible) a {
+        visibility: hidden;
+
+        &:hover {
+          transition: 0ms !important;
+        }
+    }
+}
+
 nav.visible {
     transition: 400ms;
     width: 100vw;
-    height: 40vh;
+    height: 100vh;
     position: fixed;
     top:0;
     left:0;
-    background: $red;
+    background: $black;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .visible span{
-    background: $white !important;
-
     &:nth-child(1) {
         transform-origin:bottom;
         transform:rotatez(45deg) translate(8px,0px)
