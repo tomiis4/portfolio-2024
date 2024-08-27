@@ -1,7 +1,11 @@
+"use client"
+
 import { useState, useEffect } from 'react';
 
 export const useHash = () => {
-    const [hash, setHash] = useState(window.location.hash);
+    if (typeof window == "undefined") return ""
+
+    const [hash, setHash] = useState(window.location.hash ?? "");
     useEffect(() => {
         const onHashChange = () => {
             setHash(window.location.hash);

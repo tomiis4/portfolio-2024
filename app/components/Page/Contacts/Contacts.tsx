@@ -53,6 +53,7 @@ export default function Contacts() {
                 {
                     data.map((social, idx) => {
                         return (
+                            //@ts-ignore
                             <UseHoverEffect className={anim[idx]} onClick={() => handleCopy(social.link, idx)}>
                                 <FontAwesomeIcon icon={social.icon} style={{ color: "#f2f2f2" }} />
                                 <h2>

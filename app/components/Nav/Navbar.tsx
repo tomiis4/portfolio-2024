@@ -14,7 +14,7 @@ export default function Navbar() {
     const listName = ["Home", "About Me", "Projects", "Contacts"]
     const [active, setActive] = useState<string[]>([style.active, '', '', '']);
     const [visible, setVisible] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [windowWidth, setWindowWidth] = useState(typeof window == "undefined" ? 0 : window.innerWidth);
 
     const handleNavbar = () => {
         setVisible(!visible);
