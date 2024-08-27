@@ -1,1 +1,0 @@
-## Simple bubble sorting algorithm

@@ -1,1 +1,0 @@
-# NameDay API (cz/sk)
