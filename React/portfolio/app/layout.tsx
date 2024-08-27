@@ -7,7 +7,7 @@ import WelcomeAnimation from "./components/WelcomeAnimation/WelcomeAnimation";
 
 
 export const metadata: Metadata = {
-    title: "Tomáš Kudýnek | Home",
+    title: "Tomáš Kudýnek | Portfolio",
 };
 
 export default function RootLayout({

@@ -19,6 +19,8 @@ body, html {
 
     scrollbar-color: $red transparent;
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+
 }
 
 main, header {
@@ -28,6 +30,7 @@ main, header {
 body {
     width: 100vw;
     color: $white;
+    overflow-y: hidden;
 }
 
 body::-webkit-scrollbar-thumb {

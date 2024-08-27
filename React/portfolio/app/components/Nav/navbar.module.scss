@@ -44,12 +44,14 @@
             border-radius: 100px;
             background: $red;
 
-            margin: 6px 0;
+            // <3
+            // https://codepen.io/Danilo06/pen/PoNNvGm
+            margin: 5px 0;
             transition: 400ms  cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-            &:nth-of-type(1){ width:50%;  }
-            &:nth-of-type(2){ width:100%; }
-            &:nth-of-type(3){ width:75%; }
+            &:nth-of-type(1){ width: 50%; margin-left:50%; }
+            &:nth-of-type(2){ width: 100%; }
+            &:nth-of-type(3){ width: 75%; margin-left:25%; }
         }
     }
 
@@ -81,17 +83,17 @@ nav.visible {
 
 .visible span{
     &:nth-child(1) {
-        transform-origin:bottom;
-        transform:rotatez(45deg) translate(8px,0px)
+        transform-origin: bottom;
+        transform:rotatez(-45deg) translate(-5px,0px)
     }
     &:nth-child(2) {
         transform-origin:top;
-        transform:rotatez(-45deg)
+        transform:rotatez(45deg)
     }
     &:nth-child(3) {
-        transform-origin:bottom;
-        width:50%;
-        transform: translate(15px, -11px) rotatez(45deg);
+        transform-origin:top;
+        width:50% !important;
+        transform: translate(-12px, -6px) rotatez(-45deg);
     }
 }
 

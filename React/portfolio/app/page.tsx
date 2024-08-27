@@ -1,5 +1,4 @@
 // TODO
-// [0]: responzivita
 // [1]: dynamický title
 // [2]: favicon
 // [3]: description
@@ -41,18 +40,24 @@ export default function Page() {
     useEffect(() => {
         const hash = window.location.hash.replace("#", "")
         const isParam = window.location.search == "?t=t"
+        const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 
         for (const [key, value] of Object.entries(isVisible)) {
             if (value) {
-                if (key != hash) {
-                    if (!isParam) router.replace(`#${key}`, { scroll: true });
-                    if (isParam) router.replace(`#${key}`, { scroll: false });
-                }
+                if (isFirefox) {
+                    if (key != hash) {
+                        if (!isParam) router.replace(`#${key}`, { scroll: true });
+                        if (isParam) router.replace(`#${key}`, { scroll: false });
+                    }
 
-                if (isParam) {
-                    const url = new URL(window.location.href);
-                    url.searchParams.delete("t");
-                    window.history.replaceState({}, '', url.toString());
+                    if (isParam) {
+                        const url = new URL(window.location.href);
+                        url.searchParams.delete("t");
+                        window.history.replaceState({}, '', url.toString());
+                    }
+
+                } else {
+                    router.replace(`#${key}`, { scroll: false });
                 }
 
 
