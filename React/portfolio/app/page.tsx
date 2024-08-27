@@ -1,10 +1,3 @@
-// TODO
-// [1]: dynamický title
-// [2]: favicon
-// [3]: description
-// [4]: přidat projekty
-// [5]: README
-
 "use client"
 
 import { useRouter } from "next/navigation";
@@ -36,6 +29,11 @@ export default function Page() {
         projects: useOnDisplay(refs.projects),
         contacts: useOnDisplay(refs.contacts),
     }
+
+    useEffect(() => {
+        const hash = window.location.hash.replace("#", "")
+        if (hash == "") router.replace("home", {scroll: false})
+    }, [])
 
     useEffect(() => {
         const hash = window.location.hash.replace("#", "")

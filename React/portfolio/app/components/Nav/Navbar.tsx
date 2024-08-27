@@ -61,6 +61,7 @@ export default function Navbar() {
     return (
         <header className={style.navbar}>
             {
+                //TODO FIXME
                 document.body.clientWidth < 750 ? phone : pc
             }
         </header>
