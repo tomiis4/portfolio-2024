@@ -5,8 +5,6 @@ import { useRef, useState } from "react";
 import useOnDisplay from "@/h/useOnDisplay";
 import Text from "@/c/Text/Text";
 
-// TODO: add projects
-
 type Project = {
     title: string
     language: string

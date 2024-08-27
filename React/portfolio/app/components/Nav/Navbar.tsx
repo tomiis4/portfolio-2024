@@ -14,6 +14,7 @@ export default function Navbar() {
     const listName = ["Home", "About Me", "Projects", "Contacts"]
     const [active, setActive] = useState<string[]>([style.active, '', '', '']);
     const [visible, setVisible] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const handleNavbar = () => {
         setVisible(!visible);
@@ -26,6 +27,16 @@ export default function Navbar() {
         newActive[listHash.indexOf(windowHash)] = style.active
         setActive(newActive)
     }, [hash, params, setActive])
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
 
     const pc = <nav>
@@ -61,8 +72,7 @@ export default function Navbar() {
     return (
         <header className={style.navbar}>
             {
-                //TODO FIXME
-                document.body.clientWidth < 750 ? phone : pc
+                windowWidth < 750 ? phone : pc
             }
         </header>
     )
