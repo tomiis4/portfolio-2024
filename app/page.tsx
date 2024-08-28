@@ -32,7 +32,7 @@ export default function Page() {
 
     useEffect(() => {
         const hash = window.location.hash.replace("#", "")
-        if (hash == "") router.replace("home", {scroll: false})
+        if (hash == "") router.replace("home", { scroll: false })
     }, [])
 
     useEffect(() => {
@@ -70,7 +70,7 @@ export default function Page() {
     }, [isVisible])
 
     return (
-        <div >
+        <div>
             <div ref={refs.home}><Home /></div>
             <div ref={refs.aboutme}><AboutMe /></div>
             <div ref={refs.projects}><Projects /></div>

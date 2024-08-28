@@ -18,19 +18,20 @@ export default function Projects() {
     const [activeID, setActiveID] = useState<number>(0);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const projects: Project[] = [{
-        title: "Hypersonic.nvim",
-        language: "Lua",
-        year: "2023",
-        link: ["https://github.com/tomiis4/hypersonic.nvim", "GitHub"],
-        text: "A powerful [NeoVim] plugin created to [increase] our regular expression ([RegExp]) writing and testing [experience]. Whether you're a [newbie] or [professional] developer, Hypersonic is here to make your life easier and [boost] your [productivity].",
-        image: "/projects/hypersonic.png"
-    }, {
         title: "3D Object Render",
         language: "TypeScript",
         year: "2023",
         link: ["https://github.com/tomiis4/TypeScript/tree/main/Html/3D/3d-render", "GitHub"],
         text: "Easily render [3D] [models] with textures using my [TypeScript] tool. With a custom model [parser] and smooth rotation support, you can bring your models to [life] directly in your [web] projects. Perfect for anyone looking to add [interactive] 3D content to their site.",
         image: "/projects/3d-render.png"
+    },
+    {
+        title: "Hypersonic.nvim",
+        language: "Lua",
+        year: "2023",
+        link: ["https://github.com/tomiis4/hypersonic.nvim", "GitHub"],
+        text: "A powerful [NeoVim] plugin created to [increase] our regular expression ([RegExp]) writing and testing [experience]. Whether you're a [newbie] or [professional] developer, Hypersonic is here to make your life easier and [boost] your [productivity].",
+        image: "/projects/hypersonic.png"
     }, {
         title: "Text Editor",
         language: "TypeScript",
@@ -85,7 +86,7 @@ export default function Projects() {
     return (
         <section id="projects" className={style.projects}>
             <div className={style.box}>
-                <div className={style.wrapper} onWheel={handleScroll} onTouchMove={handleScroll} ref={wrapperRef}>
+                <div className={style.wrapper} onWheel={handleScroll} onTouchEnd={handleScroll} ref={wrapperRef}>
                     {
                         projects.map((project, idx) => {
                             return (

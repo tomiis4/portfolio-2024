@@ -22,8 +22,8 @@ export default function Contacts() {
         },
         {
             icon: faInstagram,
-            link: "https://instagram.com/tomii6_",
-            name: "tomii6_",
+            link: "https://instagram.com/t.kudynek",
+            name: "t.kudynek",
             social: "Instagram"
         }
     ]
