@@ -2,4 +2,6 @@
 
 .hl {
     color: $pink;
+
+    &:hover {color:$red !important;}
 }

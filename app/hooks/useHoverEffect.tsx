@@ -12,7 +12,7 @@ export const UseHoverEffect = (p: P) => {
         setStyle({
             perspective: "800px",
             transform: `rotateX(${position[1]}deg) rotateY(${position[0]}deg)`,
-            transition: "transform 400ms ease-out",
+            transition: "transform 200ms ease-out",
             cursor: "pointer"
         });
     }, [position]);

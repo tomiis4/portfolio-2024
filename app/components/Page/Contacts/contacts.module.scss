@@ -31,13 +31,17 @@
 
         width: 17rem;
         height: 17rem;
+        transition: 200ms;
+
+        &:hover {
+            background: rgba($black, 0.5) !important;
+        }
 
         svg {
             height: 13%;
             transition: 400ms;
 
             &:hover {
-                rotate: 360deg;
                 scale: 1.15;
             }
         }

@@ -4,9 +4,11 @@ import style from "./contacts.module.scss"
 import Link from "next/link"
 import { UseHoverEffect } from "@/hooks/useHoverEffect"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function Contacts() {
     const [anim, setAnim] = useState<string[]>(['', '', '']);
+    const router = useRouter();
     let data = [
         {
             icon: faGoogle,
@@ -28,15 +30,17 @@ export default function Contacts() {
         }
     ]
 
-    const handleCopy = (text: string, idx: number) => {
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(text)
-        }
-
+    const activateAnimation = (idx: number) => {
         let newAnim = new Array(3).fill('');
         newAnim[idx] = style.anim;
-
         setAnim(newAnim)
+    }
+
+    const handleCopy = (text: string, idx: number) => {
+        if (navigator.clipboard) navigator.clipboard.writeText(text);
+
+        activateAnimation(idx); 
+        router.push(data[idx].link)
     }
 
     useEffect(() => {
